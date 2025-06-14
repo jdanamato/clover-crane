@@ -1,0 +1,6 @@
+<div class="container-4"><div class="promotion_list-layout"><div class="promotion_list-item"><div class="panel"><div class="panel_media"><img class="panel_image" src="{{ section.settings.image_image | img_url: 'master' }}" alt="{{ section.settings.image_image.alt }}" sizes="(max-width: 1500px) 100vw, 1500px" loading="lazy">
+</div><div class="w-layout-vflex panel_content"><div class="w-layout-vflex panel_content_hgroup"><h3 class="panel_content_title">
+{{ section.settings.text_heading }}
+</h3>
+</div><div class="button-group"><a data-wf--link-button---accent--variant="base" href="{{ section.settings.url_button_link }}" class="button"> {{ section.settings.text_button_text }} </a>
+</div></div></div></div></div></div> {% schema %} {"tag":"section","name":"Promoted","class":"section","settings":[{"id":"image_image","type":"image_picker","label":"Image"},{"id":"text_heading","type":"text","label":"Heading","default":"Summer Sale "},{"id":"url_button_link","type":"url","label":"Button Link"},{"id":"text_button_text","type":"text","label":"Button Text","default":"Shop collection"}],"presets":[{"name":"Promoted","category":"Liquify","blocks":[]}]} {% endschema %}

@@ -1,0 +1,21 @@
+<div class="container-3"><div class="home-cta_panel">{% render 'header' %}
+<div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_image_1 %}
+<img src="{{ section.settings.image_image_1 | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.image_image_1.alt }}" class="home-cta_image">
+{% else %}
+ {{  'image' | placeholder_svg_tag: 'home-cta_image'  }} 
+{% endif %}
+</div><div class="home-cta_image-wrap cc-kathi">{% if section.settings.image_image_2 %}
+<img src="{{ section.settings.image_image_2 | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.image_image_2.alt }}" class="home-cta_image">
+{% else %}
+ {{  'image' | placeholder_svg_tag: 'home-cta_image'  }} 
+{% endif %}
+</div></div><div class="home-cta_content"><p class="text-gray-1">
+{{ section.settings.text_text }}
+</p>
+{% if section.settings.text_button_text != blank and section.settings.text_button_text_2 != blank %}    <div li-if="section.settings.text_button_text != blank and section.settings.text_button_text_2 != blank" class="button-group">
+    {% if settings.label_1 != blank %}    <div li-if="settings.label_1 != blank">
+    <a href="#" class="button">Button</a>    </div>
+{% endif %}{% if settings.label_2 != blank %}    <div li-if="settings.label_2 != blank">
+    <a href="#" class="button cc-style-ghost">Button</a>    </div>
+{% endif %}    </div>
+{% endif %}</div></div></div></div> {% schema %} {"tag":"section","name":"Team","class":"section bg-accent-2","settings":[{"id":"text_kicker","type":"text","label":"Kicker","default":"About Clover and Crane"},{"id":"text_headline","type":"text","label":"Headline","default":"Meet Our Creative Team: <br\/>Kathi and Joani"},{"id":"image_image_1","type":"image_picker","label":"image_1"},{"id":"image_image_2","type":"image_picker","label":"image_2"},{"id":"text_text","type":"text","label":"Text","default":"At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service."}],"presets":[{"name":"Team","category":"Liquify","blocks":[]}]} {% endschema %}

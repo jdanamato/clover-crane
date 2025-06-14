@@ -1,0 +1,28 @@
+{
+    "sections": {
+        "hero": {
+            "type": "hero"
+        },
+        "promoted": {
+            "type": "promoted"
+        },
+        "collections": {
+            "type": "collections"
+        },
+        "inspiration": {
+            "type": "inspiration"
+        },
+        "team": {
+            "type": "team"
+        }
+    },
+    "layout": "theme",
+    "wrapper": "main.main-wrapper",
+    "order": [
+        "hero",
+        "promoted",
+        "collections",
+        "inspiration",
+        "team"
+    ]
+}

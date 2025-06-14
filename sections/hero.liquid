@@ -1,0 +1,10 @@
+<div class="home-hero_container"><div class="hero_media-wrap">{% if section.settings.image_hero_image %}
+<img class="hero_image" src="{{ section.settings.image_hero_image | img_url: 'master' }}" alt="{{ section.settings.image_hero_image.alt }}" sizes="(max-width: 1280px) 100vw, 1280px" loading="lazy">
+{% else %}
+ {{  'hero-apparel-1' | placeholder_svg_tag: 'hero_image'  }} 
+{% endif %}
+<div class="hero_image-overlay"></div></div><div class="hero_content"><h1 class="hero_content_title">
+{{ section.settings.text_headline }}
+</h1>
+<div class="button-group"><a data-wf--link-button---accent--variant="base" href="{{ section.settings.url_button_link }}" class="button"> {{ section.settings.text_button_text }} </a>
+</div></div></div> {% schema %} {"tag":"section","name":"Hero","class":"home-hero_section","settings":[{"id":"image_hero_image","type":"image_picker","label":"Hero Image"},{"id":"text_headline","type":"text","label":"Headline","default":"Personalized creations for memorable occasions"},{"id":"url_button_link","type":"url","label":"Button Link"},{"id":"text_button_text","type":"text","label":"Button Text","default":"Shop products"}],"presets":[{"name":"Hero","category":"Liquify","blocks":[]}]} {% endschema %}

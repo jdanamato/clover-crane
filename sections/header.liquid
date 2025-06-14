@@ -1,0 +1,92 @@
+<div data-animation="default" class="main-nav w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" role="banner" data-duration="400" x-data=""><div class="container-4"><div class="main-nav_layout"><div id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad0c-5499ad08" class="main-nav_section">{% for link in linklists['main-menu'].links %}    <nav role="navigation" li-for="link in linklists['main-menu'].links" id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad0d-5499ad08" class="main-nav_menu w-nav-menu">
+                                    
+                            {% if link.links.length == 0 %}    <div li-if="link.links.length == 0" class="nav_menu-item">
+    <a li-object:href="link.url" href="{{ link.url }}" class="main-nav_link w-inline-block"><div li-object="link.title">{{ link.title }}</div></a>    </div>
+{% endif %}
+                            
+                            {% if link.links.length > 0 %}    <div li-if="link.links.length > 0" class="nav_menu-item">
+    <div data-delay="100" data-hover="false" class="nav_dropdown w-dropdown"><div class="main-nav_link w-dropdown-toggle"><div li-object="link.title">{{ link.title }}</div><div class="dd_icon"><div class="icon-size-2 w-embed"><svg width=" 100%" height=" 100%" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path></svg></div></div></div><nav class="navbar_dd-list w-dropdown-list"><a li-object:href="sublink.url" li-for="sublink in link.links" href="{{ sublink.url }}" class="navbar_dd-link w-inline-block"><div href="#" li-object="sublink.title">{{ sublink.title }}</div></a></nav></div>    </div>
+{% endif %}
+                            
+                        </nav>
+{% endfor %}<div id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad49-5499ad08" class="nav_menu-button w-nav-button"><div class="w-layout-hflex menu-wrap"><div class="menu-lottie" data-w-id="60e9cace-1708-0579-02c3-a4cc5499ad4d" data-animation-type="lottie" data-src="{{ 'menu.lottie' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="svg" data-duration="0"></div><div class="menu-label">Menu</div></div></div></div><div class="main-nav_section"><a li-object:href="routes.root_url" href="{{ routes.root_url }}" class="nav_logo-link w-nav-brand"><img width="500" li-object:src="settings.logo" alt="{{ shop.name }}" src="{{ settings.logo }}" loading="lazy" li-object:alt="shop.name" class="nav_logo-image">
+</a></div><div id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad51-5499ad08" class="main-nav_section"><div class="nav_shop-icons"><div class="nav_menu-item"><div data-delay="0" data-hover="false" class="nav_dropdown w-dropdown"><div class="main-nav_link cc-icon w-dropdown-toggle"><div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="15.25" y1="15.25" x2="11.285" y2="11.285"></line><circle cx="7.75" cy="7.75" r="5"></circle></g></svg></div></div><nav class="predictive-search_modal w-dropdown-list"><div class="nav_modal-panel"><div class="nav_modal-header"><div class="font-size-7">Search</div><button li-element="dropdown-toggle" aria-label="Close Search" class="main-nav_link cc-icon" data-dropdowntoggle="" @click="LiquifyHelper.triggerClick($event.target.closest('.w-dropdown').querySelector('.w-dropdown-toggle.w--open'))"><div class="icon-size-4 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="14" y1="4" x2="4" y2="14"></line><line x1="4" y1="4" x2="14" y2="14"></line></g></svg></div></button></div><predictive-search><div class="nav_search"><div class="nav-search_form w-form"><form id="wf-form-product-search" name="wf-form-product-search" data-name="product-search" action="/search" method="get" class="nav-search_form-layout" data-wf-page-id="6815282bf55e8f26da07f5f0" data-wf-element-id="acd42387-40c9-a20c-e046-975bfa7faccc"><div class="input-wrap"><label for="search-input" class="visually-hidden">Search</label><input type="search" id="search-input" placeholder="Search anything..." name="q" class="input cc-within">
+<a href="#" class="predictive-search_button w-inline-block"><div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="15.25" y1="15.25" x2="11.285" y2="11.285"></line><circle cx="7.75" cy="7.75" r="5"></circle></g></svg></div></a><input type="submit" data-wait="Please wait..." id="submit-search" class="hide w-button" value="Submit">
+</div><div id="predictive-search" li-render-search="target" class="predictive-search_overflow no-scrollbar"><div li-section="predictive_search" class="predictive-search_section">{% if predictive_search.performed %}    <div li-if="predictive_search.performed" class="predictive-search_conditional">
+    {% assign first_column_results_size = predictive_search.resources.queries.size | plus: predictive_search.resources.collections.size | plus: predictive_search.resources.pages.size | plus: predictive_search.resources.articles.size | plus: predictive_search.resources.products.size %}
+{% if first_column_results_size > 0 %}    <div li-if="first_column_results_size > 0" class="predictive-search_conditional">
+    {% if predictive_search.resources.products.size > 0 or predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0 %}    <div li-if="predictive_search.resources.products.size > 0 or predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0" class="predictive-search_topic">
+    <div class="predictive-search_headline"><div class="text-gray-1">Products</div></div><ul role="list" class="predictive-search_product-list w-list-unstyled">{% for product in predictive_search.resources.products %}    <li li-for="product in predictive_search.resources.products" class="predictive-search_produt-item">
+                                    
+                            <a li-object:href="product.url" href="{{ product.url }}" class="predictive-search_line-item w-inline-block"><div class="predictive-search_image-wrapper"><img li-object:src="product.featured_media | image_url: width: 150" li-object:alt="product.featured_image.alt" alt="{{ product.featured_image.alt }}" src="{{ product.featured_media | image_url: width: 150 }}" loading="lazy" class="predictive-search_image">
+</div><div class="predictive-search_product-info"><div class="font-size-4"><span li-object="product.title">{{ product.title }}</span></div><div class="font-size-2"><span li-object="product.price | money">{{ product.price | money }}</span></div></div></a>
+                            
+                        </li>
+{% endfor %}</ul>    </div>
+{% endif %}{% if predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0 %}    <div li-if="predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0" class="predictive-search_topic">
+    <div class="predictive-search_headline"><div class="text-gray-1">Pages</div></div><ul role="list" class="predictive-search_list w-list-unstyled">{% for page in predictive_search.resources.pages %}    <li li-for="page in predictive_search.resources.pages" class="predictive-search_item">
+                                    
+                            <a li-object:href="page.url" href="{{ page.url }}" class="predictive-search_link w-inline-block"><div li-object="page.title">{{ page.title }}</div></a>
+                            
+                        </li>
+{% endfor %}</ul>    </div>
+{% endif %}{% if predictive_search.resources.queries.size > 0 or predictive_search.resources.collections.size > 0 %}    <div li-if="predictive_search.resources.queries.size > 0 or predictive_search.resources.collections.size > 0" class="predictive-search_topic">
+    <div class="predictive-search_headline"><div class="text-gray-1">Tags</div></div><ul role="list" class="predictive-search_list w-list-unstyled">{% for query in predictive_search.resources.queries %}    <li li-for="query in predictive_search.resources.queries" class="predictive-search_item">
+                                    
+                            <a li-object:href="query.url" href="{{ query.url }}" class="predictive-search_link w-inline-block"><div li-object="query.styled_text">{{ query.styled_text }}</div></a>
+                            
+                        </li>
+{% endfor %}{% for collection in predictive_search.resources.collections %}    <li li-for="collection in predictive_search.resources.collections" class="predictive-search_item">
+                                    
+                            <a li-object:href="collection.url" href="{{ collection.url }}" class="predictive-search_link w-inline-block"><div li-object="collection.title">{{ collection.title }}</div></a>
+                            
+                        </li>
+{% endfor %}</ul>    </div>
+{% endif %}    </div>
+{% endif %}{% if first_column_results_size == 0 %}    <div li-if="first_column_results_size == 0" class="predictive-search_conditional">
+    <div class="predictive-search_topic"><div class="text-gray-1">Nothing found in "<span li-object="predictive_search.terms">{{ predictive_search.terms }}</span>". Try searching something else.</div></div>    </div>
+{% endif %}    </div>
+{% endif %}{% unless predictive_search.performed %}    <div li-unless="predictive_search.performed" class="predictive-search_conditional">
+    <div class="predictive-search_overflow"><div class="predictive-search_topic"><div class="predictive-search_headline"><div>Suggestions</div></div><ul role="list" class="predictive-search_list w-list-unstyled">{% for block in section.blocks %}
+    {% if block.type == "search-suggestion" %}
+                    <li li-block="Search - Suggestion" class="predictive-search_item">
+                                    
+                                    <a href="{{ block.settings.url_link }}" class="predictive-search_link w-inline-block"> <div>{{ block.settings.text_text }}</div> </a>
+
+                                    
+                            </li>
+            {% endif %}
+{% endfor %}
+</ul></div><div class="predictive-search_topic"><div class="predictive-search_headline"><div class="text-gray-1">Bestseller</div></div><ul role="list" class="predictive-search_product-list w-list-unstyled">{% for product in section.settings.collection_search_bestseller.products limit: section.settings.collection_search_bestseller_limit %}
+<li class="predictive-search_produt-item">
+    
+    <a li-object:href="product.url" href="{{ product.url }}" class="predictive-search_line-item w-inline-block"><div class="predictive-search_image-wrapper"><img li-object:src="product.featured_media | image_url: width: 150" li-object:alt="product.featured_image.alt" alt="{{ product.featured_image.alt }}" src="{{ product.featured_media | image_url: width: 150 }}" loading="lazy" class="predictive-search_image">
+</div><div class="predictive-search_product-info"><div class="font-size-4"><span li-object="product.title">{{ product.title }}</span></div><div class="font-size-2"><span li-object="product.price | money">{{ product.price | money }}</span></div></div></a>
+    
+</li>
+{% endfor %}
+</ul></div></div>    </div>
+{% endunless %}</div></div></form><div class="hide w-form-done"><div>Thank you! Your submission has been received!</div></div><div class="hide w-form-fail"><div>Oops! Something went wrong while submitting the form.</div></div></div></div></predictive-search></div></nav></div></div>{% if shop.customer_accounts_optional %}    <div li-if="shop.customer_accounts_optional" class="nav_menu-item">
+    <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="main-nav_link cc-icon w-inline-block"><div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><circle cx="9" cy="4.5" r="2.75"></circle><path d="M13.762,15.516c.86-.271,1.312-1.221,.947-2.045-.97-2.191-3.159-3.721-5.709-3.721s-4.739,1.53-5.709,3.721c-.365,.825,.087,1.774,.947,2.045,1.225,.386,2.846,.734,4.762,.734s3.537-.348,4.762-.734Z"></path></g></svg></div></a>    </div>
+{% endif %}{% render 'mini_cart' %}
+</div></div></div></div></div><div class="sub-nav"><div class="container-4"><div class="sub-nav_menu">{% for block in section.blocks %}
+    {% if block.type == "sub-nav-collection" %}
+                    <div li-block="sub-nav-collection" class="nav_menu-item">
+                                    
+                                    <a href="{{ block.settings.url_collection_url }}" class="sub-nav_link"> {{ block.settings.text_collection_title }} </a>
+
+                                    
+                            </div>
+            {% endif %}
+{% endfor %}
+{% for block in section.blocks %}
+    {% if block.type == "sub-nav-link" %}
+                    <div li-block="sub-nav-link" class="nav_menu-item">
+                                    
+                                    <a href="{{ block.settings.url_link_url }}" class="sub-nav_link"> {{ block.settings.text_link_text }} </a>
+
+                                    
+                            </div>
+            {% endif %}
+{% endfor %}
+</div></div></div> {% schema %} {"tag":"header","name":"header","class":"page-header","blocks":[{"name":"Search - Suggestion","type":"search-suggestion","settings":[{"id":"url_link","type":"url","label":"Link"},{"id":"text_text","type":"text","label":"Text","default":"Tag"}]},{"name":"sub-nav-collection","type":"sub-nav-collection","settings":[{"id":"text_collection_title","type":"text","label":"Collection Title","default":"Featured Collection"},{"id":"url_collection_url","type":"url","label":"Collection URL"}]},{"name":"sub-nav-link","type":"sub-nav-link","settings":[{"id":"text_link_text","type":"text","label":"Link Text","default":"Featured Link"},{"id":"url_link_url","type":"url","label":"Link URL"}]}],"settings":[{"id":"collection_search_bestseller","type":"collection","label":"Search - Bestseller"},{"type":"range","id":"collection_search_bestseller_limit","min":1,"max":99,"step":1,"label":"Limit: Search - Bestseller","default":6}],"presets":[{"name":"header","category":"Liquify","blocks":[{"type":"search-suggestion"},{"type":"sub-nav-collection"},{"type":"sub-nav-link"}]}]} {% endschema %}
