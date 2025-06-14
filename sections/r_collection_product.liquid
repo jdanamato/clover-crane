@@ -1,0 +1,68 @@
+<div li-render-filter="wrapper" class="container-5">{% paginate collection.products by 50 %}
+    <div li-paginate:by="50" li-paginate="collection.products" class="filter_layout" by="50"><div id="w-node-_5b2c710a-4a53-0fa0-6560-a3ca167aeb22-6ed13dc0" class="filter_filters"><form action="{{ routes.search_url }}" method="get" role="search" class="filter_form_component"><div id="w-node-_5b2c710a-4a53-0fa0-6560-a3ca167aeb24-6ed13dc0" class="filter_form"><div class="filter_form-header"><div class="font-size-5 font-weight-600">Filters</div><a li-render-filter="clear-all" href="#" class="w-inline-block"><div>Clear all</div></a></div><div class="filter_results-wrapper"><div class="filter_results-text">Showing <span li-object="collection.all_products_count | append: ' '">{{ collection.all_products_count | append: ' ' }}</span>Products<span fs-cmsfilter-element="items-count"></span></div></div><div class="filter_form-field-wrapper"><input name="type" type="hidden" class="input" value="product">
+<label for="filter-search" class="form_hidden-label">Search for Products</label><input name="q" placeholder="Search" type="search" id="filter-search" li-render-filter="search" class="input" value="{{ search.terms | escape }}">
+</div><div class="filter_scroll-wrapper"><div class="filter_filter-group-list">{% for filter in collection.filters %}    <div li-for="filter in collection.filters" class="filter_filter-group">
+                                    
+                            {% if filter.values.size > 1 and filter.type != 'price_range' %}    <div li-if="filter.values.size > 1 and filter.type != 'price_range'" class="filter_group-item">
+    <div class="filter_form-header"><div li-object="filter.label" class="font-size-4 font-weight-500">{{ filter.label }}</div></div><div class="filter_filter-options"><div class="filter_list-wrapper"><div class="filter_list">{% for filter_value in filter.values %}    <div li-for="filter_value in filter.values" class="filter_item">
+                                    
+                            <lable class="checkbox-field"><input type="checkbox" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" class="checkbox-input">
+<div class="w-layout-hflex checkbox-label gap-2"><span li-object="filter_value.label | append: ' '">{{ filter_value.label | append: ' ' }}</span><span li-object="filter_value.count | append: ')' | prepend: '('" class="filter_item-quantity">{{ filter_value.count | append: ')' | prepend: '(' }}</span></div></lable>
+                            
+                        </div>
+{% endfor %}</div></div></div>    </div>
+{% endif %}
+                            
+                            {% if filter.type == 'price_range' %}    <div li-if="filter.type == 'price_range'" class="filter_group-item">
+    <div class="filter_form-header"><div li-object="filter.label" class="font-size-4 font-weight-500">{{ filter.label }}</div></div><div class="filter_filter-options"><div class="filter_list-wrapper"><div class="filter_price-range"><div class="input-wrap"><div li-object="localization.country.currency.symbol" class="input_icon font-size-2">{{ localization.country.currency.symbol }}</div><input type="number" li-render-filter="price-min" li-render-filter-min-param="{{ filter.min_value.param_name }}" class="input cc-within cc-size-1" value="{{ filter.min_value }}">
+</div><div>to</div><div class="input-wrap"><div li-object="localization.country.currency.symbol" class="input_icon font-size-2">{{ localization.country.currency.symbol }}</div><input type="number" li-render-filter="price-max" li-render-filter-min-param="{{ filter.max_value.param_name }}" class="input cc-within cc-size-1" value="{{ filter.max_value }}">
+</div></div></div></div>    </div>
+{% endif %}
+                            
+                        </div>
+{% endfor %}</div></div></div></form><a data-w-id="5b2c710a-4a53-0fa0-6560-a3ca167aeb4c" href="#" class="filter_modal-close-button w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="xmark" width="100%" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="14" y1="4" x2="4" y2="14"></line><line x1="4" y1="4" x2="14" y2="14"></line></g></svg></a></div><a data-w-id="5b2c710a-4a53-0fa0-6560-a3ca167aeb4e" href="#" class="filter_modal-trigger w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="filter" width="100%" class="icon-size-3"><g fill="currentColor"><path d="M2.74999 2C2.46499 2 2.20499 2.161 2.07899 2.416C1.95199 2.671 1.98099 2.976 2.15299 3.203L7.00099 9.602V16.25C7.00099 16.515 7.14099 16.761 7.36899 16.896C7.48699 16.966 7.61899 17 7.75099 17C7.87599 17 7.99999 16.969 8.11199 16.907L10.612 15.532C10.852 15.4 11.001 15.148 11.001 14.875V9.602L15.848 3.203C16.02 2.976 16.049 2.671 15.922 2.416C15.796 2.161 15.535 2 15.251 2H2.74999Z" fill-opacity="0.4"></path></g></svg><div>Filters</div></a><div id="w-node-_5b2c710a-4a53-0fa0-6560-a3ca167aeb52-6ed13dc0" class="filter_results"><div class="filter_feed-header"><div class="filter_tags-wrapper">{% for filters in collection.filters %}    <div li-for="filters in collection.filters" class="filter_tags-inner-wrapper">
+                                    
+                            {% for filter_value in filters.active_values %}    <div li-for="filter_value in filters.active_values" class="tag">
+                                    
+                            <div li-object="filter_value.label">{{ filter_value.label }}</div>
+                            
+                            <a li-render-filter-value="{{ filter_value.url_to_remove }}" aria-label="Remove Filter" li-render-filter="remove" href="#" class="tag_remove w-inline-block"><div class="icon-size-1 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="2.25" y1="9.75" x2="9.75" y2="2.25"></line><line x1="9.75" y1="9.75" x2="2.25" y2="2.25"></line></g></svg></div></a>
+                            
+                        </div>
+{% endfor %}
+                            
+                        </div>
+{% endfor %}</div><select id="sort-by" li-for:inside="option in collection.sort_options" li-render-filter="sort" li-render-filter-trigger="input" class="sort_select">
+        {% for option in collection.sort_options %}                            
+                            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% elsif option.value == collection.default_sort_by %}selected{% endif %}>{{ option.name }}</option>
+                            
+                    {% endfor %}    </select>
+</div><div li-for:inside="product in collection.products" class="filter_product-list">
+        {% for product in collection.products %}                            
+                            {% render 'product_item', product: product %}
+
+                            
+                    {% endfor %}    </div>
+{% if paginate.pages > 1 %}    <nav li-if="paginate.pages > 1" class="filter_pagination">
+    <ul role="list" class="filter_pagination_list w-list-unstyled">{% if paginate.previous %}    <li li-if="paginate.previous" class="filter_pagination_item">
+    <a li-object:href="paginate.previous.url" href="{{ paginate.previous.url }}" class="pagination_button cc-is-previous w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="chevron-left" width="100%" class="pagination_icon"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg><div>Previous</div></a>    </li>
+{% endif %}{% if paginate.previous == false %}    <li li-if="paginate.previous == false" class="filter_pagination_item">
+    <a li-object:href="paginate.previous.url" href="{{ paginate.previous.url }}" class="pagination_button cc-is-previous cc-is-disabled w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="chevron-left" width="100%" class="pagination_icon"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg><div>Previous</div></a>    </li>
+{% endif %}{% for part in paginate.parts %}    <li li-for="part in paginate.parts" class="filter_pagination_item">
+                                    
+                            {% if part.is_link %}    <div li-if="part.is_link">
+    <a li-object:href="part.url" href="{{ part.url }}" class="{% if part.title == paginate.current_page %}cc-current% endif %}"><div li-object="part.title">{{ part.title }}</div></a>    </div>
+{% endif %}
+                            
+                            {% if part.is_link == false %}    <div li-if="part.is_link == false">
+    <div li-object="part.title" class="pagination_link">{{ part.title }}</div>    </div>
+{% endif %}
+                            
+                        </li>
+{% endfor %}{% if paginate.next == false %}    <li li-if="paginate.next == false" class="filter_pagination_item">
+    <a li-object:href="paginate.next.url" href="{{ paginate.next.url }}" class="pagination_button cc-is-next cc-is-disabled w-inline-block"><div>Next</div><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" class="pagination_icon"><g fill="currentColor"><path d="M13.28 8.46999L7.03 2.21999C6.737 1.92699 6.262 1.92699 5.969 2.21999C5.676 2.51299 5.676 2.98803 5.969 3.28103L11.689 9.001L5.969 14.721C5.676 15.014 5.676 15.489 5.969 15.782C6.115 15.928 6.307 16.002 6.499 16.002C6.691 16.002 6.883 15.929 7.029 15.782L13.279 9.53201C13.572 9.23901 13.572 8.76403 13.279 8.47103L13.28 8.46999Z"></path></g></svg></a>    </li>
+{% endif %}{% if paginate.next %}    <li li-if="paginate.next" class="filter_pagination_item">
+    <a li-object:href="paginate.next.url" href="{{ paginate.next.url }}" class="pagination_button cc-is-next w-inline-block"><div>Next</div><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="chevron-right" width="100%" class="pagination_icon"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></a>    </li>
+{% endif %}</ul>    </nav>
+{% endif %}</div></div>{% endpaginate %}
+</div> {% schema %} {"tag":"section","name":"R-collection_product","class":"section","presets":[{"name":"R-collection_product","category":"Liquify","blocks":[]}]} {% endschema %}

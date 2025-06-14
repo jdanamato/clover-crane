@@ -1,0 +1,16 @@
+<div class="container-3">{% if blog.articles != blank %}    <div li-if="blog.articles != blank" class="blog-post_list">
+    {% for article in blog.articles %}    <div li-for="article in blog.articles" class="blog-post_item">
+                                    
+                            <a li-object:href="article.url" href="{{ article.url }}" class="blog-post_card w-inline-block"><div id="w-node-a6b79760-6baf-5279-04f3-354827e40173-31f7318f" class="blog-post_card_preview"><img id="w-node-a6b79760-6baf-5279-04f3-354827e40174-31f7318f" li-object:src="article.image | img_url: 'master'" alt="{{ article.image.alt }}" src="{{ article.image | img_url: 'master' }}" loading="lazy" li-object:alt="article.image.alt" class="blog-post_card_image">
+<div class="blog-post_card_overlay"></div></div><div class="blog-post_card_info"><div class="blog-post_card_tag-list">{% for tag in article.tags %}    <div li-for="tag in article.tags" class="tag">
+                                    
+                            <div li-object="tag">{{ tag }}</div>
+                            
+                        </div>
+{% endfor %}</div><h3 li-object="article.title" class="blog-post_card_title">{{ article.title }}</h3></div></a>
+                            
+                        </div>
+{% endfor %}{% if blog.articles == blank %}    <div li-if="blog.articles == blank" class="blog-articles_empty">
+    <div>No blog posts found.</div>    </div>
+{% endif %}    </div>
+{% endif %}</div> {% schema %} {"tag":"section","name":"blog-articles","class":"section","presets":[{"name":"blog-articles","category":"Liquify","blocks":[]}]} {% endschema %}

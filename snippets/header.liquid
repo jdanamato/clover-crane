@@ -1,0 +1,23 @@
+<div class="w-layout-vflex section-header_content"><div li-if="settings.kicker != blank" class="kicker">
+{{ section.settings.text_kicker }}
+</div>
+{% if settings.headline != blank %}    <div li-if="settings.headline != blank" class="section-header_title">
+    <h2>
+{{ section.settings.text_headline }}
+</h2>
+    </div>
+{% endif %}</div><div class="hide w-embed w-script"><script type="application/json">{
+  "name": "Section Header",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker" },
+    { "type": "text", "id": "headline", "label": "Headline" },
+    { "type": "textarea", "id": "body", "label": "Body" },
+    { "type": "url", "id": "link_1", "label": "Button 1 Link" },
+    { "type": "text", "id": "label_1", "label": "Button 1 Label" },
+    { "type": "text", "id": "style_1", "label": "Button 1 Style" },
+    { "type": "url", "id": "link_2", "label": "Button 2 Link" },
+    { "type": "text", "id": "label_2", "label": "Button 2 Label" },
+    { "type": "text", "id": "style_2", "label": "Button 2 Style" }
+  ]
+}
+</script></div>
