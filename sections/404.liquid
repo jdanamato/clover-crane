@@ -1,0 +1,39 @@
+<div class="utility_container">
+            <h1 class="display-size-3">
+{{ section.settings.text_heading }}
+</h1>
+            <div class="font-size-6">
+{{ section.settings.text_text }}
+</div>
+            <a li-object:href="routes.root_url" href="{{ routes.root_url }}" class="button cc-size-4 width-full">Return to Home</a>
+          </div> {% schema %} {
+    "tag": "section",
+    "name": "404",
+    "class": "utility_component",
+    "settings": [
+        {
+            "id": "text_heading",
+            "type": "text",
+            "label": "Heading",
+            "default": "404"
+        },
+        {
+            "id": "text_text",
+            "type": "text",
+            "label": "Text",
+            "default": "This page has moved or doesn't exist anymore. "
+        }
+    ],
+    "presets": [
+        {
+            "name": "404",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "404"
+        ]
+    }
+} {% endschema %}

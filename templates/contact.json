@@ -1,0 +1,12 @@
+{
+    "sections": {
+        "basic_hero_static": {
+            "type": "basic_hero_static"
+        }
+    },
+    "layout": "theme",
+    "wrapper": "main.main-wrapper",
+    "order": [
+        "basic_hero_static"
+    ]
+}

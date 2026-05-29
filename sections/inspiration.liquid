@@ -1,0 +1,160 @@
+<div class="container-5">
+          <div class="feature_list">
+            <div class="feature_item">
+              <div id="w-node-e489799d-d608-9729-b7a3-66223c0519c5-72264873" class="feature_layout cc-reverse">
+                <div id="w-node-e489799d-d608-9729-b7a3-66223c0519c6-72264873" class="feature-row_column">{% if section.settings.image_services_image %}
+{{ section.settings.image_services_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'feature_image' }}
+{% else %}
+ {{ 'hero-apparel-3' | placeholder_svg_tag: 'feature_image' }} 
+{% endif %}</div>
+                <div class="feature-row_column">
+                  <div class="feature_header">
+                    <div class="feature_kicker-wrap">
+                      <div class="feature_kicker">Shop by</div>
+                    </div>
+                    <div class="feature_headline-wrap">
+                      <h3 class="feature_headline">Services</h3>
+                    </div>
+                  </div>
+                  <div class="feature_body">
+                    <div class="feature_blurb-layout">
+                      {% for link in linklists['services'].links %}    <div li-for="link in linklists['services'].links" class="blurb">
+                                    
+                        
+                            <div class="blurb_layout">
+                          <div class="burb_title">
+                            <h3 li-object="link.object.title" class="font-size-5 font-weight-600">{{ link.object.title }}</h3>
+                          </div>
+                          <div class="blurb_text">
+                            <p li-object="link.object.description" class="text-gray-1">{{ link.object.description }}</p>
+                          </div>
+                        </div>
+                            
+                      
+                        </div>
+{% endfor %}
+                    </div>
+                  </div>
+                  {% for block in section.blocks %}
+    {% if block.type == "services-cta" %}
+                    <div li-block="Services CTA" id="w-node-e489799d-d608-9729-b7a3-66223c0519f2-72264873" class="feature_footer">
+                                    
+                    
+                                    <div class="button-group">
+                      <a href="{{ block.settings.url_services_link }}" class="button cc-accent-soft w-button"> Shop all services </a>
+                    </div>
+                                    
+                  
+                            </div>
+            {% endif %}
+{% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="feature_item">
+              <div id="w-node-_46e8f0d1-3315-8fc3-683b-03e12c407e42-72264873" class="feature_layout">
+                <div id="w-node-_46e8f0d1-3315-8fc3-683b-03e12c407e43-72264873" class="feature-row_column">{% if section.settings.image_occasions_image %}
+{{ section.settings.image_occasions_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'feature_image' }}
+{% else %}
+ {{ 'hero-apparel-3' | placeholder_svg_tag: 'feature_image' }} 
+{% endif %}</div>
+                <div class="feature-row_column">
+                  <div class="feature_header">
+                    <div class="feature_kicker-wrap">
+                      <div class="feature_kicker">Shop by</div>
+                    </div>
+                    <div class="feature_headline-wrap">
+                      <h3 class="feature_headline">Occasions</h3>
+                    </div>
+                  </div>
+                  <div class="feature_body">
+                    <div class="feature_blurb-layout">
+                      {% for link in linklists['occasions'].links %}    <div li-for="link in linklists['occasions'].links" class="blurb">
+                                    
+                        
+                            <div class="blurb_layout">
+                          <div class="burb_title">
+                            <h3 li-object="link.object.title" class="font-size-5 font-weight-600">{{ link.object.title }}</h3>
+                          </div>
+                          <div class="blurb_text">
+                            <p li-object="link.object.description" class="text-gray-1">{{ link.object.description }}</p>
+                          </div>
+                        </div>
+                            
+                      
+                        </div>
+{% endfor %}
+                    </div>
+                  </div>
+                  {% for block in section.blocks %}
+    {% if block.type == "occasions-cta" %}
+                    <div li-block="Occasions CTA" id="w-node-_46e8f0d1-3315-8fc3-683b-03e12c407e57-72264873" class="feature_footer">
+                                    
+                    
+                                    <div class="button-group">
+                      <a href="{{ block.settings.url_occasions_link }}" class="button cc-accent-soft w-button"> Shop all occasions </a>
+                    </div>
+                                    
+                  
+                            </div>
+            {% endif %}
+{% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Inspiration",
+    "class": "section",
+    "blocks": [
+        {
+            "name": "Services CTA",
+            "type": "services-cta",
+            "settings": [
+                {
+                    "id": "url_services_link",
+                    "type": "url",
+                    "label": "Services Link"
+                }
+            ]
+        },
+        {
+            "name": "Occasions CTA",
+            "type": "occasions-cta",
+            "settings": [
+                {
+                    "id": "url_occasions_link",
+                    "type": "url",
+                    "label": "Occasions Link"
+                }
+            ]
+        }
+    ],
+    "settings": [
+        {
+            "id": "image_services_image",
+            "type": "image_picker",
+            "label": "Services Image"
+        },
+        {
+            "id": "image_occasions_image",
+            "type": "image_picker",
+            "label": "Occasions Image"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Inspiration",
+            "category": "Liquify",
+            "blocks": [
+                {
+                    "type": "services-cta"
+                },
+                {
+                    "type": "occasions-cta"
+                }
+            ]
+        }
+    ]
+} {% endschema %}

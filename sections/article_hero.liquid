@@ -1,0 +1,19 @@
+<div class="article-hero_layout">
+          <h1 li-object="article.title">{{ article.title }}</h1><img li-object:src="article.image | img_url: 'master'" li-object:alt="article.image.alt" alt="{{ article.image.alt }}" src="{{ article.image | img_url: 'master' }}" loading="eager" class="article-hero_image">
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Article Hero",
+    "class": "section cc-article-hero",
+    "presets": [
+        {
+            "name": "Article Hero",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "article"
+        ]
+    }
+} {% endschema %}

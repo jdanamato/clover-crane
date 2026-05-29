@@ -1,0 +1,165 @@
+<div class="container-4">
+          <div class="headline-wrapper">
+            <h2 id="w-node-_3e9feb42-34f9-20ec-43f8-020ed9492a24-4e6850f3" class="display-size-1 font-weight-600">
+{{ section.settings.text_heading }}
+</h2>
+            <a href="{{ routes.root_url }}" aria-label="Continue shopping" li-object:href="routes.root_url">Continue shopping</a>
+          </div>
+          {% if cart.item_count > 0 %}    <div li-if="cart.item_count > 0" class="cart_form w-form">
+    
+            {% form 'cart', cart, class: 'cart_layout' %}
+<div class="table">
+                {% for item in cart.items %}    <div li-for="item in cart.items" class="table_body">
+                                    
+                  
+                            <div id="w-node-_3e9feb42-34f9-20ec-43f8-020ed9492a36-4e6850f3" class="cart_item-list">
+                    <div id="w-node-_62f83629-e161-e928-840c-c4ca0b3bef9f-4e6850f3" class="cart_line-item">
+                      <div class="cart_item-layout">
+                        <div class="cart_item_column">
+                          <a href="{{ item.url }}" li-object:href="item.url" class="cart_item_thumbnail w-inline-block"><img li-object:src="item.image |  img_url: 'small'" src="{{ item.image |  img_url: 'small' }}" alt="" class="cart_item_thumbnail-image"></a>
+                        </div>
+                        <div class="cart_item_info">
+                          <div class="cart_item_head">
+                            <div>
+                              <a li-object:href="item.url" li-object="item.title" href="{{ item.url }}" class="cart_item-title">{{ item.title }}</a>
+                              <div li-object="item.variant.title" class="font-size-2">{{ item.variant.title }}</div>
+                            </div>
+                            {% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price" class="cart_item-price">
+    
+                              <div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>
+                              {% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
+    
+                                <div li-object="item.original_line_price | money" class="compare-at-price">{{ item.original_line_price | money }}</div>
+                                  </div>
+{% endif %}
+                                </div>
+{% endif %}
+                          </div>
+                          <div class="cart_item_meta">
+                            {% render 'quantity_adjust' %}
+                            <a li-object:href="item.url_to_remove" href="{{ item.url_to_remove }}" class="cart_item-remove">Remove</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                            
+                
+                        </div>
+{% endfor %}
+              </div>
+              <div class="cart_column">
+                <div class="table">
+                  <div class="table_head w-hidden-tiny">
+                    <div class="table_header-column">
+                      <div>Summary</div>
+                    </div>
+                  </div>
+                  <div class="table_body">
+                    <div class="table_detail-list">
+                      <div class="table_detail-item">
+                        <div class="table_detail-item_label">
+                          <div>Cart Total</div>
+                        </div>
+                        <div class="table_detail-item_value">
+                          <div li-object="cart.original_total_price | money">{{ cart.original_total_price | money }}</div>
+                        </div>
+                      </div>
+                      {% if cart.total_discounts > 0 %}    <div li-if="cart.total_discounts > 0" class="table_detail-item">
+    
+                        <div class="table_detail-item_label">
+                          <div>Savings</div>
+                        </div>
+                        <div class="table_detail-item_value">
+                          <div li-object="cart.total_discount | money">{{ cart.total_discount | money }}</div>
+                        </div>
+                          </div>
+{% endif %}
+                      <div role="separator" data-wf--divider--variant="gray-horizontal" class="divider margin-y-2"></div>
+                      {% if cart.total_discounts > 0 %}    <div li-if="cart.total_discounts > 0" class="table_detail-item">
+    
+                        <div class="table_detail-item_label">
+                          <div>Subtotal</div>
+                        </div>
+                        <div class="table_detail-item_value">
+                          <div li-object="cart.total_price | money">{{ cart.total_price | money }}</div>
+                        </div>
+                          </div>
+{% endif %}
+                      <div class="font-size-2 text-gray-1">Taxes and shipping calculated at checkout.</div>
+                    </div>
+                    <div class="cart_summary_actions"><input type="submit" data-wait="Please wait..." class="button cc-accent-soft w-button" value="Update cart"><input type="submit" data-wait="Please wait..." class="button w-button" value="Checkout" name="checkout"></div>
+                  </div>
+                </div>
+                <div class="table">
+                  <div class="table_head w-hidden-tiny">
+                    <div class="table_header-column">
+                      <div>Comment</div>
+                    </div>
+                  </div>
+                  <div class="table_body">
+                    <div class="form_field-wrapper"><textarea class="input cc-text-area w-input" maxlength="5000" name="note" data-name="field" placeholder="Add details or instructions" id="CartNote"></textarea></div>
+                  </div>
+                </div>
+              </div>
+            {% endform %}
+            <div class="form_message cc-success w-form-done">
+              <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="form_message cc-error w-form-fail">
+              <div>Oops! Something went wrong while submitting the form.</div>
+            </div>
+              </div>
+{% endif %}
+          {% if cart.item_count == 0 %}    <div li-if="cart.item_count == 0" class="cart_empty">
+    
+            <div>
+{{ section.settings.text_cart_empty_text }}
+</div>
+            <a href="{{ section.settings.href_routesroot_url }}" li-object:href="routes.root_url" class="button cc-size-4 w-button" href="#">
+{{ section.settings.text_cta_label }}
+</a>
+              </div>
+{% endif %}
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Cart",
+    "class": "section",
+    "settings": [
+        {
+            "id": "text_heading",
+            "type": "text",
+            "label": "Heading",
+            "default": "Cart"
+        },
+        {
+            "id": "text_cart_empty_text",
+            "type": "text",
+            "label": "Cart Empty Text",
+            "default": "You haven't added any products to your cart."
+        },
+        {
+            "id": "text_cta_label",
+            "type": "text",
+            "label": "CTA Label",
+            "default": "Start shopping"
+        },
+        {
+            "id": "href_routesroot_url",
+            "type": "text",
+            "label": "routes.root_url"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Cart",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "cart"
+        ]
+    }
+} {% endschema %}

@@ -1,0 +1,34 @@
+<div class="container-5">
+          <div class="promotion_list-layout">
+            {% for collection in collections %}    <div li-for="collection in collections" class="promotion_list-item">
+                                    
+              
+                            {% if collection.metafields.collection.promoted %}    <div li-if="collection.metafields.collection.promoted">
+    
+                <div class="panel">
+                  <a li-object:href="collection.url" href="{{ collection.url }}" class="panel_media w-inline-block"><img li-object:src="collection.image | image_url: width: 1536" li-object:alt="collection.title" alt="{{ collection.title }}" loading="lazy" src="{{ collection.image | image_url: width: 1536 }}" class="panel_image"></a>
+                  <div class="panel_action-group">
+                    <a li-object:href="collection.url" href="{{ collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6 w-inline-block">
+                      <div>Shop <span li-object="collection.title">{{ collection.title }}</span></div>
+                    </a>
+                  </div>
+                </div>
+                  </div>
+{% endif %}
+                            
+            
+                        </div>
+{% endfor %}
+          </div>
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Promoted",
+    "class": "section",
+    "presets": [
+        {
+            "name": "Promoted",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ]
+} {% endschema %}

@@ -1,0 +1,140 @@
+<div class="container-4">
+          <div class="product-hero_layout">
+            <div class="product-hero_media">
+              <div class="swiper-container">
+                <div class="swiper cc-product-hero_slider">
+                  <div id="product-hero-slider" li-for:inside="media in product.media" class="swiper-wrapper">
+        {% for media in product.media %}                            
+                    
+                            {% if media.media_type == 'image' %}    <div li-if="media.media_type == 'image'" class="swiper-slide cc-product-hero_slider">
+    
+                      <div class="product-hero_slider-lightbox"><img width="1000" height="1000" alt="{{ media.alt }}" src="{{ media | image_url: width: 1000, height: 1000 }}" loading="lazy" li-object:alt="media.alt" li-object:src="media | image_url: width: 1000, height: 1000" class="product-hero_slider-media"></div>
+                        </div>
+{% endif %}
+                            
+                    
+                            {% if media.media_type == 'video' %}    <div li-if="media.media_type == 'video'" class="swiper-slide cc-product-hero_slider">
+    
+                      <div class="product-hero_slider-lightbox">
+                        <div li-object="media | video_tag: controls: true" class="product-hero_slider-media">{{ media | video_tag: controls: true }}</div>
+                      </div>
+                        </div>
+{% endif %}
+                            
+                  
+                    {% endfor %}    </div>
+                  <div class="swiper-button-wrapper">
+                    <a aria-label="Previous Slide" href="#" class="swiper-button swiper-prev w-inline-block">
+                      <div class="icon-size-4 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                          <g fill="currentColor">
+                            <path d="M10.922,2.13c-.344-.234-.81-.144-1.042,.198l-4.25,6.25c-.173,.255-.173,.589,0,.844l4.25,6.25c.146,.213,.381,.328,.621,.328,.145,0,.292-.042,.421-.13,.343-.233,.432-.699,.198-1.042l-3.963-5.828,3.963-5.828c.233-.343,.145-.809-.198-1.042Z"></path>
+                          </g>
+                        </svg></div>
+                    </a>
+                    <a aria-label="Next Slide" href="#" class="swiper-button swiper-next w-inline-block">
+                      <div class="icon-size-4 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                          <g fill="currentColor">
+                            <path d="M8.12,2.328c-.232-.342-.699-.433-1.042-.198-.343,.233-.432,.699-.198,1.042l3.963,5.828-3.963,5.828c-.233,.343-.145,.809,.198,1.042,.129,.088,.276,.13,.421,.13,.24,0,.476-.115,.621-.328l4.25-6.25c.173-.255,.173-.589,0-.844L8.12,2.328Z"></path>
+                          </g>
+                        </svg></div>
+                    </a>
+                  </div>
+                </div>
+                <div class="swiper cc-product-hero_gallery">
+                  <div id="product-hero-gallery" li-for:inside="media in product.media" class="swiper-wrapper cc-product-hero_gallery">
+        {% for media in product.media %}                            
+                    
+                            {% if media.media_type == 'image' %}    <div li-if="media.media_type == 'image'" class="swiper-slide cc-product-hero-gallery">
+    <img li-object:src="media | image_url: width: 300, height: 300" li-object:alt="media.alt" alt="{{ media.alt }}" src="{{ media | image_url: width: 300, height: 300 }}" loading="lazy" class="product-hero_gallery_thumbnail">    </div>
+{% endif %}
+                            
+                    
+                            {% if media.media_type == 'video' %}    <div li-if="media.media_type == 'video'" class="swiper-slide cc-product-hero-gallery">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" aria-hidden="true" class="product-hero_gallery_thumbnail_icon">
+                        <g fill="currentColor">
+                          <path d="M15.1,7.478L5.608,2.222c-.553-.306-1.206-.297-1.749,.023-.538,.317-.859,.877-.859,1.499V14.256c0,.622,.321,1.182,.859,1.499,.279,.164,.586,.247,.895,.247,.293,0,.586-.075,.854-.223l9.491-5.256c.556-.307,.901-.891,.901-1.522s-.345-1.215-.9-1.522Z"></path>
+                        </g>
+                      </svg><img li-object:src="media | image_url: width: 300, height: 300" li-object:alt="media.alt" alt="{{ media.alt }}" src="{{ media | image_url: width: 300, height: 300 }}" loading="lazy" class="product-hero_gallery_thumbnail">    </div>
+{% endif %}
+                            
+                  
+                    {% endfor %}    </div>
+                </div>
+              </div>
+            </div>
+            <div li-content-for-theme-blocks="" class="product-hero_info">
+{% content_for 'blocks' %}
+</div>
+          </div>
+        </div>
+        <div class="hide w-embed w-script">
+          <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" type="text/javascript" defer=""></script>
+          <script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.swiper-container').forEach((container) => {
+    // Initialize thumbnails gallery first
+    const thumbsSwiper = new Swiper(container.querySelector('.swiper.cc-product-hero_gallery'), {
+      slidesPerView: 'auto',
+      rewind: false,
+      slideToClickedSlide: true,
+      spaceBetween: 4,
+    });
+    // Initialize main slider with thumbs connection
+    const mainSwiper = new Swiper(container.querySelector('.swiper.cc-product-hero_slider'), {
+      mousewheel: { forceToAxis: true },
+      thumbs: { 
+        swiper: thumbsSwiper, 
+        slideThumbActiveClass: "cc-active" 
+      },
+      keyboard: { enabled: true, onlyInViewport: true },
+      navigation: {
+        nextEl: container.querySelector('.swiper-next'),
+        prevEl: container.querySelector('.swiper-prev'),
+      },
+    });
+  });
+});
+</script>
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Product Hero",
+    "class": "section",
+    "blocks": [
+        {
+            "type": "add-to-cart"
+        },
+        {
+            "type": "accordion"
+        },
+        {
+            "type": "@app"
+        }
+    ],
+    "settings": [
+        {
+            "id": "text_delivery",
+            "type": "text",
+            "label": "Delivery",
+            "default": "1\u20133 Days"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Product Hero",
+            "category": "Liquify",
+            "blocks": [
+                {
+                    "type": "add-to-cart"
+                },
+                {
+                    "type": "accordion"
+                }
+            ]
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "product"
+        ]
+    }
+} {% endschema %}

@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "basic_hero_static": {
+            "type": "basic_hero_static"
+        },
+        "collections_list": {
+            "type": "collections_list"
+        }
+    },
+    "layout": "theme",
+    "wrapper": "main.main-wrapper",
+    "order": [
+        "basic_hero_static",
+        "collections_list"
+    ]
+}

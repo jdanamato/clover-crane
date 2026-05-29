@@ -1,0 +1,52 @@
+{
+    "sections": {
+        "promoted": {
+            "type": "promoted"
+        },
+        "hooper": {
+            "type": "hooper"
+        },
+        "inspiration": {
+            "type": "inspiration",
+            "blocks": {
+                "services-cta": {
+                    "type": "services-cta",
+                    "name": "Services CTA"
+                },
+                "occasions-cta": {
+                    "type": "occasions-cta",
+                    "name": "Occasions CTA"
+                }
+            },
+            "block_order": [
+                "services-cta",
+                "occasions-cta"
+            ]
+        },
+        "team": {
+            "type": "team",
+            "blocks": {
+                "kicker": {
+                    "type": "kicker",
+                    "name": "Kicker"
+                },
+                "headline": {
+                    "type": "headline",
+                    "name": "Headline"
+                }
+            },
+            "block_order": [
+                "kicker",
+                "headline"
+            ]
+        }
+    },
+    "layout": "theme",
+    "wrapper": "main.main-wrapper",
+    "order": [
+        "promoted",
+        "hooper",
+        "inspiration",
+        "team"
+    ]
+}
