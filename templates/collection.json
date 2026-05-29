@@ -1,0 +1,16 @@
+{
+    "sections": {
+        "basic_hero_dynamic": {
+            "type": "basic_hero_dynamic"
+        },
+        "collection_products": {
+            "type": "collection_products"
+        }
+    },
+    "layout": "theme",
+    "wrapper": "main.main-wrapper",
+    "order": [
+        "basic_hero_dynamic",
+        "collection_products"
+    ]
+}

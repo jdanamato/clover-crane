@@ -1,0 +1,44 @@
+{
+    "sections": {
+        "product_hero": {
+            "type": "product_hero",
+            "blocks": {
+                "add-to-cart": {
+                    "type": "add-to-cart",
+                    "name": "Add to Cart"
+                },
+                "accordion": {
+                    "type": "accordion",
+                    "name": "Accordion"
+                }
+            },
+            "block_order": [
+                "add-to-cart",
+                "accordion"
+            ]
+        },
+        "recommended_products": {
+            "type": "recommended_products",
+            "blocks": {
+                "kicker": {
+                    "type": "kicker",
+                    "name": "Kicker"
+                },
+                "headline": {
+                    "type": "headline",
+                    "name": "Headline"
+                }
+            },
+            "block_order": [
+                "kicker",
+                "headline"
+            ]
+        }
+    },
+    "layout": "theme",
+    "wrapper": "main.main-wrapper",
+    "order": [
+        "product_hero",
+        "recommended_products"
+    ]
+}

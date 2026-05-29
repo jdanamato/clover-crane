@@ -1,0 +1,122 @@
+<div li-block="Add to Cart" class="product-hero_info_group" {{ block.shopify_attributes }}>
+                    
+                
+                    <div class="product-hero_form-block w-form">
+                  {% form 'product', product, class: 'product-header_default-state' %}
+{% if product.has_only_default_variant != true %}    <div li-if="product.has_only_default_variant != true" class="product_variant-container">
+    
+                      <template x-for="(option, optionKey) in product.options" :key="optionKey">
+    <div li-element="product-options-loop" class="product_variant-list" data-ProductVariantsLoop="true">
+                        <template x-if="option == 'Color'">
+            <div li-js-if="option == 'Color'" class="product_variant">
+        
+                          <div class="product_variant-label"><span li-element="product-options-name" class="text-gray-1" x-text="option">Color:</span> <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600 text-gray-2">Default</span></div>
+                          <div class="product_radio-list"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
+    <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item cc-swatch w-radio">
+                              <div class="w-form-formradioinput w-form-formradioinput--inputType-custom product_radio-input w-radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'">
+                              <div x-bind:id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" class="product_radio-swatch"></div><span li-element="product-options-name" class="product_radio-label w-form-label" for="variant-color" x-text="option">Color</span>
+                            </label></template></div>
+                                </div>
+    </template>
+                        <template x-if="option == 'Size'">
+            <div li-js-if="option == 'Size'" class="product_variant">
+        
+                          <div class="product_variant-label"><span li-element="product-options-name" class="text-gray-1" x-text="option">Size:</span> <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600 text-gray-2">Default</span></div>
+                          <div class="product_radio-list"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
+    <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item w-radio">
+                              <div class="w-form-formradioinput w-form-formradioinput--inputType-custom product_radio-input w-radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'"><span li-element="product-option-name" class="product_radio-label w-form-label" for="variant-size" x-text="variantName" :for="variantName">Size</span>
+                            </label></template></div>
+                                </div>
+    </template>
+                        <template x-if="product.tags contains 'personalization'">
+            <div li-js-if="product.tags contains 'personalization'" class="product_variant">
+        <label class="w-checkbox checkbox-field">
+                            <div class="w-checkbox-input w-checkbox-input--inputType-custom checkbox-input"></div><input name="properties[Add-Personalization]" data-name="properties[Add Personalization]" x-model="personalization" type="checkbox" id="properties[Add-Personalization]" li-object:checked="product.metafields.custom.personalization.enabled" style="opacity:0;position:absolute;z-index:-1" checked="{{ product.metafields.custom.personalization.enabled }}"><span for="properties[Add-Personalization]" class="checkbox-label w-form-label">Add personalization for $15</span>
+                          </label><template x-if="personalization" class="product-personalization">
+                            <div class="product_variant">
+                              <div class="product_variant-label"><span>Select design:</span> <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600">Default</span></div>
+                              {% for design in product.metafields.custom.personalization.designs %}    <div li-for="design in product.metafields.custom.personalization.designs" class="product_radio-list">
+                                    <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" class="product_radio-item cc-media w-radio">
+                                  <div class="w-form-formradioinput w-form-formradioinput--inputType-custom product_radio-input w-radio-input"></div><input x-bind:id="personalization-design-{{ design.label | handle }}" li-object:value="design.label" x-bind:required="personalization" name="properties[Design]" data-name="properties[Design]" li-js-if="properties['Design'] == design.label" type="radio" x-bind:checked="properties['Design'] == design.label" style="opacity:0;position:absolute;z-index:-1" value="{{ design.label }}"><img src="{{ design.font }}" loading="lazy" li-object:src="design.font" alt="" class="product_radio-media"><span li-object="design.label" class="product_radio-label w-form-label">{{ design.label }}</span>
+                                </label>
+                        </div>
+{% endfor %}
+                            </div>
+                            <div class="product_variant">
+                              <div class="product_variant-label"><span>Add text (2 or 3 characters)</span></div><input class="input w-input" x-bind:required="personalization" maxlength="3" name="properties[Text]" data-name="properties[Text]" placeholder="C&C" minlength="1" type="text" id="personalization-text">
+                            </div>
+                            <div class="product_variant">
+                              <div class="product_variant-label"><span>Select text color:</span> <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600">Default</span></div>
+                              {% for color in product.metafields.custom.personalization.text_colors %}    <div li-for="color in product.metafields.custom.personalization.text_colors" class="product_radio-list">
+                                    <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" class="product_radio-item cc-swatch w-radio">
+                                  <div class="w-form-formradioinput w-form-formradioinput--inputType-custom product_radio-input w-radio-input"></div><input x-bind:id="personalization-color-{{ color.name | handle }}" li-object:value="color.color" x-bind:required="personalization" name="properties[Color]" data-name="properties[Color]" type="radio" x-bind:checked="properties['Color'] == color.color" style="opacity:0;position:absolute;z-index:-1" value="{{ color.color }}">
+                                  <div x-bind:background="{{ color.color }} !important" class="product_radio-swatch"></div><span li-object="color.name" class="product_radio-label w-form-label">{{ color.name }}</span>
+                                </label>
+                        </div>
+{% endfor %}
+                            </div>
+                          </template>
+                          <div class="hide w-embed w-script">
+                            <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const personalizationFeeVariantId = 'YOUR_PERSONALIZATION_FEE_VARIANT_ID'; // Replace with your actual hidden product's variant ID:
+  const form = document.querySelector('form[li-form="product"]');
+  if (!form) return;
+  form.addEventListener('submit', function(event) {
+    const checkbox = document.getElementById('personalization-checkbox');
+    // If personalization is checked, add the fee product to cart
+    if (checkbox && checkbox.checked) {
+      event.preventDefault();
+      // First, submit the main product form as normal
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => response.json())
+      .then(() => {
+        // Next, add the fee product
+        return fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            id: personalizationFeeVariantId,
+            quantity: 1,
+            properties: { "Personalization": "Yes" }
+          })
+        });
+      })
+      .then(() => {
+        // Reload cart or redirect to cart page, as needed
+        window.location.href = '/cart'; // or show minicart update, etc.
+      });
+    }
+    // If not checked, form submits normally (just main product)
+  });
+});
+</script>
+                          </div>
+                                </div>
+    </template>
+                      </div></template>
+                        </div>
+{% endif %}
+                    <div class="product_add-to-cart">
+                      {% render 'quantity_adjust' %}
+                      <div class="product_buy-button"><button type="submit" id="product-submit-{{ section.id }}" name="add" li-element="add-to-cart" class="button width-full" @click="addToCart($event, true)" :disabled="!addToCartButton">Add to cart</button></div>
+                    </div>
+                  {% endform %}
+                </div>
+                    
+              
+                </div> {% schema %} {
+    "name": "Add to Cart",
+    "settings": [],
+    "presets": [
+        {
+            "name": "Add to Cart",
+            "blocks": []
+        }
+    ],
+    "tag": null
+} {% endschema %}

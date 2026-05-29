@@ -1,0 +1,37 @@
+<ul role="list" class="filter_pagination_list w-list-unstyled">
+                  <li id="w-node-_82b45975-f6d5-157c-50e3-9c6959305b74-59305b72" class="filter_pagination_item">
+                    <a li-object:href="paginate.previous.url" li-if="paginate.previous" aria-label="Previous page" id="" class="pagination_button cc-is-previous" rel="prev" href="{{ paginate.previous.url }}"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" id="chevron-left" width="100%" fill="none" class="icon-size-2">
+                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
+                          <polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline>
+                        </g>
+                      </svg>
+                      <div>Previous</div>
+                    </a>
+                  </li>
+                  {% for part in paginate.parts %}    <li li-for="part in paginate.parts" id="w-node-_82b45975-f6d5-157c-50e3-9c6959305b82-59305b72" class="filter_pagination_item">
+                                    
+                    
+                            {% if part.is_link == false %}    <div li-if="part.is_link == false" class="pagination_link cc-current">
+    
+                      <div li-object="part.title">{{ part.title }}</div>
+                        </div>
+{% endif %}
+                            
+                    
+                            <a li-object:href="part.url" li-if="part.is_link" class="pagination_link" aria-label="Go to {{ part.title }}" href="{{ part.url }}">
+                      <div li-object="part.title">{{ part.title }}</div>
+                    </a>
+                            
+                  
+                        </li>
+{% endfor %}
+                  <li id="w-node-_82b45975-f6d5-157c-50e3-9c6959305b8a-59305b72" class="filter_pagination_item">
+                    <a li-object:href="paginate.next.url" li-if="paginate.next" aria-label="Next page" class="pagination_button cc-is-next" rel="next" href="{{ paginate.next.url }}">
+                      <div>Next</div><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" id="chevron-right" width="100%" fill="none" class="icon-size-2">
+                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
+                          <polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline>
+                        </g>
+                      </svg>
+                    </a>
+                  </li>
+                </ul>

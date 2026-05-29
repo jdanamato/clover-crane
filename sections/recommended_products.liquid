@@ -1,0 +1,97 @@
+<div class="container-3">
+          <div class="w-layout-vflex stack gap-8">
+            <header class="section-header">
+              <div class="w-layout-vflex section-header_content">
+                {% for block in section.blocks %}
+    {% if block.type == "kicker" %}
+                    <div li-block="Kicker">
+                                    
+                  
+                                    <div class="kicker">
+{{ block.settings.text_kicker }}
+</div>
+                                    
+                
+                            </div>
+            {% endif %}
+{% endfor %}
+                {% for block in section.blocks %}
+    {% if block.type == "headline" %}
+                    <div li-block="Headline" class="section-header_title">
+                                    
+                  
+                                    <h2>
+{{ block.settings.text_headline }}
+</h2>
+                                    
+                
+                            </div>
+            {% endif %}
+{% endfor %}
+              </div>
+            </header>
+            <div li-render-recommended-path="{{ routes.product_recommendations_url }}" li-render-recommended="wrapper" li-render-recommended-product="{{ product.id }}" li-render-recommended-intent="complementary" li-render-recommended-limit="8" class="product_list-wrapper">
+              <div li-render-recommended="target">
+                <ul role="list" class="product_list w-list-unstyled">
+                  {% for product in recommendations.products %}    <li li-for="product in recommendations.products" class="product_list-item">
+                                    
+                    
+                            {% render 'product_card', product: product %}
+                            
+                  
+                        </li>
+{% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Recommended Products",
+    "class": "section",
+    "blocks": [
+        {
+            "name": "Kicker",
+            "type": "kicker",
+            "settings": [
+                {
+                    "id": "text_kicker",
+                    "type": "text",
+                    "label": "Kicker",
+                    "default": "Keep shopping"
+                }
+            ]
+        },
+        {
+            "name": "Headline",
+            "type": "headline",
+            "settings": [
+                {
+                    "id": "text_headline",
+                    "type": "text",
+                    "label": "Headline",
+                    "default": "Recommended"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Recommended Products",
+            "category": "Liquify",
+            "blocks": [
+                {
+                    "type": "kicker"
+                },
+                {
+                    "type": "headline"
+                }
+            ]
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "product"
+        ]
+    }
+} {% endschema %}

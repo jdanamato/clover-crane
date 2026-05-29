@@ -1,0 +1,39 @@
+<div class="container-2">
+          <div class="w-layout-vflex basic-hero_content">
+            <h1>
+{{ section.settings.text_page_title }}
+</h1>
+            {% if section.settings.page_description != blank %}    <div li-if="section.settings.page_description != blank">
+    
+              <p>
+{{ section.settings.text_page_description }}
+</p>
+                </div>
+{% endif %}
+          </div>
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Basic Hero (Static)",
+    "class": "section cc-basic-hero",
+    "settings": [
+        {
+            "id": "text_page_title",
+            "type": "text",
+            "label": "Page Title",
+            "default": "Shop by Category"
+        },
+        {
+            "id": "text_page_description",
+            "type": "text",
+            "label": "Page Description",
+            "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat."
+        }
+    ],
+    "presets": [
+        {
+            "name": "Basic Hero (Static)",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ]
+} {% endschema %}

@@ -1,0 +1,63 @@
+<div class="container-4">
+          {% if customer.orders.size != 0 %}    <div li-if="customer.orders.size != 0" class="table">
+    
+            <div class="table_head">
+              <div class="table_header-column">
+                <div>Order No.</div>
+              </div>
+              <div class="table_header-column">
+                <div item="date">Order Date</div>
+              </div>
+              <div class="table_header-column">
+                <div item="payment-status">Payment Status</div>
+              </div>
+              <div class="table_header-column">
+                <div item="fulfillment-status">Delivery Status</div>
+              </div>
+              <div class="table_header-column">
+                <div item="total">Total</div>
+              </div>
+            </div>
+            <div class="table_body">
+              {% for order in customer.orders %}    <div li-for="order in customer.orders" class="table_row">
+                                    
+                
+                            <a li-object:href="order.customer_url" id="w-node-_5ba51966-f8e1-63bb-d394-ee2802eaf4c0-277abb16" href="{{ order.customer_url }}" class="text-link w-inline-block">
+                  <div li-object="order.name">{{ order.name }}</div>
+                </a>
+                            
+                
+                            <div li-object="order.created_at | date: '%b %e, %Y'">{{ order.created_at | date: '%b %e, %Y' }}</div>
+                            
+                
+                            <div li-object="order.financial_status_label" id="w-node-_5ba51966-f8e1-63bb-d394-ee2802eaf4c5-277abb16">{{ order.financial_status_label }}</div>
+                            
+                
+                            <div li-object="order.fulfillment_status_label">{{ order.fulfillment_status_label }}</div>
+                            
+                
+                            <div li-object="order.total_price | money">{{ order.total_price | money }}</div>
+                            
+              
+                        </div>
+{% endfor %}
+            </div>
+              </div>
+{% endif %}
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Orders",
+    "class": "section",
+    "presets": [
+        {
+            "name": "Orders",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "customers\/order"
+        ]
+    }
+} {% endschema %}

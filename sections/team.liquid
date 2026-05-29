@@ -1,0 +1,116 @@
+<div class="container-3">
+          <div class="home-cta_panel">
+            {% render 'section_header' %}
+            <div class="home-cta_layout">
+              <div class="home-cta_media">
+                <div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
+{{ section.settings.image_left_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'home-cta_image' }}
+{% else %}
+ {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
+{% endif %}</div>
+                <div class="home-cta_image-wrap cc-kathi">{% if section.settings.image_right_image %}
+{{ section.settings.image_right_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'home-cta_image' }}
+{% else %}
+ {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
+{% endif %}</div>
+              </div>
+              <div class="home-cta_content">
+                <p class="text-gray-1">
+{{ section.settings.text_text }}
+</p>
+                <div class="button-group">
+                  <a li-object:href="pages['about-us'].url" href="{{ section.settings.href_pagesabout_usurl }}" class="button w-button" href="#">
+{{ section.settings.text_primary_label }}
+</a>
+                  <a li-object:href="routes.contact_url" href="{{ section.settings.href_routescontact_url }}" class="button cc-accent-soft w-button" href="#">
+{{ section.settings.text_secondary_label }}
+</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> {% schema %} {
+    "tag": "section",
+    "name": "Team",
+    "class": "section",
+    "blocks": [
+        {
+            "name": "Kicker",
+            "type": "kicker",
+            "settings": [
+                {
+                    "id": "text_kicker",
+                    "type": "text",
+                    "label": "Kicker",
+                    "default": "About Clover and Crane"
+                }
+            ]
+        },
+        {
+            "name": "Headline",
+            "type": "headline",
+            "settings": [
+                {
+                    "id": "text_headline",
+                    "type": "text",
+                    "label": "Headline",
+                    "default": "Meet our creative team: <br\/>Kathi and Joani"
+                }
+            ]
+        }
+    ],
+    "settings": [
+        {
+            "id": "image_left_image",
+            "type": "image_picker",
+            "label": "Left Image"
+        },
+        {
+            "id": "image_right_image",
+            "type": "image_picker",
+            "label": "Right Image"
+        },
+        {
+            "id": "text_text",
+            "type": "text",
+            "label": "Text",
+            "default": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service."
+        },
+        {
+            "id": "href_pagesabout_usurl",
+            "type": "text",
+            "label": "pages['about-us'].url"
+        },
+        {
+            "id": "text_primary_label",
+            "type": "text",
+            "label": "Primary Label",
+            "default": "About us"
+        },
+        {
+            "id": "href_routescontact_url",
+            "type": "text",
+            "label": "routes.contact_url"
+        },
+        {
+            "id": "text_secondary_label",
+            "type": "text",
+            "label": "Secondary Label",
+            "default": "Let's talk"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Team",
+            "category": "Liquify",
+            "blocks": [
+                {
+                    "type": "kicker"
+                },
+                {
+                    "type": "headline"
+                }
+            ]
+        }
+    ]
+} {% endschema %}
