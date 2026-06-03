@@ -16,7 +16,7 @@
                     <div id="w-node-_62f83629-e161-e928-840c-c4ca0b3bef9f-4e6850f3" class="cart_line-item">
                       <div class="cart_item-layout">
                         <div class="cart_item_column">
-                          <a href="{{ item.url }}" li-object:href="item.url" class="cart_item_thumbnail w-inline-block"><img li-object:src="item.image |  img_url: 'small'" src="{{ item.image |  img_url: 'small' }}" alt="" class="cart_item_thumbnail-image"></a>
+                          <a href="{{ item.url }}" li-object:href="item.url" class="cart_item_thumbnail w-inline-block"><img li-object:src="item.image | image_url: width: 200" src="{{ item.image | image_url: width: 200 }}" alt="" class="cart_item_thumbnail-image"></a>
                         </div>
                         <div class="cart_item_info">
                           <div class="cart_item_head">
@@ -24,16 +24,14 @@
                               <a li-object:href="item.url" li-object="item.title" href="{{ item.url }}" class="cart_item-title">{{ item.title }}</a>
                               <div li-object="item.variant.title" class="font-size-2">{{ item.variant.title }}</div>
                             </div>
-                            {% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price" class="cart_item-price">
-    
+                            <div class="cart_item-price">
                               <div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>
                               {% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
     
                                 <div li-object="item.original_line_price | money" class="compare-at-price">{{ item.original_line_price | money }}</div>
                                   </div>
 {% endif %}
-                                </div>
-{% endif %}
+                            </div>
                           </div>
                           <div class="cart_item_meta">
                             {% render 'quantity_adjust' %}
@@ -71,7 +69,7 @@
                           <div>Savings</div>
                         </div>
                         <div class="table_detail-item_value">
-                          <div li-object="cart.total_discount | money">{{ cart.total_discount | money }}</div>
+                          <div li-object="cart.total_discounts | money">{{ cart.total_discounts | money }}</div>
                         </div>
                           </div>
 {% endif %}
@@ -88,7 +86,7 @@
 {% endif %}
                       <div class="font-size-2 text-gray-1">Taxes and shipping calculated at checkout.</div>
                     </div>
-                    <div class="cart_summary_actions"><input type="submit" data-wait="Please wait..." class="button cc-accent-soft w-button" value="Update cart"><input type="submit" data-wait="Please wait..." class="button w-button" value="Checkout" name="checkout"></div>
+                    <div class="cart_summary_actions"><input type="submit" data-wait="Please wait..." class="button cc-accent-soft w-button" value="Update cart" name="update"><input type="submit" data-wait="Please wait..." class="button w-button" value="Checkout" name="checkout"></div>
                   </div>
                 </div>
                 <div class="table">
