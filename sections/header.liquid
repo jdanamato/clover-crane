@@ -57,14 +57,12 @@
               <div class="nav_shop-icons">
                 <div class="main-nav_menu_list">
                   <div data-delay="0" data-hover="false" class="nav_dropdown w-dropdown">
-                    <div class="main-nav_link cc-icon w-dropdown-toggle">
-                      <div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
-                          <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
-                            <line x1="15.25" y1="15.25" x2="11.285" y2="11.285"></line>
-                            <circle cx="7.75" cy="7.75" r="5"></circle>
-                          </g>
-                        </svg></div>
-                    </div>
+                    <div class="main-nav_link cc-icon w-dropdown-toggle"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-3">
+                        <g fill="currentColor">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"></path>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 7.75C1.5 4.29829 4.29829 1.5 7.75 1.5C11.2017 1.5 14 4.29829 14 7.75C14 11.2017 11.2017 14 7.75 14C4.29829 14 1.5 11.2017 1.5 7.75ZM7.75 3C5.12671 3 3 5.12671 3 7.75C3 10.3733 5.12671 12.5 7.75 12.5C10.3733 12.5 12.5 10.3733 12.5 7.75C12.5 5.12671 10.3733 3 7.75 3Z"></path>
+                        </g>
+                      </svg></div>
                     <nav class="predictive-search_modal w-dropdown-list">
                       <div class="nav_modal-panel">
                         <div class="nav_modal-header">
@@ -81,14 +79,12 @@
                             <div class="nav-search_form w-form">
                               <form id="wf-form-product-search" name="wf-form-product-search" data-name="product-search" action="/search" method="get" class="nav-search_form-layout" data-wf-page-id="67fdd8de1cc633ed70bd90f4" data-wf-element-id="acd42387-40c9-a20c-e046-975bfa7faccc">
                                 <div class="input-wrap"><label for="search-input" class="sr-only">Search</label><input type="search" id="search-input" placeholder="Search anything..." name="q" class="input cc-within">
-                                  <a href="#" class="predictive-search_button w-inline-block">
-                                    <div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
-                                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
-                                          <line x1="15.25" y1="15.25" x2="11.285" y2="11.285"></line>
-                                          <circle cx="7.75" cy="7.75" r="5"></circle>
-                                        </g>
-                                      </svg></div>
-                                  </a><input type="submit" data-wait="Please wait..." id="submit-search" class="hide w-button" value="Submit">
+                                  <a href="#" class="predictive-search_button w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-3">
+                                      <g fill="currentColor">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"></path>
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 7.75C1.5 4.29829 4.29829 1.5 7.75 1.5C11.2017 1.5 14 4.29829 14 7.75C14 11.2017 11.2017 14 7.75 14C4.29829 14 1.5 11.2017 1.5 7.75ZM7.75 3C5.12671 3 3 5.12671 3 7.75C3 10.3733 5.12671 12.5 7.75 12.5C10.3733 12.5 12.5 10.3733 12.5 7.75C12.5 5.12671 10.3733 3 7.75 3Z"></path>
+                                      </g>
+                                    </svg></a><input type="submit" data-wait="Please wait..." id="submit-search" class="hide w-button" value="Submit">
                                 </div>
                                 <div id="predictive-search" li-render-search="target" class="predictive-search_overflow no-scrollbar">
                                   <div li-section="predictive_search" class="predictive-search_section">
@@ -243,14 +239,12 @@
                 </div>
                 {% if shop.customer_accounts_optional %}    <div li-if="shop.customer_accounts_optional" class="main-nav_menu_list">
     
-                  <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="main-nav_link cc-icon w-inline-block">
-                    <div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
-                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
-                          <circle cx="9" cy="4.5" r="2.75"></circle>
-                          <path d="M13.762,15.516c.86-.271,1.312-1.221,.947-2.045-.97-2.191-3.159-3.721-5.709-3.721s-4.739,1.53-5.709,3.721c-.365,.825,.087,1.774,.947,2.045,1.225,.386,2.846,.734,4.762,.734s3.537-.348,4.762-.734Z"></path>
-                        </g>
-                      </svg></div>
-                  </a>
+                  <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="main-nav_link cc-icon w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-3">
+                      <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
+                        <circle cx="9" cy="4.5" r="2.75"></circle>
+                        <path d="M13.762,15.516c.86-.271,1.312-1.221,.947-2.045-.97-2.191-3.159-3.721-5.709-3.721s-4.739,1.53-5.709,3.721c-.365,.825,.087,1.774,.947,2.045,1.225,.386,2.846,.734,4.762,.734s3.537-.348,4.762-.734Z"></path>
+                      </g>
+                    </svg></a>
                     </div>
 {% endif %}
                 {% render 'mini_cart' %}
