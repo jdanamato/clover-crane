@@ -8,9 +8,9 @@
                   
                             <div data-delay="100" data-hover="false" class="nav_dropdown w-dropdown">
                     <div class="main-nav_link w-dropdown-toggle">
-                      <a li-object:href="link.url" href="{{ link.url }}" class="main-nav_link_inner w-inline-block">
+                      <div class="main-nav_link_inner">
                         <div li-object="link.title">{{ link.title }}</div>
-                      </a>
+                      </div>
                       {% if link.links.size > 0 %}    <div li-if="link.links.size > 0" class="dd_icon">
     
                         <div class="icon-size-2 w-embed"><svg width=" 100%" height=" 100%" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
