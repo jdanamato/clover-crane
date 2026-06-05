@@ -151,6 +151,7 @@
   --_color---red--contrast: white;
   --_color---blue--9: #0090ff;
   --_sizing---border-radius--8: 9999px;
+  --border-width--thin: var(--_sizing---border-width--1);
   --_sizing---icon--1: var(--_sizing---size--12);
   --_sizing---icon--2: var(--_sizing---size--16);
   --_sizing---icon--4: var(--_sizing---size--24);
@@ -173,7 +174,6 @@
   --_color---black--a5: #0006;
   --_spacing---section--1: var(--_sizing---size--48);
   --_spacing---section--2: var(--_sizing---size--64);
-  --border-width--thin: var(--_sizing---border-width--1);
   --_sizing---border-width--3: var(--_sizing---size--2);
   --_spacing-2---space--5\<deleted\|variable-fb9fafd9-e669-cfe4-4f28-aeddd00bdfba\>: var(--_sizing-2---size--12-9\<deleted\|variable-f1b56dd5-3fbb-ac5d-23e5-498f3020c23d\>);
   --_sizing---size--18: 1.125rem;
@@ -3273,7 +3273,7 @@ figcaption {
   padding-bottom: var(--_spacing---space--6);
   grid-column-gap: var(--_spacing---gap--4);
   grid-row-gap: var(--_spacing---gap--4);
-  border-bottom: var(--border-width--theme) solid var(--gray--6);
+  border-bottom: var(--border-width--thin) solid var(--gray--6);
   flex-flow: row;
   justify-content: flex-start;
   align-items: flex-start;
@@ -3347,8 +3347,9 @@ figcaption {
 }
 
 .cart_item_thumbnail-image {
-  border-radius: var(--border-radius--theme);
   background-color: var(--gray--3);
+  object-fit: cover;
+  border-radius: 0;
   height: 100%;
 }
 
@@ -4721,6 +4722,8 @@ figcaption {
   grid-column-gap: var(--_spacing---gap--2);
   grid-row-gap: var(--_spacing---gap--2);
   flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   display: flex;
 }
 
@@ -5074,7 +5077,7 @@ figcaption {
 .quantity-select_input {
   border: var(--border-width--theme) none var(--gray--7);
   background-color: var(--_color---white);
-  max-width: 2.5rem;
+  max-width: 2rem;
   height: auto;
   min-height: 2rem;
   font-size: var(--_sizing---font--2);
@@ -5083,6 +5086,7 @@ figcaption {
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 0;
   display: flex;
 }
 
@@ -5209,6 +5213,7 @@ figcaption {
   height: 100%;
   max-height: 6rem;
   display: flex;
+  overflow: hidden;
 }
 
 .table_detail-item_label {
