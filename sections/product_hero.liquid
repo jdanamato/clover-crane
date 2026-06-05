@@ -1,5 +1,4 @@
 <div class="container-4">
-          <script src="{{ 'li_custom.js' | asset_url }}" type="text/javascript"></script>
           <div class="product-hero_layout">
             <div class="product-hero_media">
               <div class="swiper-container">
@@ -119,8 +118,8 @@
               <div class="product-hero_info_group">
                 <div class="product-hero_form-block w-form">
                   {% form 'product', product, class: 'product-header_default-state' %}
-{% if product-variant-container %}    <div li-if="product.has_only_default_variant != true" li-element="product-variant-container" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" x-init="$nextTick(() => { activateVariants() })" class="product_variant-container">
-    
+<script src="{{ 'li_custom.js' | asset_url }}" type="text/javascript"></script>
+<div x-init="$nextTick(() => { activateVariants() })" li-element="product-variant-container" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" class="product_variant-container" @setbundleitem.window="updateBundleItem($event.detail.product, $event.detail.quantity)">
                       <template x-for="(option, optionKey) in product.options" :key="optionKey">
     <div li-element="product-options-loop" class="product_variant-list" data-ProductVariantsLoop="true">
                         {% if option.name == 'Color' %}    <div li-if="option.name == 'Color'" class="product_variant">
@@ -186,8 +185,7 @@
                         {% render 'quantity_adjust' %}
                         <div class="product_buy-button"><button type="submit" name="add" li-element="add-to-cart" id="product-submit-{{ section.id }}" class="button width-full" @click="addToCart($event, true)" :disabled="!addToCartButton">Add to cart</button></div>
                       </div>
-                        </div>
-{% endif %}
+                    </div>
                   {% endform %}
                 </div>
               </div>

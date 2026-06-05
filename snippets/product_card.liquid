@@ -1,4 +1,4 @@
-<div data-w-id="2a986e5b-ab63-d97f-edf0-60281c72583c" class="product-card">
+<div x-init="$nextTick(() => { activateVariants() })" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" data-w-id="2a986e5b-ab63-d97f-edf0-60281c72583c" class="product-card">
                         <div class="product-card_preview">
                           <a li-object:href="product.url" aria-label="View {{ product.title }}" id="" class="product-card_preview-link" href="{{ product.url }}"><img li-object:src="product.featured_image | image_url: width: 400, height: 400" li-object:alt="product.featured_image.alt" alt="{{ product.featured_image.alt }}" src="{{ product.featured_image | image_url: width: 400, height: 400 }}" loading="lazy" class="product-card_preview-image"></a>
                           <div class="product-card_overlay">
