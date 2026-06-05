@@ -173,10 +173,10 @@
   --_color---black--a5: #0006;
   --_spacing---section--1: var(--_sizing---size--48);
   --_spacing---section--2: var(--_sizing---size--64);
+  --border-width--thin: var(--_sizing---border-width--1);
   --_sizing---border-width--3: var(--_sizing---size--2);
   --_spacing-2---space--5\<deleted\|variable-fb9fafd9-e669-cfe4-4f28-aeddd00bdfba\>: var(--_sizing-2---size--12-9\<deleted\|variable-f1b56dd5-3fbb-ac5d-23e5-498f3020c23d\>);
   --_sizing---size--18: 1.125rem;
-  --border-width--thin: var(--_sizing---border-width--1);
   --border-radius--large: min(var(--border-radius--theme), var(--_sizing---border-radius--6));
   --_sizing---border-radius--7: var(--_sizing---size--32);
   --_sizing---container--6: 96rem;
@@ -3812,24 +3812,29 @@ figcaption {
   z-index: var(--_utility---z-index--above);
   width: auto;
   height: 2.5rem;
-  padding: var(--_spacing---space--2) var(--_spacing---space--1);
-  border: var(--border-width--theme) solid var(--gray--9);
+  padding: var(--_spacing---space--2);
+  border: var(--border-width--thin) solid var(--gray--6);
   border-radius: var(--border-radius--theme);
-  background-color: var(--gray--9);
+  background-color: var(--gray--1);
   pointer-events: auto;
-  color: var(--gray--solid-contrast\<deleted\|variable-64b40c64-428a-d03a-1d4a-024ce577fac4\>);
+  color: var(--gray--12);
   text-align: center;
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-left: .5rem;
+  margin-right: .5rem;
   transition: background-color .125s;
   display: flex;
 }
 
 .swiper-button:hover {
-  background-color: var(--gray--10);
+  border-color: var(--gray--7);
+  background-color: var(--gray--3);
+}
+
+.swiper-button:active {
+  border-color: var(--gray--8);
 }
 
 .swiper-button:focus-visible, .swiper-button[data-wf-focus-visible] {
@@ -5002,7 +5007,6 @@ figcaption {
   background-color: var(--gray--2);
   object-fit: cover;
   width: 100%;
-  height: 100%;
   max-height: 40rem;
 }
 
@@ -6435,7 +6439,6 @@ figcaption {
 
 .product-hero_slider-lightbox {
   width: 100%;
-  height: 100%;
 }
 
 .product-hero_media {
@@ -7561,6 +7564,10 @@ figcaption {
 
   .address_form {
     padding: 2.1rem;
+  }
+
+  .swiper.cc-product-hero_gallery {
+    display: none;
   }
 
   .cart_item-layout {
