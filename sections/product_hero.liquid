@@ -1,4 +1,5 @@
 <div class="container-4">
+          <script src="{{ 'li_custom.js' | asset_url }}" type="text/javascript"></script>
           <div class="product-hero_layout">
             <div class="product-hero_media">
               <div class="swiper-container">
@@ -86,7 +87,7 @@
                         <path d="M12.6675 4C14.1045 4 15.2805 5.08 15.4055 6.512L15.5989 8.73664C15.0928 8.58277 14.556 8.5 14 8.5C10.9654 8.5 8.5 10.9661 8.5 14C8.5 15.1066 8.82797 16.1376 9.39191 17.001H4.6815C3.9125 17.001 3.1735 16.676 2.6545 16.109C2.1355 15.542 1.8755 14.778 1.9425 14.012L2.5945 6.512C2.7185 5.08 3.8965 4 5.3335 4H12.6675Z" fill-opacity="0.4"></path>
                       </g>
                     </svg></div>
-                  <div>In stock and ready to ship!</div>
+                  <div>In stock!</div>
                     </div>
 {% endif %}
                 {% if product.available %}    <div li-if="product.available" class="product_spec-row">
@@ -118,7 +119,7 @@
               <div class="product-hero_info_group">
                 <div class="product-hero_form-block w-form">
                   {% form 'product', product, class: 'product-header_default-state' %}
-{% if product-variant-container %}    <div li-if="product.has_only_default_variant != true" li-element="product-variant-container" class="product_variant-container">
+{% if product-variant-container %}    <div li-if="product.has_only_default_variant != true" li-element="product-variant-container" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" x-init="$nextTick(() => { activateVariants() })" class="product_variant-container">
     
                       <template x-for="(option, optionKey) in product.options" :key="optionKey">
     <div li-element="product-options-loop" class="product_variant-list" data-ProductVariantsLoop="true">
@@ -181,12 +182,12 @@
                           </div>
                         </template>    </div>
 {% endif %}
+                      <div class="product_add-to-cart">
+                        {% render 'quantity_adjust' %}
+                        <div class="product_buy-button"><button type="submit" name="add" li-element="add-to-cart" id="product-submit-{{ section.id }}" class="button width-full" @click="addToCart($event, true)" :disabled="!addToCartButton">Add to cart</button></div>
+                      </div>
                         </div>
 {% endif %}
-                    <div class="product_add-to-cart">
-                      {% render 'quantity_adjust' %}
-                      <div class="product_buy-button"><button type="submit" id="product-submit-{{ section.id }}" name="add" li-element="add-to-cart" class="button width-full" @click="addToCart($event, true)" :disabled="!addToCartButton">Add to cart</button></div>
-                    </div>
                   {% endform %}
                 </div>
               </div>
@@ -216,40 +217,6 @@
                     </details>
                       </div>
 {% endif %}
-                  <ul role="list" class="faq_list">
-                    {% for block in section.blocks %}
-    {% if block.type == "accordion" %}
-                    <li li-block="Accordion" class="faq_item">
-                                    
-                      
-                                    <details class="accordion_details cc-style-ghost">
-                        <summary class="accordion_summary cc-style-ghost">
-                          <div class="accordion_heading">
-                            <h2 class="font-size-4 font-weight-500">
-{{ block.settings.text_heading }}
-</h2>
-                          </div>
-                          <div aria-hidden="true" class="accordion_icon">
-                            <div class="icon-size-3 w-embed"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" height="100%" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
-                                <g fill="currentColor">
-                                  <path d="M14.75,9.75H3.25c-.414,0-.75-.336-.75-.75s.336-.75,.75-.75H14.75c.414,0,.75,.336,.75,.75s-.336,.75-.75,.75Z"></path>
-                                  <path d="M9,15.5c-.414,0-.75-.336-.75-.75V3.25c0-.414,.336-.75,.75-.75s.75,.336,.75,.75V14.75c0,.414-.336,.75-.75,.75Z"></path>
-                                </g>
-                              </svg></div>
-                          </div>
-                        </summary>
-                        <div class="accordion_content">
-                          <div aria-labelledby="accordion-heading-{{forloop.index}}" id="accordion-body-{{forloop.index}}" class="accordion_body">
-                            <div class="rich-text-block width-full w-richtext"> {{ block.settings.richtext_content }} </div>
-                          </div>
-                        </div>
-                      </details>
-                                    
-                    
-                            </li>
-            {% endif %}
-{% endfor %}
-                  </ul>
                 </div>
               </div>
             </div>
@@ -287,26 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
     "tag": "section",
     "name": "Product Hero",
     "class": "section",
-    "blocks": [
-        {
-            "name": "Accordion",
-            "type": "accordion",
-            "settings": [
-                {
-                    "id": "text_heading",
-                    "type": "text",
-                    "label": "Heading",
-                    "default": "Heading"
-                },
-                {
-                    "id": "richtext_content",
-                    "type": "richtext",
-                    "label": "Content",
-                    "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.<\/p>"
-                }
-            ]
-        }
-    ],
     "settings": [
         {
             "id": "text_delivery",
@@ -319,11 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             "name": "Product Hero",
             "category": "Liquify",
-            "blocks": [
-                {
-                    "type": "accordion"
-                }
-            ]
+            "blocks": []
         }
     ],
     "enabled_on": {
