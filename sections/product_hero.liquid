@@ -122,25 +122,21 @@
 <div x-init="$nextTick(() => { activateVariants() })" li-element="product-variant-container" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" class="product_variant-container" @setbundleitem.window="updateBundleItem($event.detail.product, $event.detail.quantity)">
                       <template x-for="(option, optionKey) in product.options" :key="optionKey">
     <div li-element="product-options-loop" class="product_variant-list" data-ProductVariantsLoop="true">
-                        {% if option.name == 'Color' %}    <div li-if="option.name == 'Color'" class="product_variant">
-    
+                        <div x-show="option == 'Color' || option == 'Colour'" class="product_variant">
                           <div class="product_variant-label"><span li-element="product-options-name" class="text-gray-1" x-text="option">Color:</span> <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600 text-gray-2">Default</span></div>
                           <div class="product_radio-list"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
     <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item cc-swatch w-radio">
                               <div class="w-form-formradioinput w-form-formradioinput--inputType-custom product_radio-input w-radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'">
                               <div x-bind:id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" class="product_radio-swatch"></div><span li-element="product-option-name" class="product_radio-label w-form-label" for="variant-color" x-text="variantName" :for="variantName">Color</span>
                             </label></template></div>
-                            </div>
-{% endif %}
-                        {% if option.name == 'Size' %}    <div li-if="option.name == 'Size'" class="product_variant">
-    
+                        </div>
+                        <div x-show="option == 'Size'" class="product_variant">
                           <div class="product_variant-label"><span li-element="product-options-name" class="text-gray-1" x-text="option">Size:</span> <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600 text-gray-2">Default</span></div>
                           <div class="product_radio-list"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
     <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item w-radio">
                               <div class="w-form-formradioinput w-form-formradioinput--inputType-custom product_radio-input w-radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'"><span li-element="product-option-name" class="product_radio-label w-form-label" for="variant-size" x-text="variantName" :for="variantName">Size</span>
                             </label></template></div>
-                            </div>
-{% endif %}
+                        </div>
                       </div></template>
                       {% if product.tags contains 'personalization' %}    <div li-if="product.tags contains 'personalization'" class="product_variant">
     <label class="w-checkbox checkbox-field">
