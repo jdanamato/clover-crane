@@ -32,16 +32,23 @@
             </header>
             <div li-render-recommended-path="{{ routes.product_recommendations_url }}" li-render-recommended="wrapper" li-render-recommended-product="{{ product.id }}" li-render-recommended-intent="related" li-render-recommended-limit="8" class="product_list-wrapper">
               <div li-render-recommended="target">
-                <ul role="list" class="product_list w-list-unstyled">
-                  {% for product in recommendations.products %}    <li li-for="product in recommendations.products" class="product_list-item">
-                                    
-                    
-                            {% render 'product_card', product: product %}
-                            
+                {% assign rec_list = recommendations.products %}
+                {% unless rec_list.size > 0 %}    <div li-unless="rec_list.size > 0">
+    
+                  {% assign rec_list = product.collections.first.products %}
+                    </div>
+{% endunless %}
+                <ul li-for:inside="p in rec_list limit: 8" role="list" class="product_list w-list-unstyled">
+        {% for p in rec_list limit: 8 %}                            
                   
-                        </li>
-{% endfor %}
-                </ul>
+                            {% unless p.id == product.id %}    <li li-unless="p.id == product.id" class="product_list-item">
+    
+                    {% render 'product_card', product: p %}
+                      </li>
+{% endunless %}
+                            
+                
+                    {% endfor %}    </ul>
               </div>
             </div>
           </div>
