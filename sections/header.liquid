@@ -6,7 +6,8 @@
                 {% for link in linklists['main-menu'].links %}    <div li-for="link in linklists['main-menu'].links" class="main-nav_menu_item">
                                     
                   
-                            <div data-delay="100" data-hover="false" class="nav_dropdown w-dropdown">
+                            {% if link.links.size > 0 %}    <div data-delay="100" data-hover="false" li-if="link.links.size > 0" class="main-nav_dropdown w-dropdown">
+    
                     <div class="main-nav_link w-dropdown-toggle">
                       <div class="main-nav_link_inner">
                         <div li-object="link.title">{{ link.title }}</div>
@@ -19,12 +20,12 @@
                           </div>
 {% endif %}
                     </div>
-                    {% if link.links.size > 0 %}    <nav li-if="link.links.size > 0" class="nav_dropdown-list w-dropdown-list">
+                    {% if link.links.size > 0 %}    <nav li-if="link.links.size > 0" class="main-nav_dropdown-list w-dropdown-list">
     
                       {% for child_link in link.links %}    <div li-for="child_link in link.links">
                                     
                         
-                            <a li-object:href="child_link.url" href="{{ child_link.url }}" class="nav_dropdown-link w-inline-block">
+                            <a li-object:href="child_link.url" href="{{ child_link.url }}" class="main-nav_dropdown-link w-inline-block">
                           <div href="#" li-object="child_link.title">{{ child_link.title }}</div>
                         </a>
                             
@@ -33,7 +34,11 @@
 {% endfor %}
                         </nav>
 {% endif %}
-                  </div>
+                      </div>
+{% endif %}
+                            
+                  
+                            <a li-object="link.title" li-unless="link.links.size > 0" li-object:href="link.url" href="{{ link.url }}" class="main-nav_link">{{ link.title }}</a>
                             
                 
                         </div>
@@ -56,7 +61,7 @@
             <div id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad51-5499ad08" class="main-nav_section">
               <div class="nav_shop-icons">
                 <div class="main-nav_menu_list">
-                  <div data-delay="0" data-hover="false" class="nav_dropdown w-dropdown">
+                  <div data-delay="0" data-hover="false" class="main-nav_dropdown w-dropdown">
                     <div class="main-nav_link cc-icon w-dropdown-toggle"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-3">
                         <g fill="currentColor">
                           <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"></path>
@@ -256,16 +261,14 @@
       {% if linklists['featured'].links.size > 0 %}    <div li-if="linklists['featured'].links.size > 0" class="sub-nav">
     
         <div class="container-4">
-          {% for link in linklists['featured'].links %}    <div li-for="link in linklists['featured'].links" class="sub-nav_menu">
-                                    
-            
-                            <div class="main-nav_menu_list">
-              <a li-object="link.title" li-object:href="link.url" href="{{ link.url }}" class="sub-nav_link">{{ link.title }}</a>
-            </div>
-                            
-          
-                        </div>
+          <div class="sub-nav_menu">
+            <div class="main-nav_menu_list">
+              {% for link.title %}    <a li-for="link in linklists['featured'].links" li-object:href="link.url" li-object="link.title" href="#" class="sub-nav_link">
+                                    Featured Link
+                        </a>
 {% endfor %}
+            </div>
+          </div>
         </div>
           </div>
 {% endif %} {% schema %} {
