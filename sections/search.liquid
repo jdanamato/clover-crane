@@ -28,7 +28,7 @@
                         <div class="filter_list">
                           {% for filter_value in filter.values %}    <div li-for="filter_value in filter.values" class="filter_item">
                                     <label class="filter_option">
-                              <div class="filter_option-inner"><input type="checkbox" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" id="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}" class="checkbox-input" checked="{% if filter_value.active %}checked{% endif %}" disabled="{% if filter_value.count == 0 and filter_value.active != true %}disabled{% endif %}"><span li-object="filter_value.label" class="filter_option-label" for="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}">{{ filter_value.label }}</span></div>
+                              <div class="filter_option-inner"><input type="checkbox" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" id="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}" li-render-filter-count="{{ filter_value.count }}" class="checkbox-input"><span li-object="filter_value.label" class="filter_option-label" for="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}">{{ filter_value.label }}</span></div>
                               <div li-object="filter_value.count" class="filter_option-quantity">{{ filter_value.count }}</div>
                             </label>
                         </div>
@@ -60,7 +60,7 @@
             <div id="w-node-_26853262-2957-7a14-640e-6e1516cade83-70bd90f4" class="filter_results">
               <div class="filter_feed-header">
                 <div class="filter_tags">
-                  {% for filters in search.filters %}    <div li-for="filters in search.filters" class="filter_tags_layout">
+                  {% for filter in search.filters %}    <div li-for="filter in search.filters" class="filter_tags_layout">
                                     
                     
                             {% for filter_value in filter.active_values %}    <div li-for="filter_value in filter.active_values" class="tag">
@@ -87,22 +87,22 @@
                 <div><select id="sort-by" li-for:inside="option in search.sort_options" li-render-filter="sort" class="select">
         {% for option in search.sort_options %}                            
                     
-                            <option li-object:value="option.value" li-object="option.name" class="select_option" selected="{% if option.value == search.sort_by %}selected{% elsif option.value == search.default_sort_by %}selected{% endif %}" value="{{ option.value }}">{{ option.name }}</option>
-                            {{ option.name }}
+                            <option li-object:value="option.value" li-object="option.name" class="select_option" value="{{ option.value }}">{{ option.name }}</option>
+                            
                   
                     {% endfor %}    </select></div>
               </div>
               <div class="w-dyn-list">
-                {% for product in search.results %}    <div li-for="product in search.results" role="list" class="filter_product-list w-dyn-items">
+                <div role="list" class="filter_product-list w-dyn-items">
+                  {% for product in search.results %}    <div li-for="product in search.results" role="listitem" class="filter_product-list-item w-dyn-item">
                                     
-                  
-                            <div role="listitem" class="filter_product-list-item w-dyn-item">
-                    {% render 'product_card', product: product %}
-                  </div>
+                    
+                            {% render 'product_card', product: product %}
                             
-                
+                  
                         </div>
 {% endfor %}
+                </div>
                 {% if search.results == blank %}    <div li-if="search.results == blank" class="empty-state w-dyn-empty">
     
                   <div class="font-weight-500">No results found</div>

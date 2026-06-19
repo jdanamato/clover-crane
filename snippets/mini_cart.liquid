@@ -188,7 +188,7 @@
          */
         get note() { // deprecated
             //console.warn('Deprecated "get note" in mini_cart')
-            return this.cart.note;
+            return this.cart?.note;
         },
         /**
          * @deprecated
@@ -202,7 +202,7 @@
          */
         get attributes() { // deprecated
             //console.warn('Deprecated "get attributes" in mini_cart')
-            return this.cart.attributes;
+            return this.cart?.attributes;
         },
         /**
          * @deprecated
@@ -387,9 +387,9 @@
 </script>
 <div data-delay="0" data-hover="false" li-element="mini-cart" class="nav_mini-cart-dd w-dropdown" x-data="handleMinicart()" x-init="getCart()" @cartupdated.window="getCart()" @setcartitem.window="updateCartItemQuantity($event.detail.product, $event.detail.quantity)" @increasecartitem.window="increaseCartItemQuantity($event.detail.product, $event.detail.quantity)" @decreasecartitem.window="decreaseCartItemQuantity($event.detail.product, $event.detail.quantity)" @toggleminicart.window="toggleMiniCart()" @showcartmessage.window="showCartMessage" @getcartitems.window="returnCartItems">
                     <div li-element="mini-cart-toggle" class="main-nav_link cc-icon w-dropdown-toggle" @click="$dispatch('cartupdated.window')"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-3">
-                        <g fill="currentColor">
-                          <path d="M15.4065 6.512C15.2815 5.08 14.1045 4 12.6675 4H5.3335C3.8965 4 2.7185 5.08 2.5945 6.512L1.9425 14.012C1.8755 14.778 2.1355 15.542 2.6545 16.109C3.1735 16.676 3.9125 17.001 4.6815 17.001H13.3185C14.0875 17.001 14.8265 16.676 15.3455 16.109C15.8645 15.542 16.1245 14.778 16.0575 14.012L15.4055 6.512H15.4065Z" fill-opacity="0.4"></path>
-                          <path d="M7.5 3C7.5 2.17121 8.17121 1.5 9 1.5C9.82879 1.5 10.5 2.17121 10.5 3V4H12V3C12 1.34279 10.6572 0 9 0C7.34279 0 6 1.34279 6 3V4H7.5V3Z"></path>
+                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor">
+                          <path d="M6.75,4.75v-1.75c0-1.243,1.007-2.25,2.25-2.25h0c1.243,0,2.25,1.007,2.25,2.25v1.75"></path>
+                          <path d="M5.334,4.75h7.333c1.037,0,1.903,.793,1.992,1.827l.652,7.5c.102,1.169-.82,2.173-1.992,2.173H4.681c-1.173,0-2.094-1.005-1.992-2.173l.652-7.5c.09-1.034,.955-1.827,1.992-1.827Z"></path>
                         </g>
                       </svg>
                       {% if cart.items.size > 0 %}    <div li-if="cart.items.size > 0" class="nav_cart-quantity">
