@@ -2123,6 +2123,7 @@ figcaption {
   grid-row-gap: var(--_spacing---gap--4);
   border-radius: var(--border-radius--medium);
   background-color: var(--gray--1);
+  cursor: pointer;
   flex-direction: column;
   grid-template-rows: auto auto;
   grid-template-columns: 1fr;
@@ -4744,7 +4745,7 @@ figcaption {
 }
 
 .tag {
-  padding: var(--_spacing---space--2) var(--_spacing---space--3);
+  padding: var(--_spacing---space--2) var(--_spacing---space--2) var(--_spacing---space--2) var(--_spacing---space--3);
   grid-column-gap: var(--_spacing---gap--1);
   grid-row-gap: var(--_spacing---gap--1);
   border-radius: var(--border-radius--theme);
@@ -6466,7 +6467,11 @@ figcaption {
 }
 
 .product-hero_slider-lightbox {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  display: flex;
 }
 
 .product-hero_media {

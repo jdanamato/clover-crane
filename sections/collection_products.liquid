@@ -24,7 +24,7 @@
                         <div class="filter_list">
                           {% for filter_value in filter.values %}    <div li-for="filter_value in filter.values" class="filter_item">
                                     <label class="filter_option">
-                              <div class="filter_option-inner"><input type="checkbox" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" id="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}" class="checkbox-input" checked="{% if filter_value.active %}checked{% endif %}" disabled="{% if filter_value.count == 0 and filter_value.active != true %}disabled{% endif %}"><span li-object="filter_value.label" class="filter_option-label" for="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}">{{ filter_value.label }}</span></div>
+                              <div class="filter_option-inner"><input type="checkbox" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" id="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}" li-render-filter-count="{{ filter_value.count }}" class="checkbox-input"><span li-object="filter_value.label" class="filter_option-label" for="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}">{{ filter_value.label }}</span></div>
                               <div li-object="filter_value.count" class="filter_option-quantity">{{ filter_value.count }}</div>
                             </label>
                         </div>
@@ -83,8 +83,8 @@
                 <div><select id="sort-by" li-for:inside="option in collection.sort_options" li-render-filter="sort" class="select">
         {% for option in collection.sort_options %}                            
                     
-                            <option li-object:value="option.value" li-object="option.name" class="select_option" selected="{% if option.value == collection.sort_by %}selected{% endif %}" value="{{ option.value }}">{{ option.name }}</option>
-                            {{ option.name }}
+                            <option li-object:value="option.value" li-object="option.name" class="select_option" value="{{ option.value }}">{{ option.name }}</option>
+                            
                   
                     {% endfor %}    </select></div>
               </div>
