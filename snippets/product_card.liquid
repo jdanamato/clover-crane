@@ -1,6 +1,6 @@
 <div x-init="$nextTick(() => { activateVariants() })" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" data-w-id="2a986e5b-ab63-d97f-edf0-60281c72583c" class="product-card">
                         <div class="product-card_preview">
-                          <a li-object:href="product.url" aria-label="View {{ product.title }}" class="product-card_preview-link" href="{{ product.url }}"><img li-object:src="product.featured_image | image_url: width: 400, height: 400" li-object:alt="product.featured_image.alt" alt="{{ product.featured_image.alt }}" src="{{ product.featured_image | image_url: width: 400, height: 400 }}" loading="lazy" class="product-card_preview-image"></a>
+                          <a li-object:href="product.url" aria-label="View {{ product.title }}" class="product-card_preview-link" href="{{ product.url }}"><img li-object:src="product.featured_image | image_url: width: 800, height: 800" li-object:alt="product.featured_image.alt" alt="{{ product.featured_image.alt }}" src="{{ product.featured_image | image_url: width: 800, height: 800 }}" loading="lazy" class="product-card_preview-image"></a>
                           <div class="product-card_overlay">
                             <div class="product-card_overlay-top">
                               {% if product.selected_or_first_available_variant.available != true %}    <div li-if="product.selected_or_first_available_variant.available != true" class="product-card_banner">
@@ -28,17 +28,6 @@
                                 </div>
 {% endif %}
                           </div>
-                        </div>
-                        <script src="{{ 'li_custom.js' | asset_url }}" type="text/javascript"></script>
-<div li-element="product-variant-container" class="product-card_variants" x-data="handleVariant({{ product | json | escape }}, {{ product.options_by_name | json | escape }}, {{ product.selected_or_first_available_variant | json | escape }})" x-init="$nextTick(() => { activateVariants() })" @setbundleitem.window="updateBundleItem($event.detail.product, $event.detail.quantity)">
-                          <template x-for="(option, optionKey) in product.options" :key="optionKey">
-    <div li-element="product-options-loop" class="product-card_variants_list" data-ProductVariantsLoop="true">
-                            <template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
-    <div x-show="option && (option.toLowerCase() == 'color' || option.toLowerCase() == 'colour')" li-element="product-option-loop" class="product-card_variants_option">
-                              <div class="product-card_radio-group"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
-    <label li-element="product-option-loop" class="product-card_radio"><input li-element="product-option-input" type="radio" class="product-card_radio_input" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'"><span li-element="product-option-name" aria-hidden="true" class="product-card_radio_swatch" x-text="variantName" :for="variantName"></span><span li-element="product-option-name" aria-hidden="true" class="sr-only" x-text="variantName" :for="variantName"></span></label></template></div>
-                            </div></template>
-                          </div></template>
                         </div>
                         <div class="product-card_header">
                           <a li-object:href="product.url" class="product-card_text-link" href="{{ product.url }}">

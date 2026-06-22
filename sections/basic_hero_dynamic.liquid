@@ -7,10 +7,7 @@
                 </div>
 {% endif %}
           </div>
-        </div>
-        {% if collection.featured_image != blank %}    <div li-if="collection.featured_image != blank" class="basic-hero_media">
-    <img src="{{ collection.featured_image | image_url: width: 1024 | placeholder: 'detailed-apparel-1' }}" loading="lazy" li-object:src="collection.featured_image | image_url: width: 1024 | placeholder: 'detailed-apparel-1'" li-object:alt="collection.featured_image.alt" alt="{{ collection.featured_image.alt }}" class="basic-hero_image">    </div>
-{% endif %} {% schema %} {
+        </div> {% schema %} {
     "tag": "section",
     "name": "Basic Hero (Dynamic)",
     "class": "section cc-basic-hero",
