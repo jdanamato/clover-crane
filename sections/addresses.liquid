@@ -3,13 +3,17 @@
             {% for address in customer.addresses %}    <div li-for="address in customer.addresses" id="w-node-_4738fa7c-ef1a-4ec9-fab9-0ea101366939-0fde2d92" class="address_item">
                                     
               
-                            <div class="address_item_header">
-                {% if address == customer.default_address %}    <div li-if="address == customer.default_address">
+                            <div class="table_head">
+                <div class="table_header">
+                  {% if address == customer.default_address %}    <div li-if="address == customer.default_address">
     Main Address    </div>
 {% endif %}
-                {% if address != customer.default_address %}    <div li-if="address != customer.default_address">
+                </div>
+                <div class="table_header">
+                  {% if address != customer.default_address %}    <div li-if="address != customer.default_address">
     Other Address    </div>
 {% endif %}
+                </div>
               </div>
                             
               
