@@ -19,9 +19,9 @@
             
                         </div>
 {% endfor %}
-            <div class="w-embed">
+            <div class="hide w-embed">
               <style>
-  .promotion_list-item:empty {
+  .promotion_list-item:not(:has(.panel)) {
     display: none;
   }
 </style>

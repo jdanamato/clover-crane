@@ -1,145 +1,165 @@
 <div class="container-4">
           <div class="w-layout-vflex stack gap-8">
             <div class="account_grid">
-              <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d30393-36390284" class="table">
-                <div class="table_head">
-                  <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d30395-36390284" class="table_header-column">
-                    <div>Last Order</div>
+              <div id="w-node-_79c7b838-ec9d-fabe-67f5-0bc7f4cac41e-36390284" class="table_wrapper">
+                <div class="table">
+                  <div class="table_head">
+                    <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d30395-36390284" class="table_header">
+                      <div>Last Order</div>
+                    </div>
                   </div>
-                </div>
-                <div class="table_body">
-                  <div class="table_body_section">
-                    {% if customer.orders.size != 0 %}    <div li-if="customer.orders.size != 0" class="table_detail-list">
+                  <div class="table_body">
+                    <div class="w-layout-vflex stack p-6 gap-5">
+                      {% if customer.orders.size != 0 %}    <div li-if="customer.orders.size != 0" class="table_detail-list">
     
-                      <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d3039b-36390284" class="table_detail-item">
-                        <div class="table_detail-item_label">
-                          <div>Order <span li-object="customer.last_order.name">{{ customer.last_order.name }}</span></div>
+                        <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d3039b-36390284" class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Order <span li-object="customer.last_order.name">{{ customer.last_order.name }}</span></div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div li-object="customer.last_order.created_at | date: '%b %e, %Y'">{{ customer.last_order.created_at | date: '%b %e, %Y' }}</div>
+                          </div>
                         </div>
-                        <div class="table_detail-item_value">
-                          <div li-object="customer.last_order.created_at | date: '%b %e, %Y'">{{ customer.last_order.created_at | date: '%b %e, %Y' }}</div>
+                        <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303a2-36390284" class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Sum</div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div li-object="customer.last_order.total_price | money">{{ customer.last_order.total_price | money }}</div>
+                          </div>
                         </div>
+                        <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303a7-36390284" class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Payment Status</div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div li-object="customer.last_order.financial_status_label">{{ customer.last_order.financial_status_label }}</div>
+                          </div>
+                        </div>
+                        <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303ac-36390284" class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Delivery Status</div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div li-object="customer.last_order.fulfillment_status_label">{{ customer.last_order.fulfillment_status_label }}</div>
+                          </div>
+                        </div>
+                          </div>
+{% endif %}
+                      <div>
+                        <a href="{{ customer.last_order.customer_url }}" li-object:href="customer.last_order.customer_url" class="button cc-color-gray cc-gray-soft w-button">Show more</a>
                       </div>
-                      <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303a2-36390284" class="table_detail-item">
-                        <div class="table_detail-item_label">
-                          <div>Sum</div>
-                        </div>
-                        <div class="table_detail-item_value">
-                          <div li-object="customer.last_order.total_price | money">{{ customer.last_order.total_price | money }}</div>
-                        </div>
-                      </div>
-                      <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303a7-36390284" class="table_detail-item">
-                        <div class="table_detail-item_label">
-                          <div>Payment Status</div>
-                        </div>
-                        <div class="table_detail-item_value">
-                          <div li-object="customer.last_order.financial_status_label">{{ customer.last_order.financial_status_label }}</div>
-                        </div>
-                      </div>
-                      <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303ac-36390284" class="table_detail-item">
-                        <div class="table_detail-item_label">
-                          <div>Delivery Status</div>
-                        </div>
-                        <div class="table_detail-item_value">
-                          <div li-object="customer.last_order.fulfillment_status_label">{{ customer.last_order.fulfillment_status_label }}</div>
-                        </div>
-                      </div>
+                    </div>
+                    {% if customer.orders.size == 0 %}    <div li-if="customer.orders.size == 0" class="w-layout-vflex stack p-6 gap-5">
+    
+                      <div>No orders yet.</div>
+                      <a href="{{ routes.root_url }}" li-object:href="routes.root_url" class="button cc-size-4 w-button">Shop now</a>
                         </div>
 {% endif %}
-                    <a href="{{ customer.last_order.customer_url }}" li-object:href="customer.last_order.customer_url" class="button w-button">Show more</a>
                   </div>
-                  {% if customer.orders.size == 0 %}    <div li-if="customer.orders.size == 0" class="table_body_section">
-    
-                    <div>No orders yet.</div>
-                    <a href="{{ routes.root_url }}" li-object:href="routes.root_url" class="button cc-size-4 w-button">Shop now</a>
-                      </div>
-{% endif %}
                 </div>
               </div>
-              <div id="w-node-_27ba2d16-ad79-f4ef-0bf2-b9fe91d303b8-36390284" class="table">
-                <div class="table_head">
-                  <div id="w-node-_72de6a69-046d-a8f7-c273-e25787006764-36390284" class="table_header-column">
-                    <div item="total">Customer Information</div>
+              <div id="w-node-b6b9a7fa-9329-3b2d-35a6-81fce86614ea-36390284" class="table_wrapper">
+                <div class="table">
+                  <div class="table_head">
+                    <div id="w-node-_72de6a69-046d-a8f7-c273-e25787006764-36390284" class="table_header">
+                      <div item="total">Customer Information</div>
+                    </div>
                   </div>
-                </div>
-                <div class="table_body">
-                  <div class="w-layout-vflex table_detail-list">
-                    <div class="table_detail-item">
-                      <div class="table_detail-item_label">
-                        <div>Name</div>
-                      </div>
-                      <div class="table_detail-item_value">
-                        <div class="customer-name">
-                          <div li-object="customer.first_name">{{ customer.first_name }}</div>
-                          <div li-object="customer.last_name">{{ customer.last_name }}</div>
+                  <div class="table_body">
+                    <div class="w-layout-vflex stack p-6 gap-5">
+                      <div class="w-layout-vflex table_detail-list">
+                        <div class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Name</div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div class="customer-name">
+                              <div li-object="customer.first_name">{{ customer.first_name }}</div>
+                              <div li-object="customer.last_name">{{ customer.last_name }}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Email</div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div li-object="customer.email">{{ customer.email }}</div>
+                          </div>
+                        </div>
+                        <div class="table_detail-item">
+                          <div class="table_detail-item_label">
+                            <div>Address</div>
+                          </div>
+                          <div class="table_detail-item_value">
+                            <div li-object="customer.default_address | format_address">{{ customer.default_address | format_address }}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="table_detail-item">
-                      <div class="table_detail-item_label">
-                        <div>Email</div>
-                      </div>
-                      <div class="table_detail-item_value">
-                        <div li-object="customer.email">{{ customer.email }}</div>
-                      </div>
-                    </div>
-                    <div class="table_detail-item">
-                      <div class="table_detail-item_label">
-                        <div>Address</div>
-                      </div>
-                      <div class="table_detail-item_value">
-                        <div li-object="customer.default_address | format_address">{{ customer.default_address | format_address }}</div>
-                      </div>
+                      <a href="{{ routes.account_addresses_url }}" li-object:href="routes.account_addresses_url" class="button w-button">Add Address</a>
                     </div>
                   </div>
-                  <a href="{{ routes.account_addresses_url }}" li-object:href="routes.account_addresses_url" class="button w-button">Add Address</a>
                 </div>
               </div>
             </div>
-            {% if customer.orders.size != 0 %}    <div li-if="customer.orders.size != 0" id="w-node-_06cefac3-e314-5721-248c-8e0550f7c726-36390284" class="table">
+            <div id="w-node-b183cf9a-68ab-e1e7-514a-c2f6dd08f664-36390284" class="table_wrapper">
+              {% if customer.orders.size != 0 %}    <div li-if="customer.orders.size != 0" class="table">
     
-              <div class="table_head">
-                <div class="table_header-column">
-                  <div>Order No.</div>
+                <div class="table_head">
+                  <div class="table_header">
+                    <div>Order No.</div>
+                  </div>
+                  <div class="table_header">
+                    <div item="date">Order Date</div>
+                  </div>
+                  <div class="table_header">
+                    <div item="payment-status">Payment Status</div>
+                  </div>
+                  <div class="table_header">
+                    <div item="fulfillment-status">Delivery Status</div>
+                  </div>
+                  <div class="table_header">
+                    <div item="total">Total</div>
+                  </div>
                 </div>
-                <div class="table_header-column">
-                  <div item="date">Order Date</div>
-                </div>
-                <div class="table_header-column">
-                  <div item="payment-status">Payment Status</div>
-                </div>
-                <div class="table_header-column">
-                  <div item="fulfillment-status">Delivery Status</div>
-                </div>
-                <div class="table_header-column">
-                  <div item="total">Total</div>
-                </div>
-              </div>
-              <div class="table_body">
-                {% for order in customer.orders %}    <div li-for="order in customer.orders" class="table_row">
+                <div class="table_body">
+                  {% for order in customer.orders %}    <div li-for="order in customer.orders" class="table_row">
                                     
-                  
-                            <a li-object:href="order.customer_url" id="w-node-_06cefac3-e314-5721-248c-8e0550f7c739-36390284" href="{{ order.customer_url }}" class="text-link w-inline-block">
-                    <div li-object="order.name">{{ order.name }}</div>
-                  </a>
+                    
+                            <div id="w-node-_36b62f23-2468-d831-cf35-ea19fe98856c-36390284" class="table_cell">
+                      <a li-object:href="order.customer_url" href="{{ order.customer_url }}" class="text-link w-inline-block">
+                        <div li-object="order.name">{{ order.name }}</div>
+                      </a>
+                    </div>
+                            
+                    
+                            <div class="table_cell">
+                      <div li-object="order.created_at | date: '%b %e, %Y'">{{ order.created_at | date: '%b %e, %Y' }}</div>
+                    </div>
+                            
+                    
+                            <div id="w-node-fedd3e47-9811-1c82-e106-015ba956b702-36390284" class="table_cell">
+                      <div li-object="order.financial_status_label">{{ order.financial_status_label }}</div>
+                    </div>
+                            
+                    
+                            <div class="table_cell">
+                      <div li-object="order.fulfillment_status_label">{{ order.fulfillment_status_label }}</div>
+                    </div>
+                            
+                    
+                            <div class="table_cell">
+                      <div li-object="order.total_price | money">{{ order.total_price | money }}</div>
+                    </div>
                             
                   
-                            <div li-object="order.created_at | date: '%b %e, %Y'">{{ order.created_at | date: '%b %e, %Y' }}</div>
-                            
-                  
-                            <div li-object="order.financial_status_label" id="w-node-_06cefac3-e314-5721-248c-8e0550f7c73e-36390284">{{ order.financial_status_label }}</div>
-                            
-                  
-                            <div li-object="order.fulfillment_status_label">{{ order.fulfillment_status_label }}</div>
-                            
-                  
-                            <div li-object="order.total_price | money">{{ order.total_price | money }}</div>
-                            
-                
                         </div>
 {% endfor %}
-              </div>
                 </div>
+                  </div>
 {% endif %}
+            </div>
           </div>
         </div> {% schema %} {
     "tag": "section",

@@ -38,7 +38,11 @@
 {% endif %}
                             
                   
-                            <a li-object="link.title" li-unless="link.links.size > 0" li-object:href="link.url" href="{{ link.url }}" class="main-nav_link">{{ link.title }}</a>
+                            {% unless link.links.size > 0 %}    <div li-unless="link.links.size > 0">
+    
+                    <a li-object="link.title" li-object:href="link.url" href="{{ link.url }}" class="main-nav_link">{{ link.title }}</a>
+                      </div>
+{% endunless %}
                             
                 
                         </div>
@@ -262,12 +266,13 @@
     
         <div class="container-4">
           <div class="sub-nav_menu">
-            <div class="main-nav_menu_list">
-              {% for link.title %}    <a li-for="link in linklists['featured'].links" li-object:href="link.url" li-object="link.title" href="#" class="sub-nav_link">
-                                    Featured Link
-                        </a>
-{% endfor %}
-            </div>
+            <div li-for:inside="link in linklists['featured'].links" class="main-nav_menu_list">
+        {% for link in linklists['featured'].links %}                            
+              
+                            <a li-object="link.title" li-object:href="link.url" href="{{ link.url }}" class="sub-nav_link">{{ link.title }}</a>
+                            
+            
+                    {% endfor %}    </div>
           </div>
         </div>
           </div>
