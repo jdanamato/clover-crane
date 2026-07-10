@@ -1,0 +1,30 @@
+<div li-content-for-blocks="">
+{% for block in section.blocks %}
+{% case block.type %}
+{% when '@app' %}
+{% render block %}
+{% endcase %}
+{% endfor %}
+
+    </div> {% schema %} {
+    "tag": "div",
+    "name": "Contact Form",
+    "class": "section",
+    "blocks": [
+        {
+            "type": "@app"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Contact Form",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ],
+    "enabled_on": {
+        "templates": [
+            "page.contact"
+        ]
+    }
+} {% endschema %}

@@ -1,60 +1,88 @@
 <div class="container-4">
-          <div class="table_wrapper">
-            {% if customer.orders.size != 0 %}    <div li-if="customer.orders.size != 0" class="table">
-    
+          <div class="stack gap-8">
+            <div class="stack gap-3">
+              <h1 class="font-size-7">Order <span>#1001</span></h1>
+              <div><span>Jan 1, 2026</span></div>
+              <div>Payment: <span>Paid</span></div>
+              <div>Fulfillment: <span>Unfulfilled</span></div>
+            </div>
+            <div class="table_wrapper">
+              <div class="table">
+                <div class="table_head">
+                  <div class="table_header">
+                    <div>Item</div>
+                  </div>
+                  <div class="table_header">
+                    <div>Quantity</div>
+                  </div>
+                  <div class="table_header">
+                    <div>Price</div>
+                  </div>
+                </div>
+                <div class="table_body">
+                  <div class="table_row">
+                    <div class="table_cell">
+                      <div>Sample Product</div>
+                      <div>Variant</div>
+                    </div>
+                    <div class="table_cell">
+                      <div>1</div>
+                    </div>
+                    <div class="table_cell">
+                      <div>$25.00</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table">
               <div class="table_head">
                 <div class="table_header">
-                  <div>Order No.</div>
-                </div>
-                <div class="table_header">
-                  <div item="date">Order Date</div>
-                </div>
-                <div class="table_header">
-                  <div item="payment-status">Payment Status</div>
-                </div>
-                <div class="table_header">
-                  <div item="fulfillment-status">Delivery Status</div>
-                </div>
-                <div class="table_header">
-                  <div item="total">Total</div>
+                  <div>Shipping Address</div>
                 </div>
               </div>
               <div class="table_body">
-                {% for order in customer.orders %}    <div li-for="order in customer.orders" class="table_row">
-                                    
-                  
-                            <div id="w-node-_0668b138-7223-c296-4a5a-2c20a24c02ff-277abb16" class="table_cell">
-                    <a li-object:href="order.customer_url" href="{{ order.customer_url }}" class="text-link w-inline-block">
-                      <div li-object="order.name">{{ order.name }}</div>
-                    </a>
-                  </div>
-                            
-                  
-                            <div class="table_cell">
-                    <div li-object="order.created_at | date: '%b %e, %Y'">{{ order.created_at | date: '%b %e, %Y' }}</div>
-                  </div>
-                            
-                  
-                            <div id="w-node-_3efd502a-6067-bdea-d2aa-de149d6617a2-277abb16" class="table_cell">
-                    <div li-object="order.financial_status_label">{{ order.financial_status_label }}</div>
-                  </div>
-                            
-                  
-                            <div class="table_cell">
-                    <div li-object="order.fulfillment_status_label">{{ order.fulfillment_status_label }}</div>
-                  </div>
-                            
-                  
-                            <div class="table_cell">
-                    <div li-object="order.total_price | money">{{ order.total_price | money }}</div>
-                  </div>
-                            
-                
-                        </div>
-{% endfor %}
-              </div>
+                <div class="table_detail-list">
+                  <div>123 Main St</div>
                 </div>
-{% endif %}
+              </div>
+            </div>
+            <div class="table">
+              <div class="table_head">
+                <div class="table_header">
+                  <div>Order Summary</div>
+                </div>
+              </div>
+              <div class="table_body">
+                <div class="table_detail-list">
+                  <div class="table_detail-item">
+                    <div class="table_detail-item_label">
+                      <div>Subtotal</div>
+                    </div>
+                    <div class="table_detail-item_value">
+                      <div>$25.00</div>
+                    </div>
+                  </div>
+                  <div class="table_detail-item">
+                    <div class="table_detail-item_label">
+                      <div>Tax</div>
+                    </div>
+                    <div class="table_detail-item_value">
+                      <div>$2.00</div>
+                    </div>
+                  </div>
+                  <div class="table_detail-item">
+                    <div class="table_detail-item_label">
+                      <div>Total</div>
+                    </div>
+                    <div class="table_detail-item_value">
+                      <div>$27.00</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="#" class="button">Back to Account</a>
           </div>
         </div> {% schema %} {
     "tag": "section",
