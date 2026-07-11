@@ -20,7 +20,7 @@
                       {% for guide in shop.metaobjects.gift_guide.values %}    <div li-for="guide in shop.metaobjects.gift_guide.values" class="collection-slider_slide w-slide">
                                     
                         
-                            <a li-object:href="guide.system.url" href="{{ guide.system.url }}" class="card w-inline-block">
+                            <a li-object:href="guide.system.url" href="{{ guide.system.url }}" class="card cc-style-link p-4 w-inline-block">
                           <div class="card_body-wrap">
                             <div class="card_media"><img li-object:src="guide.featured_image | image_url: width: 800" li-object:alt="guide.featured_image.alt | default: guide.name" alt="{{ guide.featured_image.alt | default: guide.name }}" src="{{ guide.featured_image | image_url: width: 800 }}" loading="lazy" class="card_image"></div>
                             <div class="w-layout-hflex card_body">
@@ -54,7 +54,7 @@
                       {% for store in shop.metaobjects.store_portal.values %}    <div li-for="store in shop.metaobjects.store_portal.values" class="collection-slider_slide w-slide">
                                     
                         
-                            <a li-object:href="store.system.url" href="{{ store.system.url }}" class="card w-inline-block">
+                            <a li-object:href="store.system.url" href="{{ store.system.url }}" class="card cc-style-link p-4 w-inline-block">
                           <div class="card_body-wrap">
                             <div class="card_media"><img li-object:src="store.featured_image | image_url: width: 800" li-object:alt="store.featured_image.alt | default: store.name" alt="{{ store.featured_image.alt | default: store.name }}" src="{{ store.featured_image | image_url: width: 800 }}" loading="lazy" class="card_image"></div>
                             <div class="w-layout-hflex card_body">

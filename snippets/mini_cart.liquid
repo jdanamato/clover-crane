@@ -400,7 +400,7 @@
                     </div>
                     <nav li-element="mini-cart-container" class="nav_mini-cart_modal w-dropdown-list" :class="open || 'mini-cart-closed'">
                       <div li-element="dropdown-toggle" class="mini-cart_modal-bg" data-dropdowntoggle="" @click="LiquifyHelper.triggerClick($event.target.closest('.w-dropdown').querySelector('.w-dropdown-toggle.w--open'))"></div>
-                      <div class="mini-cart_panel">
+                      <div class="mini-cart_panel shadow-5">
                         <div li-element="mini-cart-full" class="mini-cart--full" :style="total.items < 1 && { display: 'none' }">
                           <div class="mini-cart_header">
                             <div class="font-size-7">Cart</div><button li-element="dropdown-toggle" aria-label="Close Cart" class="main-nav_link cc-icon" data-dropdowntoggle="" @click="LiquifyHelper.triggerClick($event.target.closest('.w-dropdown').querySelector('.w-dropdown-toggle.w--open'))">

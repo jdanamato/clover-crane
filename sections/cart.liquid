@@ -8,7 +8,7 @@
           {% if cart.item_count > 0 %}    <div li-if="cart.item_count > 0" class="cart_form w-form">
     
             {% form 'cart', cart, class: 'cart_layout' %}
-<div class="table">
+<div class="card px-6 pt-6">
                 {% for item in cart.items %}    <div li-for="item in cart.items" class="table_body">
                                     
                   
@@ -47,14 +47,12 @@
 {% endfor %}
               </div>
               <div class="cart_column">
-                <div class="table">
-                  <div class="table_head w-hidden-tiny">
-                    <div class="table_header-column">
-                      <div>Summary</div>
-                    </div>
+                <div class="card">
+                  <div class="card_header">
+                    <div>Summary</div>
                   </div>
-                  <div class="table_body">
-                    <div class="table_detail-list">
+                  <div class="w-layout-vflex stack p-4 gap-5">
+                    <div class="w-layout-vflex stack gap-3">
                       <div class="table_detail-item">
                         <div class="table_detail-item_label">
                           <div>Cart Total</div>
@@ -86,16 +84,14 @@
 {% endif %}
                       <div class="font-size-2 text-gray-1">Taxes and shipping calculated at checkout.</div>
                     </div>
-                    <div class="cart_summary_actions"><input type="submit" data-wait="Please wait..." class="button cc-accent-soft w-button" value="Update cart" name="update"><input type="submit" data-wait="Please wait..." class="button w-button" value="Checkout" name="checkout"></div>
+                    <div class="button-group justify-end"><input type="submit" data-wait="Please wait..." class="button cc-accent-soft w-button" value="Update cart" name="update"><input type="submit" data-wait="Please wait..." class="button w-button" value="Checkout" name="checkout"></div>
                   </div>
                 </div>
-                <div class="table">
-                  <div class="table_head w-hidden-tiny">
-                    <div class="table_header-column">
-                      <div>Comment</div>
-                    </div>
+                <div class="card">
+                  <div class="card_header">
+                    <div>Comment</div>
                   </div>
-                  <div class="table_body">
+                  <div class="stack p-4">
                     <div class="form_field-wrapper"><textarea class="input cc-text-area w-input" maxlength="5000" name="note" data-name="field" placeholder="Add details or instructions" id="CartNote"></textarea></div>
                   </div>
                 </div>
