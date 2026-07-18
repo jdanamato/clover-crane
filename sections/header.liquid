@@ -49,8 +49,13 @@
 {% endfor %}
               </nav>
               <div id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad49-5499ad08" data-w-id="60e9cace-1708-0579-02c3-a4cc5499ad49" class="nav_menu-button w-nav-button">
-                <div class="w-layout-hflex menu-wrap">
-                  <div data-is-ix2-target="1" class="menu-lottie" data-w-id="60e9cace-1708-0579-02c3-a4cc5499ad4d" data-animation-type="lottie" data-src="{{ 'menu.lottie' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-duration="0" data-loading="eager"></div>
+                <div class="w-layout-hflex menu-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-2">
+                    <g fill="currentColor">
+                      <path d="m15.75,9.75H2.25c-.4141,0-.75-.3359-.75-.75s.3359-.75.75-.75h13.5c.4141,0,.75.3359.75.75s-.3359.75-.75.75Z" stroke-width="0"></path>
+                      <path d="m15.75,5.5H2.25c-.4141,0-.75-.3359-.75-.75s.3359-.75.75-.75h13.5c.4141,0,.75.3359.75.75s-.3359.75-.75.75Z" stroke-width="0"></path>
+                      <path d="m15.75,14H2.25c-.4141,0-.75-.3359-.75-.75s.3359-.75.75-.75h13.5c.4141,0,.75.3359.75.75s-.3359.75-.75.75Z" stroke-width="0"></path>
+                    </g>
+                  </svg>
                   <div class="menu-label">Menu</div>
                 </div>
               </div>
@@ -64,7 +69,7 @@
             </div>
             <div id="w-node-_60e9cace-1708-0579-02c3-a4cc5499ad51-5499ad08" class="main-nav_section">
               <div class="nav_shop-icons">
-                <div class="main-nav_menu_list">
+                <div>
                   <div data-delay="0" data-hover="false" class="main-nav_dropdown w-dropdown">
                     <div class="main-nav_link cc-icon w-dropdown-toggle"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-3">
                         <g fill="currentColor">
@@ -265,15 +270,13 @@
       {% if linklists['featured'].links.size > 0 %}    <div li-if="linklists['featured'].links.size > 0" class="sub-nav">
     
         <div class="container-4">
-          <div class="sub-nav_menu">
-            <div li-for:inside="link in linklists['featured'].links" class="main-nav_menu_list">
+          <div li-for:inside="link in linklists['featured'].links" class="sub-nav_menu">
         {% for link in linklists['featured'].links %}                            
-              
+            
                             <a li-object="link.title" li-object:href="link.url" href="{{ link.url }}" class="sub-nav_link">{{ link.title }}</a>
                             
-            
+          
                     {% endfor %}    </div>
-          </div>
         </div>
           </div>
 {% endif %} {% schema %} {

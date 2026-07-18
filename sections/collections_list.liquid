@@ -4,7 +4,7 @@
               {% for collection in collections %}    <div li-for="collection in collections" role="listitem" class="w-dyn-item">
                                     
                 
-                            <a li-object:href="collection.url" href="{{ collection.url }}" class="card cc-style-link w-inline-block">
+                            <a li-object:href="collection.url" href="{{ collection.url }}" class="card cc-style-link p-4 w-inline-block">
                   <div class="card_body-wrap">
                     <div class="card_media"><img li-object:src="collection.featured_image | image_url: width: 800" src="{{ collection.featured_image | image_url: width: 800 }}" alt="" loading="lazy" class="card_image"></div>
                     <div class="w-layout-hflex card_body">
