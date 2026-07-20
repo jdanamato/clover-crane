@@ -1,28 +1,17 @@
-<div class="w-layout-vflex section-header_content">
-                {% for block in section.blocks %}
+<div class="w-layout-vflex section-header_content">{% for block in section.blocks %}
     {% if block.type == "kicker" %}
                     <div li-block="Kicker">
-                                    
-                  
                                     <div class="kicker">
 {{ block.settings.text_kicker }}
 </div>
-                                    
-                
                             </div>
             {% endif %}
-{% endfor %}
-                {% for block in section.blocks %}
+{% endfor %}{% for block in section.blocks %}
     {% if block.type == "headline" %}
                     <div li-block="Headline" class="section-header_title">
-                                    
-                  
                                     <h2 class="display-size-1">
 {{ block.settings.text_headline }}
 </h2>
-                                    
-                
                             </div>
             {% endif %}
-{% endfor %}
-              </div>
+{% endfor %}</div>
