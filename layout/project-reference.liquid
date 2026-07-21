@@ -1,0 +1,324 @@
+<!doctype html>
+# Project Reference
+ 
+> Last updated from conversation: June 2026
+> Webflow Site ID: `67f411d3c3263bd372264834`
+ 
+---
+ 
+## Tech Stack
+ 
+| Layer | Tool |
+|---|---|
+| Design | Webflow |
+| Shopify conversion | Liquiflow (formerly Liquify Pro) |
+| Storefront | Shopify |
+| Sliders | Swiper.js |
+| Reactive UI | Alpine.js |
+| Slider dots | Finsweet Attributes (`fs-sliderdots`) |
+| Product variants | Liquiflow native variant system |
+ 
+### Head Code (Webflow Custom Code)
+```html
+<!-- Alpine Focus Plugin -->
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+ 
+<!-- Alpine JS -->
+<script defer="defer" src="{{ 'alpinejs3.js' | asset_url }}"></script>
+ 
+<!-- Liquify Pro Core + Section Rendering API -->
+<script defer="defer" auto="" min="" src="https://cdn.jsdelivr.net/gh/liquify-pro/core@latest/script.js"></script>
+<script src="{{ 'section-rendering.js' | asset_url }}"></script>
+ 
+<!-- Finsweet Attributes -->
+<script async="" type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js" fs-sliderdots=""></script>
+ 
+<!-- Canonical URL -->
+<link href="{{ canonical_url }}" rel="canonical">
+```
+ 
+### Footer Code (Webflow Custom Code)
+- Contains Predictive Search custom element class via `li-snippet="search-javascript"`
+---
+ 
+## Pages — Audit Status
+ 
+| Page | Webflow Page ID | Status |
+|---|---|---|
+| Home | `67f411d4c3263bd372264873` | ✅ Audited & fixed |
+| Product | `67fddb816feafb02bf552a1e` | ✅ Audited & fixed |
+| Cart | `67fddf4914dab8b84e6850f3` | ✅ Audited & fixed |
+| Collection | `67fddc73525871656ed13dc0` | Not yet reviewed |
+ 
+---
+ 
+## Page-Level Liquiflow Patterns
+ 
+### Required on every page body
+```
+li-page       = [template name]   e.g. index, product, cart, collection
+li-layout     = theme
+```
+ 
+### Required on the main wrapper
+```
+li-content-for-layout = (empty value)
+```
+ 
+### Section pattern
+```
+li-section              = [Section Name]
+li-section:on_templates = [template name]   (restricts section to specific template)
+```
+ 
+---
+ 
+## Home Page (`li-page="index"`)
+ 
+### Sections
+| Section Name (`li-section`) | Purpose |
+|---|---|
+| `Promoted` | Collection cards gated by `collection.metafields.collection.promoted` |
+| `Hooper` | Tabbed sliders — Gift Guides + Find Your Store (metaobject-driven) |
+| `Inspiration` | Services and Occasions feature items (linklist-driven) |
+| `Team` | About/team section with static content |
+ 
+### Key Liquiflow Patterns
+ 
+**Promoted section — filtering by metafield:**
+```
+li-for  = collection in collections
+li-if   = collection.metafields.collection.promoted
+```
+> Namespace is `collection`, key is `promoted` — note this is a collection metafield, not `custom`.
+ 
+**Hooper section — metaobject sliders:**
+```
+li-for = guide in shop.metaobjects.gift_guide.values
+li-for = store in shop.metaobjects.store_portal.values
+```
+Metaobject fields accessed as:
+- `guide.name` / `store.name` — display name (custom field on metaobject)
+- `guide.featured_image | image_url: width: 400`
+- `guide.featured_image.alt | default: guide.name`
+- `guide.system.url` — storefront URL for metaobject entry
+**Inspiration section — linklist-driven:**
+```
+li-for = link in linklists['services'].links
+li-for = link in linklists['occasions'].links
+```
+- `link.object.title` — the linked resource's title
+- `link.object.description` — the linked collection's description (**only valid if linklist links point to collections**)
+- `li-block="Services CTA"` / `li-block="Occasions CTA"` — unique block names per section
+**Team section — static URLs:**
+```
+li-object:href = pages['about-us'].url     ← bracket notation required for hyphenated handles
+li-object:href = routes.contact_url
+```
+ 
+### Fixes Applied
+| Fix | Detail |
+|---|---|
+| Duplicate `li-block` names | `li-block="Button"` appeared twice in `li-section="Inspiration"`. Renamed to `"Services CTA"` and `"Occasions CTA"` |
+| Missing `li-layout` | Added `li-layout="theme"` to body element |
+ 
+---
+ 
+## Product Page (`li-page="product"`)
+ 
+### Sections
+| Section | Attribute |
+|---|---|
+| Product Hero | `li-section="Product Hero"` + `li-section:on_templates="product"` |
+| Recommended Products | `li-section="Recommended Products"` + `li-section:on_templates="product"` |
+ 
+### Key Liquiflow Patterns
+ 
+**Theme blocks container:**
+```
+li-content-for-theme-blocks = (empty value)
+```
+Applied to `product-hero_info` div — creates block file container for the section.
+ 
+**Media gallery (Swiper):**
+```
+li-for:inside = media in product.media
+```
+> `:inside` modifier renders the loop inside the element rather than wrapping it.
+```
+li-if = media.media_type == 'image'
+li-if = media.media_type == 'video'
+li-object:src = media | image_url: width: 1000, height: 1000
+li-object = media | video_tag: controls: true
+```
+ 
+**Product form:**
+```
+li-form       = product
+li-form:product = (empty value)   ← empty = use current page's product context
+```
+Converts to `{% form 'product', product %}` in Liquid.
+ 
+**Price display:**
+```
+li-object = product.price | money
+li-if     = product.compare_at_price > product.price
+li-object = product.compare_at_price | money
+```
+ 
+**Availability:**
+```
+li-if     = product.available      ← in-stock row
+li-unless = product.available      ← out-of-stock row
+```
+ 
+**Description:**
+```
+li-if     = product.description
+li-object = product.description
+```
+ 
+**FAQ Accordion blocks:**
+```
+li-block          = Accordion
+li-settings:text  = Heading
+li-settings:richtext = Content
+```
+> `li-settings:richtext` creates a formatted rich text field in the Theme Editor.
+ 
+**Recommended products (Section Rendering API — Alpha):**
+```
+li-render-recommended              = wrapper
+li-render-recommended-product      = {{ product.id }}
+li-render-recommended-path         = {{ routes.product_recommendations_url }}
+li-render-recommended-intent       = complementary
+li-render-recommended-limit        = 8
+li-render-recommended              = target
+li-for                             = product in recommendations.products
+```
+> Requires `section-rendering.js` in Shopify theme assets — already installed via head code.
+ 
+### Fixes Applied
+| Fix | Detail |
+|---|---|
+| Invalid `id` on accordion heading | Removed `id="accordion-heading-{{forloop.index}}"` — `forloop` is undefined outside a `li-for` loop |
+| `li-block` on Add to Cart | Removed `li-block="Add to Cart"` from form group — Add to Cart should always be visible, not togglable |
+ 
+---
+ 
+## Cart Page (`li-page="cart"`)
+ 
+### Section
+```
+li-section              = Cart
+li-section:on_templates = cart
+```
+ 
+### Key Liquiflow Patterns
+ 
+**Show/hide form vs empty state:**
+```
+li-if = cart.item_count > 0     ← wraps entire cart form
+li-if = cart.item_count == 0    ← wraps empty cart state
+```
+ 
+**Cart form:**
+```
+li-form      = cart
+li-form:cart = (empty value)
+```
+ 
+**Cart items loop:**
+```
+li-for = item in cart.items
+```
+ 
+**Item fields:**
+```
+li-object:href = item.url
+li-object:src  = item.image | image_url: width: 200
+li-object      = item.title           ← on link element (combined with li-object:href — valid)
+li-object      = item.variant.title
+li-object:href = item.url_to_remove
+```
+ 
+**Price display (correct pattern):**
+```
+[no li-if on outer wrapper]     ← always show final price
+  li-object = item.final_line_price | money
+ 
+[inner compare-at wrapper]
+  li-if     = item.original_line_price > item.final_line_price
+  li-object = item.original_line_price | money
+```
+> Outer wrapper must NOT have `li-if` — otherwise non-discounted items show no price.
+ 
+**Cart summary:**
+```
+li-object = cart.original_total_price | money   ← cart total before discounts
+li-if     = cart.total_discounts > 0            ← savings row
+li-object = cart.total_discounts | money        ← note: plural "discounts"
+li-object = cart.total_price | money            ← subtotal after discounts
+```
+ 
+**Cart form buttons:**
+```
+Update button:   li-attribute:name  = update
+                 li-attribute:value = Update cart
+ 
+Checkout button: li-attribute:name  = checkout
+                 li-attribute:value = Checkout
+```
+ 
+**Cart note:**
+```
+id                 = CartNote
+li-attribute:name  = note
+```
+ 
+**Empty cart CTA:**
+```
+li-object:href    = routes.root_url
+li-settings:text  = CTA Label
+```
+ 
+### Monogram Line Item Properties Display
+**Built** in `_sections/Cart.html`, inside `cart_item_head`, after the variant title:
+ 
+```
+Div [cart_item_properties]          ← no Liquiflow attribute
+  └── Div [property_row]            ← li-for="property in item.properties"
+        └── Div [property_content]  ← li-unless="property.last == blank or property.first contains '_'"
+              ├── Span              ← li-object="property.first"   (property name/label)
+              └── Span              ← li-object="property.last"    (property value)
+```
+ 
+> Properties prefixed with `_` are hidden from customers (internal/app use).
+> Properties with blank values are also suppressed.
+ 
+### Fixes Applied
+| Fix | Detail |
+|---|---|
+| No price for non-discounted items | Removed `li-if` from outer `cart_item-price` wrapper |
+| `cart.total_discount` typo | Fixed to `cart.total_discounts` (plural) |
+| Deprecated `img_url` filter | **Manual fix needed in Webflow**: change `item.image \| img_url: 'small'` to `item.image \| image_url: width: 200` on cart item thumbnail |
+| Update cart missing `name` | Added `li-attribute:name="update"` to Update cart button |
+
+---
+
+## Personalization Upcharge (Product Page → Cart)
+
+**Option A implemented** (per `docs/collections-architecture.md`): a separate "Monogramming Service" product/variant gets added to the cart alongside the main item, as its own line, when the customer opts into personalization.
+
+### How it works
+- `_sections/Product Hero.html` has a section setting **"Monogramming Service Variant ID"** (`li-settings:number`) — merchant enters the numeric variant ID of the Monogramming Service product here, per section instance (i.e. can differ per product if needed, though normally one variant covers all products).
+- On click of the Add to Cart button, a small script (separate from and non-interfering with Liquiflow's native `handleVariant` add-to-cart flow) checks whether the personalization checkbox is checked. If so, it fires an independent `POST /cart/add.js` for the configured service variant, carrying the same `properties[...]` (Monogram Style, Text Color, Placement, Monogram Text) as the main item.
+- The displayed price next to the checkbox now reads `product.metafields.custom.personalization_cost | money` (per-product, dynamic) instead of a hardcoded "$15".
+
+### Merchant setup required before this works
+1. Create a **"Monogramming Service"** product in Shopify Admin, priced at the personalization upcharge.
+2. Find its variant ID (Admin → Products → Monogramming Service → variant URL contains the numeric ID, or use the API).
+3. In the Theme Editor, open the Product Hero section settings and enter that ID into **"Monogramming Service Variant ID"**.
+4. Keep `product.metafields.custom.personalization_cost` in sync with that product's actual price per product — the displayed price and the charged price are two separate places right now (no Shopify Function enforcing they match, per the "no Shopify Plus required" constraint).
+
+If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) — the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.
