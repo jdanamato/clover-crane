@@ -17,6 +17,8 @@ store = "clover-crane-staging.myshopify.com"
 [environments.production]
 store = "clover-and-crane.myshopify.com"
 ```
+
+Staging storefront password (password-protected store, needed to view any page): `auyahn`
  
 ---
  
