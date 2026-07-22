@@ -203,9 +203,30 @@ li-for                             = product in recommendations.products
 |---|---|
 | Invalid `id` on accordion heading | Removed `id="accordion-heading-{{forloop.index}}"` — `forloop` is undefined outside a `li-for` loop |
 | `li-block` on Add to Cart | Removed `li-block="Add to Cart"` from form group — Add to Cart should always be visible, not togglable |
- 
+| Variant swatches always black | `ccSwatches` was built via `{% for %}`/`{% if %}` in a bare `x-data`, which the Builder can't compile — moved to `li-attribute:x-data`. See `/docs/liquiflow-rules-and-gotchas.md`. |
+| Swatch colors still not showing after the above | `product_option_value.swatch.color`/`.image` returns `nil` on this store despite the Color option being correctly linked to `shopify.color-pattern`. Switched to a direct `metaobjects['shopify--color-pattern'][handle]` lookup — see gotchas doc for the exact pattern. |
+| Personalization checkbox showed no checkmark | The visible `.checkbox-input` div never got Webflow's `w--redirected-checked` class (no native class markers to trigger it). Bound directly to Alpine: `x-bind:class="{ 'w--redirected-checked': personalization }"`. |
+| "Select style:"/"Placement:"/"Text color:" missing space after colon | Two adjacent `<span>`s with a literal space text node between them — the Builder strips whitespace-only text nodes on its own save cycle. Used ` ` instead. |
+| Style/Text-color pickers not hidden when merchant leaves the metafield blank | Added `li-if="product.metafields.custom.monogram_styles != blank"` / `..._text_colors != blank` wrappers, matching the pattern Placement already had. |
+| Style list stacked full-width instead of wrapping; Placement not a 3×3 grid | Both used bare `li-for` on the container div instead of `li-for:inside` — see gotchas doc. CSS (`.product_radio-list` flex-wrap, `.monogram_placement-grid`) was already correct. |
+| Style image showed broken-image icon when unset | Added `li-if="style.style_image"` on the `<img>`. |
+| No indication of current selection ("Select style: Default" never changed) | Added `selectedStyle`/`selectedPlacement`/`selectedColor` to the `#monogram` `x-data`, `x-model` + `type="radio"` on each option input (radios were missing `type="radio"` entirely — plain text inputs), and `x-text="selectedX || 'Not set'"` on each label. |
+| Text-color swatch label showed wrong/broken text | Its `<label>` had a leftover `x-init="optionValue = selected_or_first_available_variant..."` copy-pasted from the main Color variant swatch — those Alpine variables don't exist in this scope. Removed it. |
+| Duplicate `name` attribute on Placement input | Had both `name="Placement"` and `li-attribute:name="properties[Placement]"` on the same element (invalid HTML — undefined which wins). Kept only the dynamic one, matching the Style/Color inputs' plain `name="properties[...]"` convention. |
+
 ---
- 
+
+## Header (`_sections/Header.html`) — Mini Cart
+
+### Fixes Applied (2026-07-22)
+| Fix | Detail |
+|---|---|
+| Thumbnail link went nowhere useful | `li-js-object:href="item.title"` → should be `item.url` (was binding the href to the product title text, not a URL). |
+| Item title stopped updating | The title `<a>` combined `li-js-object:href="item.url"` **and** bare `li-js-object="item.title"` on one element — this native runtime only binds one `li-js-object` per element. Split into `</a><a li-js-object:href="item.url" x-bind:href="item.url"><span li-js-object="item.title" x-text="item.title">` to match the thumbnail's existing href/content-split pattern. |
+| Empty-cart panel never showed, even when cart was genuinely empty | `li-cloak="hide"` + a matching `[li-cloak_disabled="hide"]{display:none!important}` CSS rule is a **Builder-canvas-only** marker (per a comment in the official Liquiflow starter theme) that isn't stripped at Shopify publish, so it permanently overrides the Alpine `:style` binding Liquiflow injects for cart state. Confirmed as a **latent bug in the official starter theme itself** (same pattern present there), reported via `sendFeedback`. Switched to `x-cloak` (Alpine's own directive — removed after mount, so the `:style` binding takes over correctly afterward). See `/docs/liquiflow-rules-and-gotchas.md`.
+
+---
+
 ## Cart Page (`li-page="cart"`)
  
 ### Section
@@ -321,4 +342,4 @@ Div [cart_item_properties]          ← no Liquiflow attribute
 3. In the Theme Editor, open the Product Hero section settings and enter that ID into **"Monogramming Service Variant ID"**.
 4. Keep `product.metafields.custom.personalization_cost` in sync with that product's actual price per product — the displayed price and the charged price are two separate places right now (no Shopify Function enforcing they match, per the "no Shopify Plus required" constraint).
 
-If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) — the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.
+If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) — the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.</span></a></label></span>
