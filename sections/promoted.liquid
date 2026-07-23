@@ -8,8 +8,7 @@
                     
                     <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="panel_media w-inline-block"><img class="panel_image" src="{{ block.settings.collection.image | image_url: width: 1536 }}" alt="{{ block.settings.collection.title }}" sizes="(max-width: 1280px) 100vw, 1280px" li-object:src="block.settings.collection.image | image_url: width: 1536" loading="lazy" li-object:alt="block.settings.collection.title" srcset="{{ 'clover-crane-hero-placeholder-p-500.jpg' | asset_url }} 500w, {{ 'clover-crane-hero-placeholder-p-800.jpg' | asset_url }} 800w, {{ 'clover-crane-hero-placeholder-p-1080.jpg' | asset_url }} 1080w, {{ 'clover-crane-hero-placeholder.jpg' | asset_url }} 1280w"></a><div class="panel_action-group"><a li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6 w-inline-block"><div>Shop <span li-object="block.settings.collection.title">{{ block.settings.collection.title }}</span></div></a></div></div>
                 </div>{% when 'collection-slider' %}
-            <div li-block="Collection Slider" class="promotion_list-item{% if block.settings.half_width %} is-half{% endif %}">
-                    
+            <div li-block="Collection Slider" class="promotion_list-item">
                     <h2 class="font-size-5 font-weight-500">
 {{ block.settings.text_heading }}
 </h2>
@@ -51,16 +50,6 @@
             "name": "Collection Slider",
             "type": "collection-slider",
             "settings": [
-                {
-                    "type": "header",
-                    "content": "Slider"
-                },
-                {
-                    "type": "checkbox",
-                    "id": "half_width",
-                    "label": "Half width",
-                    "default": false
-                },
                 {
                     "id": "text_heading",
                     "type": "text",

@@ -1,0 +1,27 @@
+<div class="container-5"><div class="w-layout-vflex stack gap-8"><div class="tab_pane"><h2 class="font-size-5 font-weight-500">
+{{ section.settings.text_store_portal_heading }}
+</h2><div data-delay="4000" data-animation="slide" class="collection-slider w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="true" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true"><div class="collection-slider_mask w-slider-mask">{% for store in shop.metaobjects.store_portal.values %}    <div li-for="store in shop.metaobjects.store_portal.values" class="collection-slider_slide w-slide">
+                                    <a li-object:href="store.system.url" href="{{ store.system.url }}" class="card cc-style-link p-4 w-inline-block"><div class="card_body-wrap"><div class="card_media"><img li-object:src="store.featured_image | image_url: width: 800" li-object:alt="store.featured_image.alt | default: store.name" alt="{{ store.featured_image.alt | default: store.name }}" src="{{ store.featured_image | image_url: width: 800 }}" loading="lazy" class="card_image"></div><div class="w-layout-hflex card_body"><div class="card_text-group"><h3 li-object="store.name" class="card_title">{{ store.name }}</h3>{% if store.description %}    <p li-if="store.description != blank" li-object="store.description" class="text-gray-1">
+    Card description    </p>
+{% endif %}</div></div></div></a>
+                        </div>
+{% endfor %}</div><div class="collection-slider_arrow w-slider-arrow-left"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg></div><div class="collection-slider_arrow w-slider-arrow-right"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></div><div class="hide w-slider-nav"></div></div></div></div></div> {% schema %} {
+    "tag": "section",
+    "name": "Stores",
+    "class": "section",
+    "settings": [
+        {
+            "id": "text_store_portal_heading",
+            "type": "text",
+            "label": "Store Portal Heading",
+            "default": "Find Your Store"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Stores",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ]
+} {% endschema %}
