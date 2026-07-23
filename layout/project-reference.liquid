@@ -78,31 +78,42 @@ li-section:on_templates = [template name]   (restricts section to specific templ
 ### Sections
 | Section Name (`li-section`) | Purpose |
 |---|---|
-| `Promoted` | Collection cards gated by `collection.metafields.collection.promoted` |
-| `Hooper` | Tabbed sliders — Gift Guides + Find Your Store (metaobject-driven) |
-| `Inspiration` | Services and Occasions feature items (linklist-driven) |
+| `Promoted` | Mixed-block "featured home content" area — merchant freely adds/reorders any number of **Promoted Panel** (single collection card) and **Collection Slider** (product slider from a picked collection) blocks, each independently full- or half-width. Superseded the linklist version same day, see Key Liquiflow Patterns below. |
+| `Hooper` | Now just the standalone Find Your Store slider (metaobject-driven) — the old Gift Guides tab moved into `Promoted` as a Collection Slider block, changed 2026-07-24 |
 | `Team` | About/team section with static content |
+
+> **Note (2026-07-24):** an "Inspiration" section (services/occasions feature items, linklist-driven) was documented here previously but doesn't exist in the current `index.html` or `_sections/` — stale doc entry, removed. If services/occasions browsing is still wanted on Home, it needs to be (re)built.
  
 ### Key Liquiflow Patterns
  
-**Promoted section — filtering by metafield:**
+**Promoted section — mixed-block featured area, staging prototype (2026-07-24):**
 ```
-li-for  = collection in collections
-li-if   = collection.metafields.collection.promoted
+li-content-for-blocks                                  ← on .promotion_list-layout; lets merchants mix + reorder both block types below
+
+li-block            = Promoted Panel
+li-settings:custom  = Panel                             ← JSON array: {"type":"collection","id":"collection",...} + {"type":"checkbox","id":"half_width",...}
+li-object:href      = block.settings.collection.url
+li-object:src       = block.settings.collection.image | image_url: width: 1536
+li-object            = block.settings.collection.title
+
+li-block            = Collection Slider
+li-settings:custom  = Slider                            ← JSON: {"type":"checkbox","id":"half_width",...}
+li-settings:text     = Heading                          ← per-instance slider title, e.g. "Gift Guides", "Wedding Picks"
+li-settings:collection = Products                       ← merchant picks a collection; auto-loops its products as slides
+
+li-attribute:class  = promotion_list-item{% if block.settings.half_width %} is-half{% endif %}   ← on both block wrappers
 ```
-> Namespace is `collection`, key is `promoted` — note this is a collection metafield, not `custom`.
- 
-**Hooper section — metaobject sliders:**
+Superseded the `promoted`-linklist version (same day — see collections-architecture.md) after Joe asked for panels and sliders to live in one freely-arrangeable area with per-block full/half width control. Used `li-settings:custom` (raw Shopify schema JSON) instead of the native `li-settings:collection`/`li-settings:checkbox` convenience modifiers for **Promoted Panel**'s fields specifically — those modifiers auto-generate a `<modifier>_<handleized-label>` setting id (confirmed via docs: `li-settings:image="Image"` → `section.settings.image_image`), which isn't dot-notation-safe for hyphenated labels and isn't confirmed to give a plain single-collection reference outside the documented "product item" loop use case. Custom JSON sidesteps both problems with explicit, predictable `id`s. CSS: `.promotion_list-layout` changed from `flex-flow: column` to `row wrap`; `.promotion_list-item` is `width: 100%` by default, `.is-half` is `calc(50% - gap/2)` above 767px and forced back to full width below it (`css/clover-crane.webflow.css`).
+
+**⚠️ Not yet visually verified** — built and lint-clean (no `STANDALONE_CONFLICT` on `li-block` + `li-attribute:class` together), but the `li-settings:custom` collection-reference approach and the block-settings class toggle haven't been confirmed rendering correctly in the actual Builder canvas / Theme Editor preview yet. Check before treating this as done.
+
+**Hooper section — Find Your Store only (changed 2026-07-24):**
 ```
-li-for = guide in shop.metaobjects.gift_guide.values
 li-for = store in shop.metaobjects.store_portal.values
 ```
-Metaobject fields accessed as:
-- `guide.name` / `store.name` — display name (custom field on metaobject)
-- `guide.featured_image | image_url: width: 400`
-- `guide.featured_image.alt | default: guide.name`
-- `guide.system.url` — storefront URL for metaobject entry
-**Inspiration section — linklist-driven:**
+The old Gift Guides tab (fixed to `shop.metaobjects.gift_guide.values`) was replaced entirely — moved into `Promoted`'s "Collection Slider" block, above. Find Your Store is unchanged logic, just no longer in a tab; its card now also shows `store.description` when set (`store_portal`'s real field set — see `collections-architecture.md`, was previously documented wrong as just `name`+`featured_image`).
+
+**Inspiration section (not currently built, see note above) — linklist-driven, for reference:**
 ```
 li-for = link in linklists['services'].links
 li-for = link in linklists['occasions'].links
@@ -225,6 +236,11 @@ li-for                             = product in recommendations.products
 | Item title stopped updating | The title `<a>` combined `li-js-object:href="item.url"` **and** bare `li-js-object="item.title"` on one element — this native runtime only binds one `li-js-object` per element. Split into `</a><a li-js-object:href="item.url" x-bind:href="item.url"><span li-js-object="item.title" x-text="item.title">` to match the thumbnail's existing href/content-split pattern. |
 | Empty-cart panel never showed, even when cart was genuinely empty | `li-cloak="hide"` + a matching `[li-cloak_disabled="hide"]{display:none!important}` CSS rule is a **Builder-canvas-only** marker (per a comment in the official Liquiflow starter theme) that isn't stripped at Shopify publish, so it permanently overrides the Alpine `:style` binding Liquiflow injects for cart state. Confirmed as a **latent bug in the official starter theme itself** (same pattern present there), reported via `sendFeedback`. Switched to `x-cloak` (Alpine's own directive — removed after mount, so the `:style` binding takes over correctly afterward). See `/docs/liquiflow-rules-and-gotchas.md`.
 
+### Fixes Applied (2026-07-23)
+| Fix | Detail |
+|---|---|
+| Mini-cart item image/title/link possibly wrong or empty | The 2026-07-22 fix corrected which field to bind but not the root object: `li-js-object:href`/`li-js-object` used `item.url`/`item.title`, while the adjacent image/price bindings already used `product.*`. Checked live Liquiflow docs (Mini Cart page) — the documented object inside `li-element="mini-cart-item"` is `product` (`product.title`, `product.featured_image`, `product.vendor`, `product.price`), not `item`. Changed both `item.url`→`product.url` and `item.title`→`product.title`, and `product.image`→`product.featured_image` to match the documented field name exactly. `product.original_price` was left untouched (already `product.*`, undocumented but pre-existing, not part of this mismatch). |
+
 ---
 
 ## Cart Page (`li-page="cart"`)
@@ -337,9 +353,20 @@ Div [cart_item_properties]          ← no Liquiflow attribute
 - The displayed price next to the checkbox now reads `product.metafields.custom.personalization_cost | money` (per-product, dynamic) instead of a hardcoded "$15".
 
 ### Merchant setup required before this works
-1. Create a **"Monogramming Service"** product in Shopify Admin, priced at the personalization upcharge.
-2. Find its variant ID (Admin → Products → Monogramming Service → variant URL contains the numeric ID, or use the API).
-3. In the Theme Editor, open the Product Hero section settings and enter that ID into **"Monogramming Service Variant ID"**.
-4. Keep `product.metafields.custom.personalization_cost` in sync with that product's actual price per product — the displayed price and the charged price are two separate places right now (no Shopify Function enforcing they match, per the "no Shopify Plus required" constraint).
+1. ✅ **"Monogramming Service"** product created on production (2026-07-23) — `gid://shopify/Product/10144255508729`, status `DRAFT` (intentionally invisible on the current live spirit-wear storefront). **Price still $0.00 — needs the real personalization upcharge amount set before launch**, no figure was available at creation time.
+2. ✅ Variant ID: **`48705471414521`** — enter this into Product Hero's "Monogramming Service Variant ID" setting.
+3. ⬜ In the Theme Editor, open the Product Hero section settings and enter `48705471414521` into **"Monogramming Service Variant ID"** — not yet done, theme isn't pushed to production yet.
+4. ⬜ Keep `product.metafields.custom.personalization_cost` in sync with that product's actual price per product — the displayed price and the charged price are two separate places right now (no Shopify Function enforcing they match, per the "no Shopify Plus required" constraint). Also flip the product to `ACTIVE` + publish to Online Store before this feature needs to work for real customers.
 
-If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) — the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.</span></a></label></span>
+Also created 2026-07-23 (production, `custom` namespace, pinned): `monogramming_enabled` (boolean), `personalization_cost` (money), `delivery_time` (single line text). **Not yet created**: `monogram_styles`, `monogram_text_colors`, `monogram_placement` — all three are `list.metaobject_reference` fields and need their target metaobject definitions (`monogram_style`, `text_color`, `monogram_position`) created first.
+
+---
+
+## Footer (`_sections/Footer.html`)
+
+### Fixes Applied (2026-07-23)
+| Fix | Detail |
+|---|---|
+| Social icons hardcoded to exactly Facebook + Instagram, adding a platform needed a dev change | Was two separate `li-block`s (`"Facebook"`, `"Instagram"`) each with its own settings name and a hardcoded inline SVG icon. Merged into one repeatable `li-block="Social Link"` with `li-settings:url="URL"`, `li-settings:image="Icon"`, and a `li-settings:text="Platform Name"` (in a `.sr-only` span, for the accessible name). Merchants can now add/remove/reorder social links and swap platforms entirely from the Theme Editor's native block UI — no dev needed for a new platform. **One-time manual step needed**: upload real Facebook/Instagram icon images via Theme Editor — the two seeded blocks keep their correct URLs but show a placeholder icon until real icon assets are uploaded. |
+
+If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) — the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.</span></a></label></span></handleized-label></modifier>
