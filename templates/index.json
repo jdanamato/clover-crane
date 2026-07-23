@@ -16,7 +16,7 @@
           "type": "promoted-panel",
           "settings": {
             "collection": "gifts-for-him",
-            "half_width": false
+            "half_width": true
           }
         },
         "promoted_panel_EWe88h": {
