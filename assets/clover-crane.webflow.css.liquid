@@ -5878,24 +5878,27 @@ figcaption {
 }
 
 .promotion_list-layout {
+  grid-template-columns: repeat(2, 1fr);
   grid-column-gap: var(--gap-4);
   grid-row-gap: var(--gap-4);
-  flex-flow: row wrap;
-  display: flex;
-  gap: var(--gap-6);
+  display: grid;
 }
 
 .promotion_list-item {
-  width: 100%;
+  grid-column: 1 / -1;
 }
 
 .promotion_list-item.is-half {
-  width: calc(50% - (var(--gap-4) / 2));
+  grid-column: span 1;
 }
 
 @media (max-width: 767px) {
+  .promotion_list-layout {
+    grid-template-columns: 1fr;
+  }
+
   .promotion_list-item.is-half {
-    width: 100%;
+    grid-column: 1 / -1;
   }
 }
 
