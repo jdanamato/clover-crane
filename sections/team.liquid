@@ -8,9 +8,7 @@
  {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
 {% endif %}</div></div><div class="home-cta_content"><p class="text-gray-1">
 {{ section.settings.text_text }}
-</p><div class="button-group"><a li-object:href="pages['about-us'].url" href="{{ section.settings.href_pagesabout_usurl }}" class="button w-button" href="#">
-{{ section.settings.text_primary_label }}
-</a><a li-object:href="routes.contact_url" href="{{ section.settings.href_routescontact_url }}" class="button cc-accent-soft w-button" href="#">
+</p><div class="button-group"><a li-object:href="routes.contact_url" href="{{ section.settings.href_routescontact_url }}" class="button" href="#">
 {{ section.settings.text_secondary_label }}
 </a></div></div></div></div></div> {% schema %} {
     "tag": "section",
@@ -58,17 +56,6 @@
             "type": "text",
             "label": "Text",
             "default": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service."
-        },
-        {
-            "id": "href_pagesabout_usurl",
-            "type": "text",
-            "label": "pages['about-us'].url"
-        },
-        {
-            "id": "text_primary_label",
-            "type": "text",
-            "label": "Primary Label",
-            "default": "About us"
         },
         {
             "id": "href_routescontact_url",
