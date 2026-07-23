@@ -45,7 +45,7 @@ Powers `linklists['services']` on the home page.
  
 | Key | Type | Namespace | Purpose |
 | --- | --- | --- | --- |
-| `promoted` | Boolean | `collection` | Controls Promoted section on home page |
+| ~~`promoted`~~ | ~~Boolean~~ | ~~`collection`~~ | **Superseded 2026-07-24** — Promoted section is now driven by the `promoted` linklist (see Navigation Menus below), not this metafield. No longer needs to be created on any store; safe to ignore if it already exists on production/staging from before. |
 | `collection_axis` | Single-line text | `custom` | `product_type`, `occasion`, or `service` |
 | `featured_image_hover` | Image | `custom` | Secondary image for card hover states |
 | `short_description` | Multi-line text | `custom` | Short version for cards/sliders (full description used in Inspiration section) |
@@ -60,6 +60,8 @@ Powers `linklists['services']` on the home page.
 | Occasions | `occasions` | `linklists['occasions']` — Inspiration section |
 | Main Menu | `main-menu` | Header navigation |
 | Footer | `footer` | Footer navigation |
+| Featured | `featured` | `linklists['featured']` — Header sub-nav row, only shows if the menu has links ([Header.html](../_sections/Header.html)) |
+| ~~Promoted~~ | ~~`promoted`~~ | **Superseded same day (2026-07-24)** — Promoted.html was rebuilt again, same day, into a mixed-block section (`li-content-for-blocks` with "Promoted Panel" + "Collection Slider" block types, each with its own `li-settings:custom` collection picker). The menu-based version was a same-day stepping stone; the block-based version replaced it before ever reaching production. The `promoted` menu that was created on staging is now unused — harmless to leave, safe to delete. |
  
 > Each collection linked in `services` and `occasions` should have its **Description** filled in — this is what renders in the Inspiration section blurbs via `link.object.description`.
 >
@@ -128,12 +130,20 @@ This hides the entire section (label included) when no placement options are ass
 | `description` | Multi-line text | Optional |
 | `linked_collection` | Collection reference | Optional link target |
  
-### `store_portal` ✅ Already configured
- 
+### `store_portal` ✅ Already configured (as "B2B Store" on staging)
+
+**Correction (2026-07-24):** previously documented as just `name` + `featured_image` — that was stale/wrong. Real definition on staging (verified via Admin API), display name **"B2B Store"**:
+
 | Field Key | Type | Notes |
 | --- | --- | --- |
-| `name` | Single-line text | Store/location name |
+| `name` | Single-line text | Store/organization name |
+| `description` | Multi-line text | Short blurb — now shown on the Home page "Find Your Store" card |
+| `logo` | File reference | Not currently rendered on Home; available if needed |
 | `featured_image` | Image | Card thumbnail |
+| `featured_product` | Product reference | Not currently rendered on Home; available if needed |
+| `products` | List · product reference | Curated product list for this store/organization's portal — not rendered on Home (Home only shows the card), presumably used on a dedicated portal page |
+
+Confirmed sufficient as-is for "let customers find their org's dedicated portal without paying for Shopify B2B" (2026-07-24) — no schema changes needed. Production doesn't have this metaobject type at all yet (confirmed in the Production Store Audit, `site-transfer-reference.md`) — needs creating there with this same field set before launch.
  
 ### `monogram_style` ✅ Already configured
  
