@@ -1,52 +1,103 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-        "promoted": {
-            "type": "promoted"
+  "sections": {
+    "promoted": {
+      "type": "promoted",
+      "blocks": {
+        "promoted_panel_4NqGki": {
+          "type": "promoted-panel",
+          "settings": {
+            "collection": "apparel",
+            "half_width": false
+          }
         },
-        "hooper": {
-            "type": "hooper"
-        },
-        "inspiration": {
-            "type": "inspiration",
-            "blocks": {
-                "services-cta": {
-                    "type": "services-cta",
-                    "name": "Services CTA"
-                },
-                "occasions-cta": {
-                    "type": "occasions-cta",
-                    "name": "Occasions CTA"
-                }
-            },
-            "block_order": [
-                "services-cta",
-                "occasions-cta"
-            ]
-        },
-        "team": {
-            "type": "team",
-            "blocks": {
-                "kicker": {
-                    "type": "kicker",
-                    "name": "Kicker"
-                },
-                "headline": {
-                    "type": "headline",
-                    "name": "Headline"
-                }
-            },
-            "block_order": [
-                "kicker",
-                "headline"
-            ]
+        "promoted_panel_EWe88h": {
+          "type": "promoted-panel",
+          "settings": {
+            "collection": "gifts-for-her",
+            "half_width": true
+          }
         }
+      },
+      "block_order": [
+        "promoted_panel_4NqGki",
+        "promoted_panel_EWe88h"
+      ],
+      "settings": {}
     },
-    "layout": "theme",
-    "wrapper": "main.main-wrapper",
-    "order": [
-        "promoted",
-        "hooper",
-        "inspiration",
-        "team"
-    ]
+    "hooper": {
+      "type": "hooper",
+      "settings": {
+        "text_store_portal_heading": "Find Your Store"
+      }
+    },
+    "inspiration": {
+      "type": "inspiration",
+      "blocks": {
+        "services-cta": {
+          "type": "services-cta",
+          "name": "Services CTA",
+          "settings": {
+            "url_services_link": ""
+          }
+        },
+        "occasions-cta": {
+          "type": "occasions-cta",
+          "name": "Occasions CTA",
+          "settings": {
+            "url_occasions_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "services-cta",
+        "occasions-cta"
+      ],
+      "settings": {}
+    },
+    "team": {
+      "type": "team",
+      "blocks": {
+        "kicker": {
+          "type": "kicker",
+          "name": "Kicker",
+          "settings": {
+            "text_kicker": "About Clover and Crane"
+          }
+        },
+        "headline": {
+          "type": "headline",
+          "name": "Headline",
+          "settings": {
+            "text_headline": "Meet our creative team: <br>Kathi and Joani"
+          }
+        }
+      },
+      "block_order": [
+        "kicker",
+        "headline"
+      ],
+      "settings": {
+        "text_text": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service.",
+        "href_routescontact_url": "",
+        "text_secondary_label": "Let's talk"
+      }
+    }
+  },
+  "layout": "theme",
+  "wrapper": "main.main-wrapper",
+  "order": [
+    "promoted",
+    "hooper",
+    "inspiration",
+    "team"
+  ]
 }
