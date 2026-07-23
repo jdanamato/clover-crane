@@ -15,7 +15,7 @@
         "promoted_panel_4NqGki": {
           "type": "promoted-panel",
           "settings": {
-            "collection": "apparel",
+            "collection": "gifts-for-him",
             "half_width": false
           }
         },
@@ -25,11 +25,20 @@
             "collection": "gifts-for-her",
             "half_width": true
           }
+        },
+        "collection_slider_Hkr37j": {
+          "type": "collection-slider",
+          "settings": {
+            "text_heading": "{{ block.settings.collection_products.title }}",
+            "collection_products": "apparel",
+            "collection_products_limit": 6
+          }
         }
       },
       "block_order": [
         "promoted_panel_4NqGki",
-        "promoted_panel_EWe88h"
+        "promoted_panel_EWe88h",
+        "collection_slider_Hkr37j"
       ],
       "settings": {}
     },
