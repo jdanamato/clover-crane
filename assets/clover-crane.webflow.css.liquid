@@ -5829,9 +5829,9 @@ figcaption {
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr;
   grid-auto-columns: 1fr;
-  height: 24rem;
   display: flex;
   position: relative;
+  overflow: hidden;
 }
 
 .panel {
@@ -5882,6 +5882,8 @@ figcaption {
   grid-column-gap: var(--gap-4);
   grid-row-gap: var(--gap-4);
   display: grid;
+  gap: var(--gap-9);
+  column-gap: var(--gap-4);
 }
 
 .promotion_list-item {
@@ -5896,7 +5898,6 @@ figcaption {
   .promotion_list-layout {
     grid-template-columns: 1fr;
   }
-
   .promotion_list-item.is-half {
     grid-column: 1 / -1;
   }
@@ -8369,9 +8370,6 @@ figcaption {
   .gift-card_code {
     font-size: var(--font-size-5);
   }
-  .collection-slider {
-    height: 20rem;
-  }
   .panel_content {
     padding: var(--space-7);
     grid-column-gap: var(--gap-3);
@@ -8610,9 +8608,9 @@ figcaption {
   }
   .panel_action-group {
     flex-flow: wrap;
-    width: 100%;
-    position: relative;
     inset: auto 0% 0%;
+    left: 5%;
+    right: 5%;
   }
   .filter_option-label {
     font-size: var(--font-size-2);
