@@ -42,8 +42,8 @@
       ],
       "settings": {}
     },
-    "hooper": {
-      "type": "hooper",
+    "stores": {
+      "type": "stores",
       "settings": {
         "text_store_portal_heading": "Find Your Store"
       }
@@ -105,7 +105,7 @@
   "wrapper": "main.main-wrapper",
   "order": [
     "promoted",
-    "hooper",
+    "stores",
     "inspiration",
     "team"
   ]
