@@ -1,4 +1,4 @@
-<div class="container-4"><div class="gift-card_wrapper"><div class="gift-card"><img src="{{ shop.brand.logo }}" loading="lazy" li-object:src="shop.brand.logo" alt="" class="gift-card_logo"><div class="gift-card_text"><p li-object="gift_card.code" class="gift-card_code">{{ gift_card.code }}</p><p li-object="gift_card.balance | money" class="gift-card_amount">{{ gift_card.balance | money }}</p></div></div></div></div> {% schema %} {
+<div class="container-4"><div class="gift-card_wrapper"><div class="gift-card"><img src="{{ shop.brand.logo | image_url: width: 500 }}" loading="lazy" li-object:src="shop.brand.logo | image_url: width: 500" alt="" class="gift-card_logo"><div class="gift-card_text"><p li-object="gift_card.code" class="gift-card_code">{{ gift_card.code }}</p><p li-object="gift_card.balance | money" class="gift-card_amount">{{ gift_card.balance | money }}</p></div></div></div></div> {% schema %} {
     "tag": "section",
     "name": "Gift Card",
     "class": "section",

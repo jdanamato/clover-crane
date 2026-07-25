@@ -48,7 +48,16 @@
 | Home | `67f411d4c3263bd372264873` | ✅ Audited & fixed |
 | Product | `67fddb816feafb02bf552a1e` | ✅ Audited & fixed |
 | Cart | `67fddf4914dab8b84e6850f3` | ✅ Audited & fixed |
-| Collection | `67fddc73525871656ed13dc0` | Not yet reviewed |
+| Collection | `67fddc73525871656ed13dc0` | ✅ Audited & fixed (2026-07-24) |
+| Search | (no Webflow page component — `utility/search-page.html` only) | ✅ Audited & fixed (2026-07-24) |
+| Contact | — | ✅ Audited (2026-07-24) — `Contact Form.html` is empty, needs building, see below |
+| Gift Card | — | ✅ Audited & fixed (2026-07-24) |
+| List Collections | — | ✅ Audited & fixed (2026-07-24) |
+| 404 | — | ✅ Audited, clean (2026-07-24) |
+| Blog | — | ✅ Audited & fixed (2026-07-24) |
+| Blog Article | — | ✅ Audited, clean (2026-07-24) |
+| Password | `67fdd819de2f08848036575b` | ✅ Audited & fixed (2026-07-24) — see below |
+| `other/elements.html`, `other/style.html` | — | N/A — Webflow internal style-guide pages, no `li-section` usage, not real site pages |
  
 ---
  
@@ -258,6 +267,72 @@ li-for                             = product in recommendations.products
 
 ---
 
+## Collection Page (`li-page="collection"`)
+
+### Sections
+| Section | Attribute |
+|---|---|
+| Basic Hero (Dynamic) | `li-section="Basic Hero (Dynamic)"` &mdash; title/description hero, clean, no issues found |
+| Collection Products | `li-section="Collection Products"` + `li-section:on_templates="collection"` &mdash; filter sidebar, product grid, pagination |
+
+### Key Liquiflow Patterns
+
+**Product card, reused via `li-snippet` (also called from `_sections/Promoted.html`'s home-page Collection Slider &mdash; see Home Page section):**
+```
+li-snippet          = product-card
+li-snippet:product  = product
+```
+> Both call sites must stay byte-identical &mdash; `li-snippet` dedupes by name, not by call site.
+
+**AJAX collection filtering (Section Rendering API &mdash; Alpha):**
+```
+li-render-filter = wrapper        &larr; on the container wrapping filters + product list
+li-render-filter = filter         &larr; on each filter checkbox/radio
+li-render-filter-value = {{ filter_value.value }}
+li-render-filter-name  = {{ filter_value.param_name }}
+li-render-filter = filter-remove  &larr; on the "remove this filter" tag
+li-render-filter-value = {{ filter_value.url_to_remove }}
+li-render-filter = sort           &larr; on the sort <select>
+li-render-filter = clear-all      &larr; on the "clear all filters" button
+```
+> `li-render-filter-value`/`li-render-filter-name` are dedicated attributes the filter JS reads &mdash; **not** `li-attribute:value`/`li-attribute:name`. See Fixes Applied below; also flags a linter false positive, see `/CLAUDE.md` &rarr; Key Learnings.
+
+### Fixes Applied (2026-07-24 audit)
+| Fix | Detail |
+|---|---|
+| Filter checkboxes silently did nothing | Used `li-attribute:value`/`li-attribute:name` instead of the documented `li-render-filter-value`/`li-render-filter-name`. The AJAX filter script reads the latter specifically &mdash; the checkboxes weren't wired to it at all. Fixed both, and the "remove filter" tag's `li-attribute:href` &rarr; `li-render-filter-value` the same way. |
+| Filter checkbox `id` didn't match its label's `for` | `id` was a bare, unwrapped attribute embedding `{{ }}` (`id="filter-{{ ... }}"`) &mdash; the Builder can't compile Liquid in a bare attribute, so it rendered literally and never matched the label's already-correct `li-attribute:for`. Fixed to `li-attribute:id`. |
+| Variant data possibly not reaching `handleVariant()` on product cards | Same bare-attribute-with-embedded-Liquid bug as the Product Hero `ccSwatches` incident &mdash; `x-data="handleVariant({{ product \| json \| escape }}, ...)"` was a plain attribute, not `li-attribute:x-data`. Fixed. |
+| Product card preview link's accessible name rendered literally as `View {{ product.title }}` | Same bug, on a bare `aria-label`. Fixed to `li-attribute:aria-label`. |
+| Linter false positive on the filter attribute fix above | See `/CLAUDE.md` Key Learnings &mdash; `li-render-filter`/`li-render-filter-value`/`li-render-filter-name` on one element trips `STANDALONE_CONFLICT`, but is the documented required pattern. Do not revert. |
+
+Minor/not fixed: pagination's "Previous" button has a stray bare `id` attribute with no value (Webflow export debris, cosmetic, harmless).
+
+---
+
+## Search Page (`utility/search-page.html` &mdash; no dedicated `li-page`, uses `_sections/Search.html`)
+
+### Sections
+| Section | Attribute |
+|---|---|
+| Search | `li-section:on_templates="search"` `li-section="Search"` &mdash; near-identical structure to Collection Products, `search.*` instead of `collection.*` |
+| predictive_search | `li-section="predictive_search"` &mdash; nested inside `_sections/Header.html`'s search dropdown, embedded sitewide on every page, not search-page-specific |
+
+### Fixes Applied (2026-07-24 audit)
+Same bug class as Collection Products (this section was evidently copy-pasted from it) &mdash; see Collection Page section above for the general explanation of each:
+| Fix | Detail |
+|---|---|
+| Filter checkboxes / remove-filter tag wired wrong | Same `li-attribute:value`/`li-attribute:name`/`li-attribute:href` &rarr; `li-render-filter-value`/`li-render-filter-name` fix as Collection Products. |
+| Filter checkbox `id` bare, not `li-attribute:id` | Fixed &mdash; this copy had the *fully* bare version (Collection Products' had already been through one round of fixing that left it as `li-attribute:id` but still on the wrong value/name attrs). |
+| Bare `x-data="handleVariant(...)"` / `aria-label="View {{ product.title }}"` on product card | Same fix as Collection Products &rarr; `li-attribute:`. |
+| "Showing X products" rendered with a double space | `search.results_count \| append: ' '` &mdash; the literal ` products` text after the span already has its own leading space; the filter added a redundant second one. Removed the `append` filter. |
+| `predictive_search.html` used `product.featured_media` for the image `src` but `product.featured_image.alt` for the `alt` &mdash; inconsistent, and unlike every other product-thumbnail spot in the project | Changed `src` to also use `product.featured_image`, matching the established convention (Cart, mini-cart, product cards all use `featured_image`). This section is nested in Header, so it's embedded on every single page &mdash; fixed in all 17 files that carry a copy, same fan-out pattern as the Header logo fix. |
+| Sort dropdown didn't use the AJAX filter system | Was a hand-rolled script doing a full `location.search` page reload, unlike Collection Products' instant `li-render-filter="sort"`. Confirmed intentional to match Collection (search is meant to use the Section Rendering API too) &mdash; added `li-render-filter="sort"` and removed the now-redundant reload script, matching Collection Products exactly. |
+
+**Product-card title heading level, resolved:** all four `li-snippet="product-card"` call sites (Collection Products, Promoted, Search, Recommended Products) previously disagreed (`h2` vs `h3`) &mdash; standardized on `<h3>` per Joe's call (2026-07-24). Known tradeoff: on Search and Collection pages the page's own `<h1>` now jumps straight to the card `<h3>`s with no `<h2>` in between &mdash; flagged by the linter as `HEADING_ORDER`, real (not a false positive), accepted as-is.
+
+---
+
 ## Header (`_sections/Header.html`) &mdash; Mini Cart
 
 ### Fixes Applied (2026-07-22)
@@ -400,4 +475,38 @@ Also created 2026-07-23 (production, `custom` namespace, pinned): `monogramming_
 |---|---|
 | Social icons hardcoded to exactly Facebook + Instagram, adding a platform needed a dev change | Was two separate `li-block`s (`"Facebook"`, `"Instagram"`) each with its own settings name and a hardcoded inline SVG icon. Merged into one repeatable `li-block="Social Link"` with `li-settings:url="URL"`, `li-settings:image="Icon"`, and a `li-settings:text="Platform Name"` (in a `.sr-only` span, for the accessible name). Merchants can now add/remove/reorder social links and swap platforms entirely from the Theme Editor's native block UI &mdash; no dev needed for a new platform. **One-time manual step needed**: upload real Facebook/Instagram icon images via Theme Editor &mdash; the two seeded blocks keep their correct URLs but show a placeholder icon until real icon assets are uploaded. |
 
-If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) &mdash; the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.</script></handleized-label></modifier>
+---
+
+## Contact / Gift Card / List Collections / 404 / Blog / Blog Article &mdash; audit (2026-07-24)
+
+### Sections & Status
+| Section | Page(s) | Status |
+|---|---|---|
+| `Basic Hero (Static)` | Contact, List Collections | Clean &mdash; `li-if="section.settings.page_description != blank"` correctly matches `li-settings:text="Page Description"`'s auto-generated id (label &rarr; snake_case, confirmed via live docs' Custom Settings example: "Font size" &rarr; `font_size`) |
+| `Contact Form` | Contact | **Empty** &mdash; just `<div li-content-for-blocks>`, no `<form>`, no fields, no submit. Intentional per Joe (2026-07-24): the plan is to use the Shopify Forms app so the merchant can edit it themselves &mdash; the empty `li-content-for-blocks` container is exactly the shape a Forms app block needs to slot into via Theme Editor. Nothing to build in code. **Dependency**: Forms app is installed on staging but not production yet &mdash; tracked in `site-transfer-reference.md`'s "What Doesn't Transfer Automatically" table. |
+| `Gift Card` | Gift Card | Fixed &mdash; logo `li-object:src="shop.brand.logo"` had no `image_url` filter, unlike every other image binding project-wide. Added `\| image_url: width: 500`. |
+| `Collections List` | List Collections | Fixed &mdash; `li-for="collection in collections"` had no wrapping `li-paginate`, so `paginate` was never established; the `li-if="paginate.pages > 1"` nav silently never rendered and the grid had no page limit. Added `li-paginate="collections" li-paginate:by="50"` on the wrapping `.w-dyn-list` div, mirroring Collection Products' exact (confirmed-working) structure. |
+| `404` | 404 | Clean. |
+| `Blog Hero` | Blog | Clean. |
+| `Blog Articles` | Blog | Fixed (2026-07-24) &mdash; had no pagination at all (no `li-paginate`, no nav markup). Added `li-paginate="blog.articles" li-paginate:by="50"` on the wrapping `.w-dyn-list` div and the same `li-snippet="pagination"` nav reused byte-identical from Collections List. Propagated to `blogs/blog.html`. |
+| `Article Hero` | Blog Article | Clean. |
+| `Article Content` | Blog Article | Clean &mdash; the large Lorem-ipsum "Rich Text element" block inside `li-object="article.content"` is just Webflow's default canvas placeholder; `li-object` replaces it with the real article content at compile time, same as every other `li-object` placeholder in the project. Not a bug. |
+
+Both propagated fixes (Gift Card, Collections List) applied to canonical section + their single page instance (`shop/gift-card.html`, `shop/list-collections.html`).
+
+If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) &mdash; the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.
+
+---
+
+## Password Page (`utility/password.html`, Webflow page ID `67fdd819de2f08848036575b`)
+
+### Fixes Applied (2026-07-24)
+Checked the live Webflow Designer page via MCP (`data_element_tool` &rarr; `get_all_elements` on the page ID above) against what was actually wired locally &mdash; found the local page was seriously out of date.
+
+| Fix | Detail |
+|---|---|
+| Password page was rendering the wrong content entirely | `utility/password.html` still used `Basic Hero (Static)` + the empty `Contact Form` section (leftover, looks copy-pasted from the Contact page early on) instead of the real password gate. `_sections/Password.html` already existed locally and matched Webflow's current design byte-for-byte (`li-form="storefront_password"`, same classes/fields) &mdash; it just was never wired into the page. Swapped the page's content to use it. |
+| Missing `li-page="password"` | Every other page (Cart, 404, Search, etc.) has `li-page="<template>"` on `<body>`; this one didn't. Added it. |
+| Same gap found on Contact page in passing | `pages/contact.html`'s `<body>` also had no `li-page`. Added &mdash; first tried `li-page="page.contact"` (matching the section's `li-section:on_templates="page.contact"`), but the linter flagged `INVALID_ENUM`: `li-page` only accepts a fixed list (`product`, `collection`, `cart`, `index`, `page`, `blog`, `article`, `password`, etc.) &mdash; the dotted `page.<suffix>` form belongs to `li-section:on_templates`, a different attribute. Corrected to `li-page="page"`, matching `pages/page.html`'s existing (already-correct) pattern. |
+
+**Open item, not resolved:** `_layouts/password.html` looks like an orphaned leftover &mdash; every real page, including the fixed password page, uses `li-layout="theme"`, not a dedicated password layout. Not deleted without confirming it's actually dead first (per the stale-file caution already logged in `/docs/liquiflow-rules-and-gotchas.md`).</script></handleized-label></modifier>

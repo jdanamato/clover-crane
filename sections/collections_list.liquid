@@ -1,8 +1,9 @@
-<div class="container-3"><div class="w-dyn-list"><div role="list" class="collection-list w-dyn-items">{% for collection in collections %}    <div li-for="collection in collections" role="listitem" class="w-dyn-item">
+<div class="container-3">{% paginate collections by 50 %}
+    <div li-paginate="collections" li-paginate:by="50" class="w-dyn-list" by="50"><div role="list" class="collection-list w-dyn-items">{% for collection in collections %}    <div li-for="collection in collections" role="listitem" class="w-dyn-item">
                                     <a li-object:href="collection.url" href="{{ collection.url }}" class="card cc-style-link p-4 w-inline-block"><div class="card_body-wrap"><div class="card_media"><img li-object:src="collection.featured_image | image_url: width: 800" src="{{ collection.featured_image | image_url: width: 800 }}" alt="" loading="lazy" class="card_image"></div><div class="w-layout-hflex card_body"><div class="card_text-group"><h2 li-object="collection.title" class="card_title">{{ collection.title }}</h2></div></div></div></a>
                         </div>
-{% endfor %}</div><div class="hide w-dyn-empty"><div>No items found.</div></div></div>{% if paginate.pages > 1 %}    <div li-if="paginate.pages > 1">
-    <div li-component="Pagination">{% render 'pagination' %}</div>    </div>
+{% endfor %}</div><div class="hide w-dyn-empty"><div>No items found.</div></div></div>{% endpaginate %}{% if paginate.pages > 1 %}    <div li-if="paginate.pages > 1">
+    {% render 'pagination' %}    </div>
 {% endif %}</div> {% schema %} {
     "tag": "section",
     "name": "Collections List",
