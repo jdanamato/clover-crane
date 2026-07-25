@@ -1,6 +1,6 @@
 <div class="container-5"><div class="w-layout-vflex stack gap-8"><div class="tab_pane"><h2 class="font-size-5 font-weight-500">
 {{ section.settings.text_store_portal_heading }}
-</h2><div class="swiper collection-slider cc-store-slider"><div class="swiper-wrapper">{% for store in shop.metaobjects.store_portal.values %}    <div li-for="store in shop.metaobjects.store_portal.values" class="swiper-slide collection-slider_slide">
+</h2><div class="swiper collection-slider cc-store-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for store in shop.metaobjects.store_portal.values %}    <div li-for="store in shop.metaobjects.store_portal.values" class="swiper-slide collection-slider_slide">
                                     <a li-object:href="store.system.url" href="{{ store.system.url }}" class="card cc-style-link p-4 w-inline-block"><div class="card_body-wrap"><div class="card_media"><img li-object:src="store.featured_image | image_url: width: 800" li-object:alt="store.featured_image.alt | default: store.name" alt="{{ store.featured_image.alt | default: store.name }}" src="{{ store.featured_image | image_url: width: 800 }}" loading="lazy" class="card_image"></div><div class="w-layout-hflex card_body"><div class="card_text-group"><h3 li-object="store.name" class="card_title">{{ store.name }}</h3>{% if store.description %}    <p li-if="store.description != blank" li-object="store.description" class="text-gray-1">
     Card description    </p>
 {% endif %}</div></div></div></a>

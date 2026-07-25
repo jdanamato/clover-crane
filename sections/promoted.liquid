@@ -6,7 +6,7 @@
 {% when 'promoted-panel' %}
             <div li-block="Promoted Panel" class="promotion_list-item{% if block.settings.half_width %} is-half{% endif %}">
                     
-                    <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="panel_media w-inline-block">{% if block.settings.video == blank %}    <img li-if="block.settings.video == blank" class="panel_image" src="block.settings.collection.image | image_url: width: 1536" alt="block.settings.collection.title" li-object:src="block.settings.collection.image | image_url: width: 1536" loading="lazy" li-object:alt="block.settings.collection.title">
+                    <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="panel_media w-inline-block">{% if block.settings.video == blank %}    <div li-if="block.settings.video == blank"><img class="panel_image" alt="{{ block.settings.collection.title }}" src="{{ block.settings.collection.image | image_url: width: 1536 }}" loading="lazy"></div>
 {% endif %}{% if block.settings.video != blank %}    <div li-if="block.settings.video != blank" class="panel_video-wrapper">
     <div li-object="block.settings.video | video_tag: controls: false, autoplay: true, loop: true, muted: true, class: 'panel_image'">{{ block.settings.video | video_tag: controls: false, autoplay: true, loop: true, muted: true, class: 'panel_image' }}</div>    </div>
 {% endif %}</a><div class="panel_action-group"><a li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6"><div>Shop <span li-object="block.settings.collection.title">{{ block.settings.collection.title }}</span></div></a></div></div>
@@ -15,7 +15,7 @@
                     <h2 class="font-size-5 font-weight-500">
 {{ block.settings.text_heading }}
 </h2>
-                    <div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper">{% for product in block.settings.collection_products.products limit: block.settings.collection_products_limit %}
+                    <div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for product in block.settings.collection_products.products limit: block.settings.collection_products_limit %}
 <div class="swiper-slide collection-slider_slide">
     {% render 'product_card', product: product %}
 </div>
