@@ -72,6 +72,7 @@ These live in the Shopify store, not the theme files. They need to exist on C&C'
 | Product metafield definitions | C&C Admin → Settings → Custom data → Products |
 | Which collections show in the Promoted section, and in what order | `promoted` menu links, C&C Admin → Content → Navigation (not a per-collection flag anymore) |
 | `section-rendering.js` | Upload to C&C Admin → Online Store → Themes → Assets |
+| Shopify Forms app (powers the Contact Form section's app block — `_sections/Contact Form.html`, used on Contact + Password pages) | Installed on staging (2026-07-24), **not installed on production yet** — install via C&C Admin → Apps before launch, then add the form block through the Theme Editor on both pages |
  
 ---
  
