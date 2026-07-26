@@ -1,4 +1,4 @@
-<div class="container-4"><div class="product-hero_layout"><div class="product-hero_media"><div class="swiper-container"><div class="swiper cc-product-hero_slider"><div id="product-hero-slider" li-for:inside="media in product.media" class="swiper-wrapper">
+<div class="container-4"><div class="product-hero_layout"><div class="product-hero_media"><div class="swiper-container"><div class="swiper cc-product-hero_slider"><div id="product-hero-slider" li-for:inside="media in product.media" class="swiper-wrapper cc-product-hero_slider">
         {% for media in product.media %}                            {% if media.media_type == 'image' %}    <div li-if="media.media_type == 'image'" class="swiper-slide cc-product-hero_slider">
     <div class="product-hero_slider-lightbox"><img width="1000" height="1000" alt="{{ media.alt }}" src="{{ media | image_url: width: 1000, height: 1000 }}" loading="lazy" li-object:alt="media.alt" li-object:src="media | image_url: width: 1000, height: 1000" class="product-hero_slider-media"></div>    </div>
 {% endif %}
