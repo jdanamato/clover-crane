@@ -45,32 +45,8 @@
     "stores": {
       "type": "stores",
       "settings": {
-        "text_store_portal_heading": "Find Your Store"
+        "text_store_heading": "Find your store"
       }
-    },
-    "inspiration": {
-      "type": "inspiration",
-      "blocks": {
-        "services-cta": {
-          "type": "services-cta",
-          "name": "Services CTA",
-          "settings": {
-            "url_services_link": ""
-          }
-        },
-        "occasions-cta": {
-          "type": "occasions-cta",
-          "name": "Occasions CTA",
-          "settings": {
-            "url_occasions_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "services-cta",
-        "occasions-cta"
-      ],
-      "settings": {}
     },
     "team": {
       "type": "team",
@@ -106,7 +82,6 @@
   "order": [
     "promoted",
     "stores",
-    "inspiration",
     "team"
   ]
 }
