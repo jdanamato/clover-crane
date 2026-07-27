@@ -5265,6 +5265,7 @@ figcaption {
   margin-right: .5rem;
   transition: background-color .125s;
   display: flex;
+  position: absolute;
 }
 
 .swiper-button:hover {
@@ -7120,7 +7121,6 @@ figcaption {
   justify-content: space-between;
   align-items: center;
   display: flex;
-  position: absolute;
   inset: 0%;
 }
 
@@ -9092,4 +9092,12 @@ figcaption {
   flex-direction: column;
   width: auto;
   flex-grow: 1;
+}
+
+.swiper-button.swiper-prev {
+  left: 0rem;
+}
+
+.swiper-button.swiper-next {
+  right: 0rem;
 }
