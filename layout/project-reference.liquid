@@ -1,0 +1,512 @@
+<!doctype html>
+# Project Reference
+ 
+> Last updated from conversation: June 2026
+> Webflow Site ID: `67f411d3c3263bd372264834`
+ 
+---
+ 
+## Tech Stack
+ 
+| Layer | Tool |
+|---|---|
+| Design | Webflow |
+| Shopify conversion | Liquiflow (formerly Liquify Pro) |
+| Storefront | Shopify |
+| Sliders | Swiper.js (site-wide as of 2026-07-24 — see below; loaded once in `_layouts/theme.html` head, `swiper@11/swiper-bundle.min.js`) |
+| Reactive UI | Alpine.js |
+| Slider dots | Finsweet Attributes (`fs-sliderdots`) |
+| Product variants | Liquiflow native variant system |
+ 
+### Head Code (Webflow Custom Code)
+```html
+<!-- Alpine Focus Plugin -->
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+ 
+<!-- Alpine JS -->
+<script defer="defer" src="{{ 'alpinejs3.js' | asset_url }}"></script>
+ 
+<!-- Liquify Pro Core + Section Rendering API -->
+<script defer="defer" auto="" min="" src="https://cdn.jsdelivr.net/gh/liquify-pro/core@latest/script.js"></script>
+<script src="{{ 'section-rendering.js' | asset_url }}"></script>
+ 
+<!-- Finsweet Attributes -->
+<script async="" type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js" fs-sliderdots=""></script>
+ 
+<!-- Canonical URL -->
+<link href="{{ canonical_url }}" rel="canonical">
+```
+ 
+### Footer Code (Webflow Custom Code)
+- Contains Predictive Search custom element class via `li-snippet="search-javascript"`
+---
+ 
+## Pages — Audit Status
+ 
+| Page | Webflow Page ID | Status |
+|---|---|---|
+| Home | `67f411d4c3263bd372264873` | ✅ Audited & fixed |
+| Product | `67fddb816feafb02bf552a1e` | ✅ Audited & fixed |
+| Cart | `67fddf4914dab8b84e6850f3` | ✅ Audited & fixed |
+| Collection | `67fddc73525871656ed13dc0` | ✅ Audited & fixed (2026-07-24) |
+| Search | (no Webflow page component — `utility/search-page.html` only) | ✅ Audited & fixed (2026-07-24) |
+| Contact | — | ✅ Audited (2026-07-24) — `Contact Form.html` is empty, needs building, see below |
+| Gift Card | — | ✅ Audited & fixed (2026-07-24) |
+| List Collections | — | ✅ Audited & fixed (2026-07-24) |
+| 404 | — | ✅ Audited, clean (2026-07-24) |
+| Blog | — | ✅ Audited & fixed (2026-07-24) |
+| Blog Article | — | ✅ Audited, clean (2026-07-24) |
+| Password | `67fdd819de2f08848036575b` | ✅ Audited & fixed (2026-07-24) — see below |
+| `other/elements.html`, `other/style.html` | — | N/A — Webflow internal style-guide pages, no `li-section` usage, not real site pages |
+ 
+---
+ 
+## Page-Level Liquiflow Patterns
+ 
+### Required on every page body
+```
+li-page       = [template name]   e.g. index, product, cart, collection
+li-layout     = theme
+```
+ 
+### Required on the main wrapper
+```
+li-content-for-layout = (empty value)
+```
+ 
+### Section pattern
+```
+li-section              = [Section Name]
+li-section:on_templates = [template name]   (restricts section to specific template)
+```
+ 
+---
+ 
+## Home Page (`li-page="index"`)
+ 
+### Sections
+| Section Name (`li-section`) | Purpose |
+|---|---|
+| `Promoted` | Mixed-block "featured home content" area — merchant freely adds/reorders any number of **Promoted Panel** (single collection card) and **Collection Slider** (product slider from a picked collection) blocks, each independently full- or half-width. Superseded the linklist version same day, see Key Liquiflow Patterns below. |
+| `Stores` | Renamed from `Hooper` by Joe in the Builder (2026-07-24) — same section, `_sections/Stores.html` is now the canonical file. Just the standalone Find Your Store slider (metaobject-driven) — the old Gift Guides tab moved into `Promoted` as a Collection Slider block. |
+| `Team` | About/team section with static content |
+
+> **Note (2026-07-24):** an "Inspiration" section (services/occasions feature items, linklist-driven) doesn't exist in the current `index.html` or `_sections/` — but it *is* live on staging (confirmed by browsing `clover-crane-staging.myshopify.com` the same day), meaning source and the deployed staging theme have diverged for this one section. **Deferred — Joe will revisit.** Until then: don't rebuild it, don't remove it from staging, and be aware a future full re-publish from current local source won't include it (nothing to preserve it with yet).
+ 
+### Key Liquiflow Patterns
+ 
+**Promoted section — mixed-block featured area, staging prototype (2026-07-24, revised same day):**
+```
+li-content-for-blocks                                  ← on .promotion_list-layout; lets merchants mix + reorder both block types below
+
+li-snippet          = Section Header                    ← reused from Team.html's proven pattern, at section top
+li-block            = Kicker / Headline                 ← inside the Section Header snippet
+
+li-block            = Promoted Panel
+li-settings:custom  = Panel                             ← JSON array: {"type":"collection","id":"collection",...} + {"type":"checkbox","id":"half_width",...}
+li-liquid                                               ← REQUIRED on the custom-JSON embed, see fix note below
+li-object:href      = block.settings.collection.url
+li-object:src       = block.settings.collection.image | image_url: width: 1536
+li-object            = block.settings.collection.title
+
+li-block            = Collection Slider
+li-settings:text     = Heading                          ← per-instance slider title, e.g. "Gift Guides", "Wedding Picks"
+li-settings:collection = Products                       ← merchant picks a collection; auto-loops its products as slides
+                                                          ← no half-width setting (Joe: sliders don't need it, removed)
+
+li-attribute:class  = promotion_list-item{% if block.settings.half_width %} is-half{% endif %}   ← Promoted Panel only now
+```
+Superseded the `promoted`-linklist version (same day — see collections-architecture.md) after Joe asked for panels and sliders to live in one freely-arrangeable area with per-block full/half width control.
+
+**Bug found + fixed (2026-07-24): half-width setting didn't work in the Theme Editor.** Root cause: the `li-settings:custom` JSON embed (``) had no `li-liquid` attribute. Per `docs/liquid-attributes/miscellaneous`: "Webflow may alter the formatting of certain characters — especially double quotes — within Custom Code elements... apply `li-liquid` to preserve original formatting during export." Without it, Webflow's export mangled the JSON's quotes, so the custom setting silently failed to register. **Any `li-settings:custom` JSON embed needs `li-liquid` alongside it** — add this to the gotchas doc too.
+
+Used `li-settings:custom` (raw Shopify schema JSON) instead of the native `li-settings:collection`/`li-settings:checkbox` convenience modifiers for **Promoted Panel**'s fields specifically — those modifiers auto-generate a `<modifier>_<handleized-label>` setting id (confirmed via docs: `li-settings:image="Image"` → `section.settings.image_image`), which isn't dot-notation-safe for hyphenated labels and isn't confirmed to give a plain single-collection reference outside the documented "product item" loop use case. Custom JSON sidesteps both problems with explicit, predictable `id`s.
+
+**Section Header, added 2026-07-24**: Joe wanted slider blocks to carry more than a heading. Considered nesting the Section Header snippet's Kicker/Headline `li-block`s *inside* the Collection Slider block, but skipped it — no documented confirmation that Liquiflow's dynamic `li-content-for-blocks` system supports a `li-block` nested inside another `li-block` (the one documented nested-blocks case, "repeated up to 8 times," is specific to the separate *static* theme-blocks system, `li-static-block`/`li-cf-theme-blocks`). Went with a single section-level Section Header instead (reusing Team.html's exact proven pattern) — one optional kicker+headline intro for the whole Promoted area, not per-slider.
+
+CSS: `.promotion_list-layout` changed from `flex-flow: column` to `row wrap`; `.promotion_list-item` is `width: 100%` by default, `.is-half` is `calc(50% - gap/2)` above 767px and forced back to full width below it (`css/clover-crane.webflow.css`).
+
+**✅ Verified live on staging (2026-07-24).** `block.settings.collection` correctly resolves a single collection reference (not a forced product loop) — confirmed via two real Promoted Panel blocks (Gifts for Him, Gifts for Her) rendering correctly. Half-width also confirmed working after a follow-up CSS fix: `.promotion_list-layout` was `display:flex` with a `calc(50% - gap/2)` width on `.is-half` — the Builder's own save cycle had added `gap: var(--gap-6)` (a different, larger token than the `--gap-4` the calc was written against), so two half-width items summed just over the container width and wrapped instead of sitting side by side. Switched to CSS Grid (`repeat(2, 1fr)`, full-width items `grid-column: 1/-1`, half-width `span 1`) — grid divides space against whatever gap is actually set, no manual calc to get wrong. Collection Slider and Find Your Store also confirmed rendering correctly with real merchant-configured data.
+
+**Section Header block — tried, rejected by Joe (2026-07-24), removed from source.** The flattened version (single block, plain `li-settings:text` for Kicker + Headline, no nested `li-block`s, not reusing Team.html's `li-snippet`) wasn't the solution Joe was looking for — removed from `_sections/Promoted.html` via the Builder. Not currently planned to come back in this form. May resurface once/if the Group-block work (see below) lands on `li-content-for-theme-blocks`, which would allow genuine nested Kicker/Headline sub-blocks instead of the flattened version — but that's speculative, not a commitment.
+
+**Stores section (`_sections/Stores.html`, renamed from `Hooper` — see below) — Find Your Store only (changed 2026-07-24):**
+```
+li-for = store in shop.metaobjects.store_portal.values
+```
+The old Gift Guides tab (fixed to `shop.metaobjects.gift_guide.values`) was replaced entirely — moved into `Promoted`'s "Collection Slider" block, above. Find Your Store is unchanged logic, just no longer in a tab; its card now also shows `store.description` when set (`store_portal`'s real field set — see `collections-architecture.md`, was previously documented wrong as just `name`+`featured_image`).
+
+---
+
+## Sliders — de-webflow migration to Swiper.js (2026-07-24)
+
+Joe pays for Swiper Studio (a Shopify app for merchant-built carousels) and asked whether to install it, or hand-code Swiper.js instead. Recommended hand-coding: `Product Hero.html`'s media gallery already used real Swiper.js successfully (proven pattern to copy), while Home's sliders used Webflow's native `.w-slider` — inconsistent within the same project. Installing Swiper Studio would also have been redundant with the merchant-configurable Collection Slider blocks already built the same day (its whole value-add — app-block carousels merchants configure themselves — is what those blocks already do natively).
+
+**What changed:**
+- `_layouts/theme.html` head: added `<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer">` once, site-wide (matches the Alpine/Liquify-core/Finsweet pattern already there).
+- `_sections/Product Hero.html`: removed its own duplicate `swiper-bundle.min.js` load (was loading it a second time per-page) &mdash; its own init script is unchanged.
+- `_sections/Promoted.html`'s Collection Slider block and `_sections/Stores.html`'s Find Your Store slider: rebuilt from Webflow's `.w-slider`/`.w-slide`/`.w-slider-arrow-*` markup to real Swiper structure (`.swiper`/`.swiper-wrapper`/`.swiper-slide`, `.swiper-button-wrapper` + `.swiper-prev`/`.swiper-next`), each with its own `DOMContentLoaded` init script scoped to a distinct class (`cc-promoted-slider`, `cc-store-slider`) so multiple Collection Slider block instances all init correctly and the two sections' init scripts never double-initialize each other's elements.
+- `css/clover-crane.webflow.css`: added `overflow: hidden` to `.collection-slider` &mdash; Swiper clips via the `.swiper` element itself, unlike Webflow's slider which used a separate `.w-slider-mask` child for that. `.collection-slider_slide`'s existing `width: 18rem` + `margin-right: var(--gap-4)` was reused as-is (works naturally with Swiper's `slidesPerView: 'auto'` mode &mdash; no `spaceBetween` set in the JS config, to avoid doubling the gap). `.collection-slider_mask` and `.collection-slider_arrow` are now dead CSS (unused, harmless, not cleaned up).
+- Reused `.swiper-button`/`.swiper-button-wrapper` CSS verbatim &mdash; already generic (not Product-Hero-scoped), so the new sliders' prev/next buttons get identical chrome/positioning to Product Hero's for free.
+
+**Found in passing, not yet acted on:** `_layouts/theme.html` head also already loads a Swiper Studio-generated bundle (`swiper_studio_sparkling_margalit_681-1.0.3.js`, hosted on Webflow's CDN under this project's site ID) &mdash; Swiper Studio's *Webflow script-embed* integration, not the Shopify App Store listing Joe was asking about. No markup anywhere in the project has matching Swiper-Studio-specific hooks, so it appears orphaned/unused. Left in place &mdash; Joe should confirm nothing depends on it before removing.
+
+All lint-clean. Not yet visually verified on staging &mdash; needs a Builder publish first (same as the earlier Promoted work), then check both sliders actually swipe/paginate correctly.
+
+**Inspiration section (not currently built, see note above) &mdash; linklist-driven, for reference:**
+```
+li-for = link in linklists['services'].links
+li-for = link in linklists['occasions'].links
+```
+- `link.object.title` &mdash; the linked resource's title
+- `link.object.description` &mdash; the linked collection's description (**only valid if linklist links point to collections**)
+- `li-block="Services CTA"` / `li-block="Occasions CTA"` &mdash; unique block names per section
+**Team section &mdash; static URLs:**
+```
+li-object:href = pages['about-us'].url     &larr; bracket notation required for hyphenated handles
+li-object:href = routes.contact_url
+```
+ 
+### Fixes Applied
+| Fix | Detail |
+|---|---|
+| Duplicate `li-block` names | `li-block="Button"` appeared twice in `li-section="Inspiration"`. Renamed to `"Services CTA"` and `"Occasions CTA"` |
+| Missing `li-layout` | Added `li-layout="theme"` to body element |
+ 
+---
+ 
+## Product Page (`li-page="product"`)
+ 
+### Sections
+| Section | Attribute |
+|---|---|
+| Product Hero | `li-section="Product Hero"` + `li-section:on_templates="product"` |
+| Recommended Products | `li-section="Recommended Products"` + `li-section:on_templates="product"` |
+ 
+### Key Liquiflow Patterns
+ 
+**Theme blocks container:**
+```
+li-content-for-theme-blocks = (empty value)
+```
+Applied to `product-hero_info` div &mdash; creates block file container for the section.
+ 
+**Media gallery (Swiper):**
+```
+li-for:inside = media in product.media
+```
+> `:inside` modifier renders the loop inside the element rather than wrapping it.
+```
+li-if = media.media_type == 'image'
+li-if = media.media_type == 'video'
+li-object:src = media | image_url: width: 1000, height: 1000
+li-object = media | video_tag: controls: true
+```
+ 
+**Product form:**
+```
+li-form       = product
+li-form:product = (empty value)   &larr; empty = use current page's product context
+```
+Converts to `{% form 'product', product %}` in Liquid.
+ 
+**Price display:**
+```
+li-object = product.price | money
+li-if     = product.compare_at_price > product.price
+li-object = product.compare_at_price | money
+```
+ 
+**Availability:**
+```
+li-if     = product.available      &larr; in-stock row
+li-unless = product.available      &larr; out-of-stock row
+```
+ 
+**Description:**
+```
+li-if     = product.description
+li-object = product.description
+```
+ 
+**FAQ Accordion blocks:**
+```
+li-block          = Accordion
+li-settings:text  = Heading
+li-settings:richtext = Content
+```
+> `li-settings:richtext` creates a formatted rich text field in the Theme Editor.
+ 
+**Recommended products (Section Rendering API &mdash; Alpha):**
+```
+li-render-recommended              = wrapper
+li-render-recommended-product      = {{ product.id }}
+li-render-recommended-path         = {{ routes.product_recommendations_url }}
+li-render-recommended-intent       = complementary
+li-render-recommended-limit        = 8
+li-render-recommended              = target
+li-for                             = product in recommendations.products
+```
+> Requires `section-rendering.js` in Shopify theme assets &mdash; already installed via head code.
+ 
+### Fixes Applied
+| Fix | Detail |
+|---|---|
+| Invalid `id` on accordion heading | Removed `id="accordion-heading-{{forloop.index}}"` &mdash; `forloop` is undefined outside a `li-for` loop |
+| `li-block` on Add to Cart | Removed `li-block="Add to Cart"` from form group &mdash; Add to Cart should always be visible, not togglable |
+| Variant swatches always black | `ccSwatches` was built via `{% for %}`/`{% if %}` in a bare `x-data`, which the Builder can't compile &mdash; moved to `li-attribute:x-data`. See `/docs/liquiflow-rules-and-gotchas.md`. |
+| Swatch colors still not showing after the above | `product_option_value.swatch.color`/`.image` returns `nil` on this store despite the Color option being correctly linked to `shopify.color-pattern`. Switched to a direct `metaobjects['shopify--color-pattern'][handle]` lookup &mdash; see gotchas doc for the exact pattern. |
+| Personalization checkbox showed no checkmark | The visible `.checkbox-input` div never got Webflow's `w--redirected-checked` class (no native class markers to trigger it). Bound directly to Alpine: `x-bind:class="{ 'w--redirected-checked': personalization }"`. |
+| "Select style:"/"Placement:"/"Text color:" missing space after colon | Two adjacent `<span>`s with a literal space text node between them &mdash; the Builder strips whitespace-only text nodes on its own save cycle. Used `&nbsp;` instead. |
+| Style/Text-color pickers not hidden when merchant leaves the metafield blank | Added `li-if="product.metafields.custom.monogram_styles != blank"` / `..._text_colors != blank` wrappers, matching the pattern Placement already had. |
+| Style list stacked full-width instead of wrapping; Placement not a 3&times;3 grid | Both used bare `li-for` on the container div instead of `li-for:inside` &mdash; see gotchas doc. CSS (`.product_radio-list` flex-wrap, `.monogram_placement-grid`) was already correct. |
+| Style image showed broken-image icon when unset | Added `li-if="style.style_image"` on the `<img>`. |
+| No indication of current selection ("Select style: Default" never changed) | Added `selectedStyle`/`selectedPlacement`/`selectedColor` to the `#monogram` `x-data`, `x-model` + `type="radio"` on each option input (radios were missing `type="radio"` entirely &mdash; plain text inputs), and `x-text="selectedX || 'Not set'"` on each label. |
+| Text-color swatch label showed wrong/broken text | Its `<label>` had a leftover `x-init="optionValue = selected_or_first_available_variant..."` copy-pasted from the main Color variant swatch &mdash; those Alpine variables don't exist in this scope. Removed it. |
+| Duplicate `name` attribute on Placement input | Had both `name="Placement"` and `li-attribute:name="properties[Placement]"` on the same element (invalid HTML &mdash; undefined which wins). Kept only the dynamic one, matching the Style/Color inputs' plain `name="properties[...]"` convention. |
+
+---
+
+## Collection Page (`li-page="collection"`)
+
+### Sections
+| Section | Attribute |
+|---|---|
+| Basic Hero (Dynamic) | `li-section="Basic Hero (Dynamic)"` &mdash; title/description hero, clean, no issues found |
+| Collection Products | `li-section="Collection Products"` + `li-section:on_templates="collection"` &mdash; filter sidebar, product grid, pagination |
+
+### Key Liquiflow Patterns
+
+**Product card, reused via `li-snippet` (also called from `_sections/Promoted.html`'s home-page Collection Slider &mdash; see Home Page section):**
+```
+li-snippet          = product-card
+li-snippet:product  = product
+```
+> Both call sites must stay byte-identical &mdash; `li-snippet` dedupes by name, not by call site.
+
+**AJAX collection filtering (Section Rendering API &mdash; Alpha):**
+```
+li-render-filter = wrapper        &larr; on the container wrapping filters + product list
+li-render-filter = filter         &larr; on each filter checkbox/radio
+li-render-filter-value = {{ filter_value.value }}
+li-render-filter-name  = {{ filter_value.param_name }}
+li-render-filter = filter-remove  &larr; on the "remove this filter" tag
+li-render-filter-value = {{ filter_value.url_to_remove }}
+li-render-filter = sort           &larr; on the sort <select>
+li-render-filter = clear-all      &larr; on the "clear all filters" button
+```
+> `li-render-filter-value`/`li-render-filter-name` are dedicated attributes the filter JS reads &mdash; **not** `li-attribute:value`/`li-attribute:name`. See Fixes Applied below; also flags a linter false positive, see `/CLAUDE.md` &rarr; Key Learnings.
+
+### Fixes Applied (2026-07-24 audit)
+| Fix | Detail |
+|---|---|
+| Filter checkboxes silently did nothing | Used `li-attribute:value`/`li-attribute:name` instead of the documented `li-render-filter-value`/`li-render-filter-name`. The AJAX filter script reads the latter specifically &mdash; the checkboxes weren't wired to it at all. Fixed both, and the "remove filter" tag's `li-attribute:href` &rarr; `li-render-filter-value` the same way. |
+| Filter checkbox `id` didn't match its label's `for` | `id` was a bare, unwrapped attribute embedding `{{ }}` (`id="filter-{{ ... }}"`) &mdash; the Builder can't compile Liquid in a bare attribute, so it rendered literally and never matched the label's already-correct `li-attribute:for`. Fixed to `li-attribute:id`. |
+| Variant data possibly not reaching `handleVariant()` on product cards | Same bare-attribute-with-embedded-Liquid bug as the Product Hero `ccSwatches` incident &mdash; `x-data="handleVariant({{ product \| json \| escape }}, ...)"` was a plain attribute, not `li-attribute:x-data`. Fixed. |
+| Product card preview link's accessible name rendered literally as `View {{ product.title }}` | Same bug, on a bare `aria-label`. Fixed to `li-attribute:aria-label`. |
+| Linter false positive on the filter attribute fix above | See `/CLAUDE.md` Key Learnings &mdash; `li-render-filter`/`li-render-filter-value`/`li-render-filter-name` on one element trips `STANDALONE_CONFLICT`, but is the documented required pattern. Do not revert. |
+
+Minor/not fixed: pagination's "Previous" button has a stray bare `id` attribute with no value (Webflow export debris, cosmetic, harmless).
+
+---
+
+## Search Page (`utility/search-page.html` &mdash; no dedicated `li-page`, uses `_sections/Search.html`)
+
+### Sections
+| Section | Attribute |
+|---|---|
+| Search | `li-section:on_templates="search"` `li-section="Search"` &mdash; near-identical structure to Collection Products, `search.*` instead of `collection.*` |
+| predictive_search | `li-section="predictive_search"` &mdash; nested inside `_sections/Header.html`'s search dropdown, embedded sitewide on every page, not search-page-specific |
+
+### Fixes Applied (2026-07-24 audit)
+Same bug class as Collection Products (this section was evidently copy-pasted from it) &mdash; see Collection Page section above for the general explanation of each:
+| Fix | Detail |
+|---|---|
+| Filter checkboxes / remove-filter tag wired wrong | Same `li-attribute:value`/`li-attribute:name`/`li-attribute:href` &rarr; `li-render-filter-value`/`li-render-filter-name` fix as Collection Products. |
+| Filter checkbox `id` bare, not `li-attribute:id` | Fixed &mdash; this copy had the *fully* bare version (Collection Products' had already been through one round of fixing that left it as `li-attribute:id` but still on the wrong value/name attrs). |
+| Bare `x-data="handleVariant(...)"` / `aria-label="View {{ product.title }}"` on product card | Same fix as Collection Products &rarr; `li-attribute:`. |
+| "Showing X products" rendered with a double space | `search.results_count \| append: ' '` &mdash; the literal ` products` text after the span already has its own leading space; the filter added a redundant second one. Removed the `append` filter. |
+| `predictive_search.html` used `product.featured_media` for the image `src` but `product.featured_image.alt` for the `alt` &mdash; inconsistent, and unlike every other product-thumbnail spot in the project | Changed `src` to also use `product.featured_image`, matching the established convention (Cart, mini-cart, product cards all use `featured_image`). This section is nested in Header, so it's embedded on every single page &mdash; fixed in all 17 files that carry a copy, same fan-out pattern as the Header logo fix. |
+| Sort dropdown didn't use the AJAX filter system | Was a hand-rolled script doing a full `location.search` page reload, unlike Collection Products' instant `li-render-filter="sort"`. Confirmed intentional to match Collection (search is meant to use the Section Rendering API too) &mdash; added `li-render-filter="sort"` and removed the now-redundant reload script, matching Collection Products exactly. |
+
+**Product-card title heading level, resolved:** all four `li-snippet="product-card"` call sites (Collection Products, Promoted, Search, Recommended Products) previously disagreed (`h2` vs `h3`) &mdash; standardized on `<h3>` per Joe's call (2026-07-24). Known tradeoff: on Search and Collection pages the page's own `<h1>` now jumps straight to the card `<h3>`s with no `<h2>` in between &mdash; flagged by the linter as `HEADING_ORDER`, real (not a false positive), accepted as-is.
+
+---
+
+## Header (`_sections/Header.html`) &mdash; Mini Cart
+
+### Fixes Applied (2026-07-22)
+| Fix | Detail |
+|---|---|
+| Thumbnail link went nowhere useful | `li-js-object:href="item.title"` &rarr; should be `item.url` (was binding the href to the product title text, not a URL). |
+| Item title stopped updating | The title `<a>` combined `li-js-object:href="item.url"` **and** bare `li-js-object="item.title"` on one element &mdash; this native runtime only binds one `li-js-object` per element. Split into `<a li-js-object:href="item.url"><span li-js-object="item.title">` to match the thumbnail's existing href/content-split pattern. |
+| Empty-cart panel never showed, even when cart was genuinely empty | `li-cloak="hide"` + a matching `[li-cloak_disabled="hide"]{display:none!important}` CSS rule is a **Builder-canvas-only** marker (per a comment in the official Liquiflow starter theme) that isn't stripped at Shopify publish, so it permanently overrides the Alpine `:style` binding Liquiflow injects for cart state. Confirmed as a **latent bug in the official starter theme itself** (same pattern present there), reported via `sendFeedback`. Switched to `x-cloak` (Alpine's own directive &mdash; removed after mount, so the `:style` binding takes over correctly afterward). See `/docs/liquiflow-rules-and-gotchas.md`.
+
+### Fixes Applied (2026-07-23)
+| Fix | Detail |
+|---|---|
+| Mini-cart item image/title/link possibly wrong or empty | The 2026-07-22 fix corrected which field to bind but not the root object: `li-js-object:href`/`li-js-object` used `item.url`/`item.title`, while the adjacent image/price bindings already used `product.*`. Checked live Liquiflow docs (Mini Cart page) &mdash; the documented object inside `li-element="mini-cart-item"` is `product` (`product.title`, `product.featured_image`, `product.vendor`, `product.price`), not `item`. Changed both `item.url`&rarr;`product.url` and `item.title`&rarr;`product.title`, and `product.image`&rarr;`product.featured_image` to match the documented field name exactly. `product.original_price` was left untouched (already `product.*`, undocumented but pre-existing, not part of this mismatch). |
+
+---
+
+## Cart Page (`li-page="cart"`)
+ 
+### Section
+```
+li-section              = Cart
+li-section:on_templates = cart
+```
+ 
+### Key Liquiflow Patterns
+ 
+**Show/hide form vs empty state:**
+```
+li-if = cart.item_count > 0     &larr; wraps entire cart form
+li-if = cart.item_count == 0    &larr; wraps empty cart state
+```
+ 
+**Cart form:**
+```
+li-form      = cart
+li-form:cart = (empty value)
+```
+ 
+**Cart items loop:**
+```
+li-for = item in cart.items
+```
+ 
+**Item fields:**
+```
+li-object:href = item.url
+li-object:src  = item.image | image_url: width: 200
+li-object      = item.title           &larr; on link element (combined with li-object:href &mdash; valid)
+li-object      = item.variant.title
+li-object:href = item.url_to_remove
+```
+ 
+**Price display (correct pattern):**
+```
+[no li-if on outer wrapper]     &larr; always show final price
+  li-object = item.final_line_price | money
+ 
+[inner compare-at wrapper]
+  li-if     = item.original_line_price > item.final_line_price
+  li-object = item.original_line_price | money
+```
+> Outer wrapper must NOT have `li-if` &mdash; otherwise non-discounted items show no price.
+ 
+**Cart summary:**
+```
+li-object = cart.original_total_price | money   &larr; cart total before discounts
+li-if     = cart.total_discounts > 0            &larr; savings row
+li-object = cart.total_discounts | money        &larr; note: plural "discounts"
+li-object = cart.total_price | money            &larr; subtotal after discounts
+```
+ 
+**Cart form buttons:**
+```
+Update button:   li-attribute:name  = update
+                 li-attribute:value = Update cart
+ 
+Checkout button: li-attribute:name  = checkout
+                 li-attribute:value = Checkout
+```
+ 
+**Cart note:**
+```
+id                 = CartNote
+li-attribute:name  = note
+```
+ 
+**Empty cart CTA:**
+```
+li-object:href    = routes.root_url
+li-settings:text  = CTA Label
+```
+ 
+### Monogram Line Item Properties Display
+**Built** in `_sections/Cart.html`, inside `cart_item_head`, after the variant title:
+ 
+```
+Div [cart_item_properties]          &larr; no Liquiflow attribute
+  &#9492;&#9472;&#9472; Div [property_row]            &larr; li-for="property in item.properties"
+        &#9492;&#9472;&#9472; Div [property_content]  &larr; li-unless="property.last == blank or property.first contains '_'"
+              &#9500;&#9472;&#9472; Span              &larr; li-object="property.first"   (property name/label)
+              &#9492;&#9472;&#9472; Span              &larr; li-object="property.last"    (property value)
+```
+ 
+> Properties prefixed with `_` are hidden from customers (internal/app use).
+> Properties with blank values are also suppressed.
+ 
+### Fixes Applied
+| Fix | Detail |
+|---|---|
+| No price for non-discounted items | Removed `li-if` from outer `cart_item-price` wrapper |
+| `cart.total_discount` typo | Fixed to `cart.total_discounts` (plural) |
+| Deprecated `img_url` filter | **Manual fix needed in Webflow**: change `item.image \| img_url: 'small'` to `item.image \| image_url: width: 200` on cart item thumbnail |
+| Update cart missing `name` | Added `li-attribute:name="update"` to Update cart button |
+
+---
+
+## Personalization Upcharge (Product Page &rarr; Cart)
+
+**Option A implemented** (per `docs/collections-architecture.md`): a separate "Monogramming Service" product/variant gets added to the cart alongside the main item, as its own line, when the customer opts into personalization.
+
+### How it works
+- `_sections/Product Hero.html` has a section setting **"Monogramming Service Variant ID"** (`li-settings:number`) &mdash; merchant enters the numeric variant ID of the Monogramming Service product here, per section instance (i.e. can differ per product if needed, though normally one variant covers all products).
+- On click of the Add to Cart button, a small script (separate from and non-interfering with Liquiflow's native `handleVariant` add-to-cart flow) checks whether the personalization checkbox is checked. If so, it fires an independent `POST /cart/add.js` for the configured service variant, carrying the same `properties[...]` (Monogram Style, Text Color, Placement, Monogram Text) as the main item.
+- The displayed price next to the checkbox now reads `product.metafields.custom.personalization_cost | money` (per-product, dynamic) instead of a hardcoded "$15".
+
+### Merchant setup required before this works
+1. &#9989; **"Monogramming Service"** product created on production (2026-07-23) &mdash; `gid://shopify/Product/10144255508729`, status `DRAFT` (intentionally invisible on the current live spirit-wear storefront). **Price still $0.00 &mdash; needs the real personalization upcharge amount set before launch**, no figure was available at creation time.
+2. &#9989; Variant ID: **`48705471414521`** &mdash; enter this into Product Hero's "Monogramming Service Variant ID" setting.
+3. &#11036; In the Theme Editor, open the Product Hero section settings and enter `48705471414521` into **"Monogramming Service Variant ID"** &mdash; not yet done, theme isn't pushed to production yet.
+4. &#11036; Keep `product.metafields.custom.personalization_cost` in sync with that product's actual price per product &mdash; the displayed price and the charged price are two separate places right now (no Shopify Function enforcing they match, per the "no Shopify Plus required" constraint). Also flip the product to `ACTIVE` + publish to Online Store before this feature needs to work for real customers.
+
+Also created 2026-07-23 (production, `custom` namespace, pinned): `monogramming_enabled` (boolean), `personalization_cost` (money), `delivery_time` (single line text). **Not yet created**: `monogram_styles`, `monogram_text_colors`, `monogram_placement` &mdash; all three are `list.metaobject_reference` fields and need their target metaobject definitions (`monogram_style`, `text_color`, `monogram_position`) created first.
+
+---
+
+## Footer (`_sections/Footer.html`)
+
+### Fixes Applied (2026-07-23)
+| Fix | Detail |
+|---|---|
+| Social icons hardcoded to exactly Facebook + Instagram, adding a platform needed a dev change | Was two separate `li-block`s (`"Facebook"`, `"Instagram"`) each with its own settings name and a hardcoded inline SVG icon. Merged into one repeatable `li-block="Social Link"` with `li-settings:url="URL"`, `li-settings:image="Icon"`, and a `li-settings:text="Platform Name"` (in a `.sr-only` span, for the accessible name). Merchants can now add/remove/reorder social links and swap platforms entirely from the Theme Editor's native block UI &mdash; no dev needed for a new platform. **One-time manual step needed**: upload real Facebook/Instagram icon images via Theme Editor &mdash; the two seeded blocks keep their correct URLs but show a placeholder icon until real icon assets are uploaded. |
+
+---
+
+## Contact / Gift Card / List Collections / 404 / Blog / Blog Article &mdash; audit (2026-07-24)
+
+### Sections & Status
+| Section | Page(s) | Status |
+|---|---|---|
+| `Basic Hero (Static)` | Contact, List Collections | Clean &mdash; `li-if="section.settings.page_description != blank"` correctly matches `li-settings:text="Page Description"`'s auto-generated id (label &rarr; snake_case, confirmed via live docs' Custom Settings example: "Font size" &rarr; `font_size`) |
+| `Contact Form` | Contact | **Empty** &mdash; just `<div li-content-for-blocks>`, no `<form>`, no fields, no submit. Intentional per Joe (2026-07-24): the plan is to use the Shopify Forms app so the merchant can edit it themselves &mdash; the empty `li-content-for-blocks` container is exactly the shape a Forms app block needs to slot into via Theme Editor. Nothing to build in code. **Dependency**: Forms app is installed on staging but not production yet &mdash; tracked in `site-transfer-reference.md`'s "What Doesn't Transfer Automatically" table. |
+| `Gift Card` | Gift Card | Fixed &mdash; logo `li-object:src="shop.brand.logo"` had no `image_url` filter, unlike every other image binding project-wide. Added `\| image_url: width: 500`. |
+| `Collections List` | List Collections | Fixed &mdash; `li-for="collection in collections"` had no wrapping `li-paginate`, so `paginate` was never established; the `li-if="paginate.pages > 1"` nav silently never rendered and the grid had no page limit. Added `li-paginate="collections" li-paginate:by="50"` on the wrapping `.w-dyn-list` div, mirroring Collection Products' exact (confirmed-working) structure. |
+| `404` | 404 | Clean. |
+| `Blog Hero` | Blog | Clean. |
+| `Blog Articles` | Blog | Fixed (2026-07-24) &mdash; had no pagination at all (no `li-paginate`, no nav markup). Added `li-paginate="blog.articles" li-paginate:by="50"` on the wrapping `.w-dyn-list` div and the same `li-snippet="pagination"` nav reused byte-identical from Collections List. Propagated to `blogs/blog.html`. |
+| `Article Hero` | Blog Article | Clean. |
+| `Article Content` | Blog Article | Clean &mdash; the large Lorem-ipsum "Rich Text element" block inside `li-object="article.content"` is just Webflow's default canvas placeholder; `li-object` replaces it with the real article content at compile time, same as every other `li-object` placeholder in the project. Not a bug. |
+
+Both propagated fixes (Gift Card, Collections List) applied to canonical section + their single page instance (`shop/gift-card.html`, `shop/list-collections.html`).
+
+If the variant ID setting is left at `0`/unset, the service line item is silently skipped (logged to console) &mdash; the main item still adds normally, customer just isn't charged the upcharge. Worth QA-testing before launch.
+
+---
+
+## Password Page (`utility/password.html`, Webflow page ID `67fdd819de2f08848036575b`)
+
+### Fixes Applied (2026-07-24)
+Checked the live Webflow Designer page via MCP (`data_element_tool` &rarr; `get_all_elements` on the page ID above) against what was actually wired locally &mdash; found the local page was seriously out of date.
+
+| Fix | Detail |
+|---|---|
+| Password page was rendering the wrong content entirely | `utility/password.html` still used `Basic Hero (Static)` + the empty `Contact Form` section (leftover, looks copy-pasted from the Contact page early on) instead of the real password gate. `_sections/Password.html` already existed locally and matched Webflow's current design byte-for-byte (`li-form="storefront_password"`, same classes/fields) &mdash; it just was never wired into the page. Swapped the page's content to use it. |
+| Missing `li-page="password"` | Every other page (Cart, 404, Search, etc.) has `li-page="<template>"` on `<body>`; this one didn't. Added it. |
+| Same gap found on Contact page in passing | `pages/contact.html`'s `<body>` also had no `li-page`. Added &mdash; first tried `li-page="page.contact"` (matching the section's `li-section:on_templates="page.contact"`), but the linter flagged `INVALID_ENUM`: `li-page` only accepts a fixed list (`product`, `collection`, `cart`, `index`, `page`, `blog`, `article`, `password`, etc.) &mdash; the dotted `page.<suffix>` form belongs to `li-section:on_templates`, a different attribute. Corrected to `li-page="page"`, matching `pages/page.html`'s existing (already-correct) pattern. |
+
+**Open item, not resolved:** `_layouts/password.html` looks like an orphaned leftover &mdash; every real page, including the fixed password page, uses `li-layout="theme"`, not a dedicated password layout. Not deleted without confirming it's actually dead first (per the stale-file caution already logged in `/docs/liquiflow-rules-and-gotchas.md`).</script></handleized-label></modifier>
