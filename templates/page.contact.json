@@ -1,16 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-        "basic_hero_static": {
-            "type": "basic_hero_static"
-        },
-        "contact_form": {
-            "type": "contact_form"
-        }
-    },
-    "layout": "theme",
-    "wrapper": "main.main-wrapper",
-    "order": [
-        "basic_hero_static",
-        "contact_form"
-    ]
+  "sections": {
+    "contact_form": {
+      "type": "contact_form",
+      "settings": {}
+    }
+  },
+  "layout": "theme",
+  "wrapper": "main.main-wrapper",
+  "order": [
+    "contact_form"
+  ]
 }
