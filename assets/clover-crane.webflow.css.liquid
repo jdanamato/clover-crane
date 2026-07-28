@@ -4014,7 +4014,7 @@ figcaption {
   padding: var(--space-5);
   border: var(--border-width-thin) solid var(--gray-7);
   border-radius: var(--radius-theme);
-  background-color: var(--transparent);
+  background-color: var(--white);
   color: var(--slate-12);
   font-size: var(--font-size-2);
   font-weight: var(--font-weight-medium);
@@ -5904,6 +5904,7 @@ figcaption {
 @media (max-width: 767px) {
   .promotion_list-layout {
     grid-template-columns: 1fr;
+    gap: var(--gap-6);
   }
   .promotion_list-item.is-half {
     grid-column: 1 / -1;
@@ -9016,6 +9017,9 @@ figcaption {
   .mini-cart_thumbnail-wrap {
     max-width: 4rem;
     max-height: 4rem;
+  }
+  .promotion_list-layout {
+    gap: var(--gap-6);
   }
 }
 
