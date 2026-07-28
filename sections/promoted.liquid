@@ -13,9 +13,9 @@
 {% endif %}</a><div class="panel_action-group"><a li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6"><div>Shop <span li-object="block.settings.collection.title">{{ block.settings.collection.title }}</span></div></a></div></div>
                 </div>{% when 'collection-slider' %}
             <div li-block="Collection Slider" class="promotion_list-item">
-                    <div class="flex flex-col gap-4"><div class="section-header"><h2 class="font-size-5 font-weight-500">
+                    <div class="flex flex-col gap-4"><div class="flex flex-row items-center gap-4"><h2 class="font-size-5 font-weight-500">
 {{ block.settings.text_heading }}
-</h2></div><div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for product in block.settings.collection_products.products limit: block.settings.collection_products_limit %}
+</h2><div class="flex flex-row items-center gap-3"><a href="{{ block.settings.url_button_url }}" class="font-size-2 inline-flex items-center gap-1"> <span>{{ block.settings.text_button_label }}</span><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" class="icon-size-1"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg> </a></div></div><div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for product in block.settings.collection_products.products limit: block.settings.collection_products_limit %}
 <div class="swiper-slide collection-slider_slide">
     {% render 'product_card', product: product %}
 </div>
@@ -75,6 +75,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     "type": "text",
                     "label": "Heading",
                     "default": "Heading"
+                },
+                {
+                    "id": "url_button_url",
+                    "type": "url",
+                    "label": "Button URL"
+                },
+                {
+                    "id": "text_button_label",
+                    "type": "text",
+                    "label": "Button Label",
+                    "default": "Shop all"
                 },
                 {
                     "id": "collection_products",
