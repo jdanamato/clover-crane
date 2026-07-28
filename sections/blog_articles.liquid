@@ -1,17 +1,14 @@
-<div class="container-3">{% paginate blog.articles by 50 %}
-    <div li-paginate="blog.articles" li-paginate:by="50" class="w-dyn-list" by="50">{% if blog.articles != blank %}    <div li-if="blog.articles != blank" role="list" class="blog-articles_list">
+<div class="container-3"><div class="w-dyn-list">{% if blog.articles != blank %}    <div li-if="blog.articles != blank" role="list" class="blog-articles_list w-dyn-items">
     {% for article in blog.articles %}    <div li-for="article in blog.articles" role="listitem" class="blog-articles_item w-dyn-item">
                                     <a li-object:href="article.url" href="{{ article.url }}" class="blog-post_card w-inline-block"><div id="w-node-_67666f6d-fc79-2518-3667-5695df60656a-df606569" class="blog-post_card_preview"><img id="w-node-_67666f6d-fc79-2518-3667-5695df60656b-df606569" li-object:src="article.image | image_url: width: 800" alt="{{ article.image.alt }}" src="{{ article.image | image_url: width: 800 }}" loading="lazy" li-object:alt="article.image.alt" class="blog-post_card_image"><div class="blog-post_card_overlay"></div></div><div class="blog-post_card_info"><div class="blog-post_card_tag-list">{% for tag in article.tags %}    <div li-for="tag in article.tags" class="tag">
                                     <div li-object="tag">{{ tag }}</div>
                         </div>
-{% endfor %}</div><h2 li-object="article.title" class="blog-post_card_title">{{ article.title }}</h2></div></a>
+{% endfor %}</div><h3 li-object="article.title" class="blog-post_card_title">{{ article.title }}</h3></div></a>
                         </div>
 {% endfor %}    </div>
 {% endif %}{% if blog.articles == blank %}    <div li-if="blog.articles == blank" class="empty-state w-dyn-empty">
     <div>No articles found.</div>    </div>
-{% endif %}</div>{% endpaginate %}{% if paginate.pages > 1 %}    <div li-if="paginate.pages > 1">
-    {% render 'pagination' %}    </div>
-{% endif %}</div> {% schema %} {
+{% endif %}</div></div> {% schema %} {
     "tag": "section",
     "name": "Blog Articles",
     "class": "section",

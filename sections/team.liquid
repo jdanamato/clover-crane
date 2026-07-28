@@ -1,4 +1,4 @@
-<div class="container-4"><div class="home-cta_panel">{% render 'section_header' %}<div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
+<div class="home-cta_panel"><div class="container-4">{% render 'section_header' %}<div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
 {{ section.settings.image_left_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'home-cta_image' }}
 {% else %}
  {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
@@ -8,12 +8,14 @@
  {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
 {% endif %}</div></div><div class="home-cta_content"><p class="text-gray-1">
 {{ section.settings.text_text }}
-</p><div class="button-group"><a li-object:href="routes.contact_url" href="{{ section.settings.href_routescontact_url }}" class="button" href="#">
+</p><div class="button-group"><a li-object:href="pages['about-us'].url" href="{{ section.settings.href_pagesabout_usurl }}" class="button w-button" href="#">
+{{ section.settings.text_primary_label }}
+</a><a li-object:href="routes.contact_url" href="{{ section.settings.href_routescontact_url }}" class="button cc-color-gray cc-gray-soft w-button" href="#">
 {{ section.settings.text_secondary_label }}
 </a></div></div></div></div></div> {% schema %} {
     "tag": "section",
     "name": "Team",
-    "class": "section bg-accent-2",
+    "class": "section",
     "blocks": [
         {
             "name": "Kicker",
@@ -56,6 +58,17 @@
             "type": "text",
             "label": "Text",
             "default": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service."
+        },
+        {
+            "id": "href_pagesabout_usurl",
+            "type": "text",
+            "label": "pages['about-us'].url"
+        },
+        {
+            "id": "text_primary_label",
+            "type": "text",
+            "label": "Primary Label",
+            "default": "About us"
         },
         {
             "id": "href_routescontact_url",

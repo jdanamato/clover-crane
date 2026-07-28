@@ -1,5 +1,5 @@
 <div class="quantity-select_layout"><button type="button" aria-label="Decrease quantity" data-change="-1" class="quantity-select_button">-</button><input type="number" min="1" max="50" name="quantity" id="quantity-{{ section.id }}" class="quantity-select_input" value="1"><button type="button" aria-label="Increase quantity" data-change="1" class="quantity-select_button">+</button></div><div class="hide w-embed w-script"><script>
-                              document.addEventListener('click', (e) => {
+document.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-change]');
   if (!btn) return;
   const form = btn.closest('form');
@@ -13,4 +13,4 @@
   input.value = next;
   input.dispatchEvent(new Event('change', { bubbles: true }));
 });
-                            </script></div>
+</script></div>
