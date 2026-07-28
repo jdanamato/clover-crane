@@ -1,30 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-        "product_hero": {
-            "type": "product_hero"
-        },
-        "recommended_products": {
-            "type": "recommended_products",
-            "blocks": {
-                "kicker": {
-                    "type": "kicker",
-                    "name": "Kicker"
-                },
-                "headline": {
-                    "type": "headline",
-                    "name": "Headline"
-                }
-            },
-            "block_order": [
-                "kicker",
-                "headline"
-            ]
-        }
+  "sections": {
+    "product_hero": {
+      "type": "product_hero",
+      "settings": {}
     },
-    "layout": "theme",
-    "wrapper": "main.main-wrapper",
-    "order": [
-        "product_hero",
-        "recommended_products"
-    ]
+    "recommended_products": {
+      "type": "recommended_products",
+      "blocks": {
+        "kicker": {
+          "type": "kicker",
+          "name": "Kicker",
+          "settings": {
+            "text_kicker": "Recommended products"
+          }
+        },
+        "headline": {
+          "type": "headline",
+          "name": "Headline",
+          "settings": {
+            "text_headline": "Keep shopping"
+          }
+        }
+      },
+      "block_order": [
+        "kicker",
+        "headline"
+      ],
+      "settings": {
+        "text_body": "Add a short description for this section.",
+        "url_button_url": "",
+        "text_button_label": "Button"
+      }
+    }
+  },
+  "layout": "theme",
+  "wrapper": "main.main-wrapper",
+  "order": [
+    "product_hero",
+    "recommended_products"
+  ]
 }
