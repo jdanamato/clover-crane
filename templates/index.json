@@ -30,8 +30,6 @@
           "type": "collection-slider",
           "settings": {
             "text_heading": "{{ block.settings.collection_products.title }}",
-            "url_button_url": "",
-            "text_button_label": "Shop all",
             "collection_products": "wedding",
             "collection_products_limit": 6
           }
