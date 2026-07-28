@@ -1,0 +1,51 @@
+<div class="container-2"><div class="basic-hero_content">{% if collection.title %}    <h1 li-if="collection.title != blank" li-object="collection.title">
+    Page title    </h1>
+{% endif %}<h1 li-if="collection.title == blank and section.settings.page_title != blank">
+{{ section.settings.text_page_title }}
+</h1>{% if page_title %}    <h1 li-if="collection.title == blank and section.settings.page_title == blank" li-object="page_title">
+    Page title    </h1>
+{% endif %}{% if collection.description != blank %}    <div li-if="collection.description != blank">
+    <p li-object="collection.description">{{ collection.description }}</p>    </div>
+{% endif %}{% if collection.title == blank and section.settings.page_description != blank %}    <div li-if="collection.title == blank and section.settings.page_description != blank">
+    <p>
+{{ section.settings.text_page_description }}
+</p>    </div>
+{% endif %}{% if collection.title == blank and section.settings.page_description == blank and page_description != blank %}    <div li-if="collection.title == blank and section.settings.page_description == blank and page_description != blank">
+    <p li-object="page_description">{{ page_description }}</p>    </div>
+{% endif %}</div></div>{% if collection.title == blank and section.settings.image != blank %}    <div li-if="collection.title == blank and section.settings.image != blank" class="basic-hero_media">
+    {% if section.settings.image_image %}
+{{ section.settings.image_image | image_url: width: 1024 | image_tag: loading: 'lazy', class: 'basic-hero_image' }}
+{% else %}
+ {{ 'detailed-apparel-1' | placeholder_svg_tag: 'basic-hero_image' }} 
+{% endif %}    </div>
+{% endif %} {% schema %} {
+    "tag": "section",
+    "name": "Basic Hero",
+    "class": "basic-hero",
+    "settings": [
+        {
+            "id": "text_page_title",
+            "type": "text",
+            "label": "Page Title",
+            "default": "Lorem Ipsum"
+        },
+        {
+            "id": "text_page_description",
+            "type": "text",
+            "label": "Page Description",
+            "default": "Lorem Ipsum"
+        },
+        {
+            "id": "image_image",
+            "type": "image_picker",
+            "label": "Image"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Basic Hero",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ]
+} {% endschema %}
