@@ -15,14 +15,14 @@
         "promoted_panel_4NqGki": {
           "type": "promoted-panel",
           "settings": {
-            "collection": "gifts-for-him",
+            "collection": "corporate",
             "half_width": true
           }
         },
         "promoted_panel_EWe88h": {
           "type": "promoted-panel",
           "settings": {
-            "collection": "gifts-for-her",
+            "collection": "silicone-bento-boxes",
             "half_width": true
           }
         },
@@ -30,7 +30,7 @@
           "type": "collection-slider",
           "settings": {
             "text_heading": "{{ block.settings.collection_products.title }}",
-            "collection_products": "apparel",
+            "collection_products": "wedding",
             "collection_products_limit": 6
           }
         }
