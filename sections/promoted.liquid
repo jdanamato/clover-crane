@@ -1,21 +1,113 @@
-<div class="container-5"><div class="promotion_list-layout">{% for collection in collections %}    <div li-for="collection in collections" class="promotion_list-item">
-                                    {% if collection.metafields.collection.promoted %}    <div li-if="collection.metafields.collection.promoted">
-    <div class="panel"><a aria-label="Shop this collection" li-object:href="collection.url" href="{{ collection.url }}" class="panel_media w-inline-block"><img class="panel_image" src="{{ collection.image | image_url: width: 1536 }}" alt="{{ collection.title }}" sizes="100vw" li-object:src="collection.image | image_url: width: 1536" loading="lazy" li-object:alt="collection.title" srcset="{{ 'clover-crane-hero-placeholder-p-500.jpg' | asset_url }} 500w, {{ 'clover-crane-hero-placeholder-p-800.jpg' | asset_url }} 800w, {{ 'clover-crane-hero-placeholder-p-1080.jpg' | asset_url }} 1080w, {{ 'clover-crane-hero-placeholder.jpg' | asset_url }} 1280w"></a><div class="panel_action-group"><a li-object:href="collection.url" href="{{ collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6 w-inline-block"><div>Shop <span li-object="collection.title">{{ collection.title }}</span></div></a></div></div>    </div>
-{% endif %}
-                        </div>
-{% endfor %}<div class="hide w-embed"><style>
-  .promotion_list-item:not(:has(.panel)) {
-    display: none;
-  }
-</style></div></div></div> {% schema %} {
+<div class="container-5"><div class="promotion_list-layout" li-content-for-blocks="">
+{% for block in section.blocks %}
+{% case block.type %}
+{% when '@app' %}
+{% render block %}
+{% when 'promoted-panel' %}
+            <div li-block="Promoted Panel" class="promotion_list-item{% if block.settings.half_width %} is-half{% endif %}">
+                    
+                    <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="panel_media">{% if block.settings.video == blank %}    <div li-if="block.settings.video == blank">
+    <img class="panel_image" src="{{ block.settings.collection.image | image_url: width: 1536 }}" alt="{{ block.settings.collection.title }}" li-object:src="block.settings.collection.image | image_url: width: 1536" loading="lazy" li-object:alt="block.settings.collection.title">    </div>
+{% endif %}{% if block.settings.video != blank %}    <div li-if="block.settings.video != blank" class="panel_video-wrapper">
+    <div li-object="block.settings.video | video_tag: controls: false, autoplay: true, loop: true, muted: true, class: 'panel_image'">{{ block.settings.video | video_tag: controls: false, autoplay: true, loop: true, muted: true, class: 'panel_image' }}</div>    </div>
+{% endif %}</a><div class="panel_action-group"><a li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6"><div>Shop <span li-object="block.settings.collection.title">{{ block.settings.collection.title }}</span></div></a></div></div>
+                </div>{% when 'collection-slider' %}
+            <div li-block="Collection Slider" class="promotion_list-item">
+                    <div class="flex flex-col gap-4"><div class="section-header"><h2 class="font-size-5 font-weight-500">
+{{ block.settings.text_heading }}
+</h2></div><div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for product in block.settings.collection_products.products limit: block.settings.collection_products_limit %}
+<div class="swiper-slide collection-slider_slide">
+    {% render 'product_card', product: product %}
+</div>
+{% endfor %}</div><div class="swiper-button-wrapper"><a aria-label="Previous Slide" class="swiper-button swiper-prev"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg></a><a aria-label="Next Slide" class="swiper-button swiper-next"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></a></div></div></div>
+                </div>{% endcase %}
+{% endfor %}
+
+    </div><div class="hide w-embed w-script"><script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.swiper.cc-promoted-slider').forEach((el) => {
+    new Swiper(el, {
+      slidesPerView: 'auto',
+      navigation: {
+        nextEl: el.querySelector('.swiper-next'),
+        prevEl: el.querySelector('.swiper-prev'),
+      },
+    });
+  });
+});
+</script></div></div> {% schema %} {
     "tag": "section",
     "name": "Promoted",
-    "class": "section",
+    "class": "section s-pt-1",
+    "blocks": [
+        {
+            "name": "Promoted Panel",
+            "type": "promoted-panel",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Panel"
+                },
+                {
+                    "type": "collection",
+                    "id": "collection",
+                    "label": "Collection"
+                },
+                {
+                    "type": "video",
+                    "id": "video",
+                    "label": "Video (optional, overrides image)"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "half_width",
+                    "label": "Half width",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Collection Slider",
+            "type": "collection-slider",
+            "settings": [
+                {
+                    "id": "text_heading",
+                    "type": "text",
+                    "label": "Heading",
+                    "default": "Heading"
+                },
+                {
+                    "id": "collection_products",
+                    "type": "collection",
+                    "label": "Products"
+                },
+                {
+                    "type": "range",
+                    "id": "collection_products_limit",
+                    "min": 1,
+                    "max": 99,
+                    "step": 1,
+                    "label": "Limit: Products",
+                    "default": 6
+                }
+            ]
+        },
+        {
+            "type": "@app"
+        }
+    ],
     "presets": [
         {
             "name": "Promoted",
             "category": "Liquify",
-            "blocks": []
+            "blocks": [
+                {
+                    "type": "promoted-panel"
+                },
+                {
+                    "type": "collection-slider"
+                }
+            ]
         }
     ]
 } {% endschema %}

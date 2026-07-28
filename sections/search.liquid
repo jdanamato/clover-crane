@@ -1,46 +1,29 @@
-<div class="container-5"><div class="search-headline"><div class="text-gray-1 font-size-4">Search results for</div><h1 class="search-headline_query"><span class="text-gray-1 font-size-6">"</span><span li-object="search.terms | escape ">{{ search.terms | escape  }}</span><span class="text-gray-1 font-size-6">"</span></h1></div>{% paginate search.results by 50 %}
-    <div li-render-filter="wrapper" li-paginate="search.results" li-paginate:by="50" class="sidebar_layout" by="50"><div id="w-node-a0642424-48ce-11a7-454f-437065c687a4-65c687a4" class="filter_sidebar"><div id="w-node-a0642424-48ce-11a7-454f-437065c687a6-65c687a4" class="filter_layout"><div class="filter_header"><div class="font-size-4 font-weight-500">Filters</div><button li-render-filter="clear-all" type="button" class="filter_reset"><div>Clear all</div></button></div><div class="filter_results-wrapper"><div class="filter_results-text">Showing <span li-object="search.results_count | append: ' '" class="font-family-mono font-weight-500">{{ search.results_count | append: ' ' }}</span> products</div></div><div class="filter_scroll-wrapper"><div class="filter_filter-group-list">{% for filter in search.filters %}    <div li-for="filter in search.filters" class="filter_filter-group">
+<div class="container-5"><div class="search-headline"><h1 class="display-size-1">Search products</h1></div><div li-render-filter="wrapper" class="sidebar_layout"><div class="filter_sidebar"><div class="filter_layout"><div class="filter_header"><div class="font-size-4 font-weight-500">Filters</div><button li-render-filter="clear-all" type="button" class="filter_reset"><div class="pointer-events-none">Clear all</div></button></div><div class="filter_search-wrapper"><form action="/search" method="get"><input name="q" placeholder="Search" type="search" id="filter-search" li-object:value="search.terms" class="input" value="{{ search.terms }}"></form></div><div class="filter_results-wrapper"><div class="filter_results-text">Showing <span li-object="search.results_count" class="font-family-mono font-weight-500">{{ search.results_count }}</span> products</div></div><div class="filter_scroll-wrapper"><div class="filter_filter-group-list">{% for filter in search.filters %}    <div li-for="filter in search.filters" class="filter_filter-group">
                                     {% if filter.values.size > 1 %}    <div li-if="filter.values.size > 1" class="filter_group-item">
     <div class="filter_header"><div li-object="filter.label" class="font-weight-500">{{ filter.label }}</div></div><div class="filter_list">{% for filter_value in filter.values %}    <div li-for="filter_value in filter.values" class="filter_item">
-                                    <label class="filter_option"><div class="filter_option-inner"><input type="checkbox" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" id="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}" li-render-filter-count="{{ filter_value.count }}" class="checkbox-input"><span li-object="filter_value.label" class="filter_option-label" for="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}">{{ filter_value.label }}</span></div><div li-object="filter_value.count" class="filter_option-quantity">{{ filter_value.count }}</div></label>
+                                    <label class="filter_option"><div class="filter_option-inner"><input type="checkbox" x-on:change="checked = $event.target.checked" x-bind:class="{ 'w--redirected-checked': checked }" li-render-filter="filter" li-render-filter-value="{{ filter_value.value }}" li-render-filter-name="{{ filter_value.param_name }}" class="checkbox-input" x-data="{ checked: {{ filter_value.active }} }" id="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}"><span li-object="filter_value.label" class="filter_option-label" for="filter-{{ filter.param_name | handleize }}-{{ filter_value.value | handleize }}">{{ filter_value.label }}</span></div><div li-object="filter_value.count" class="filter_option-quantity">{{ filter_value.count }}</div></label>
                         </div>
 {% endfor %}</div>    </div>
 {% endif %}
                         </div>
-{% endfor %}</div></div></div><a data-w-id="a0642424-48ce-11a7-454f-437065c687dd" href="#" class="filter_modal-close-button w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="xmark" width="100%" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="14" y1="4" x2="4" y2="14"></line><line x1="4" y1="4" x2="14" y2="14"></line></g></svg></a></div><a id="w-node-_26853262-2957-7a14-640e-6e1516cade7d-70bd90f4" data-w-id="26853262-2957-7a14-640e-6e1516cade7d" href="#" class="filter_modal-trigger w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" class="icon-size-3"><g fill="currentColor"><path d="M2.74999 2C2.46499 2 2.20499 2.161 2.07899 2.416C1.95199 2.671 1.98099 2.976 2.15299 3.203L7.00099 9.602V16.25C7.00099 16.515 7.14099 16.761 7.36899 16.896C7.48699 16.966 7.61899 17 7.75099 17C7.87599 17 7.99999 16.969 8.11199 16.907L10.612 15.532C10.852 15.4 11.001 15.148 11.001 14.875V9.602L15.848 3.203C16.02 2.976 16.049 2.671 15.922 2.416C15.796 2.161 15.535 2 15.251 2H2.74999Z" fill-opacity="0.4"></path></g></svg><div>Filters</div></a><div id="w-node-_26853262-2957-7a14-640e-6e1516cade83-70bd90f4" class="filter_results"><div class="filter_feed-header"><div class="filter_tags">{% for filter in search.filters %}    <div li-for="filter in search.filters" class="filter_tags_layout">
+{% endfor %}</div></div></div><a aria-label="Close filters" class="filter_modal-close-button"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" id="xmark" width="100%" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><line x1="14" y1="4" x2="4" y2="14"></line><line x1="4" y1="4" x2="14" y2="14"></line></g></svg></a></div><a class="filter_modal-trigger"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" class="icon-size-3"><g fill="currentColor"><path d="M2.74999 2C2.46499 2 2.20499 2.161 2.07899 2.416C1.95199 2.671 1.98099 2.976 2.15299 3.203L7.00099 9.602V16.25C7.00099 16.515 7.14099 16.761 7.36899 16.896C7.48699 16.966 7.61899 17 7.75099 17C7.87599 17 7.99999 16.969 8.11199 16.907L10.612 15.532C10.852 15.4 11.001 15.148 11.001 14.875V9.602L15.848 3.203C16.02 2.976 16.049 2.671 15.922 2.416C15.796 2.161 15.535 2 15.251 2H2.74999Z" fill-opacity="0.4"></path></g></svg><div>Filters</div></a>{% paginate search.results by 50 %}
+    <div id="w-node-_26853262-2957-7a14-640e-6e1516cade83-70bd90f4" li-paginate="search.results" li-paginate:by="50" class="filter_results" by="50"><div class="filter_feed-header"><div class="filter_tags">{% for filter in search.filters %}    <div li-for="filter in search.filters" class="filter_tags_layout">
                                     {% for filter_value in filter.active_values %}    <div li-for="filter_value in filter.active_values" class="tag">
                                     <div li-object="filter_value.label">{{ filter_value.label }}</div>
-                            <a li-render-filter-value="{{ filter_value.url_to_remove }}" aria-label="Remove filter" li-render-filter="remove" href="#" class="tag_remove w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-1"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor"><line x1="14" y1="4" x2="4" y2="14"></line><line x1="4" y1="4" x2="14" y2="14"></line></g></svg></a>
+                            <a li-render-filter-value="{{ filter_value.url_to_remove }}" aria-label="Remove filter" li-render-filter="filter-remove" href="#" class="tag_remove w-inline-block"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-1"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor"><line x1="14" y1="4" x2="4" y2="14"></line><line x1="4" y1="4" x2="14" y2="14"></line></g></svg></a>
                         </div>
 {% endfor %}
                         </div>
-{% endfor %}</div><div><select id="sort-by" li-for:inside="option in search.sort_options" li-render-filter="sort" class="select">
+{% endfor %}</div><div li-render-filter="sort"><select id="sort-by" li-for:inside="option in search.sort_options" class="select">
         {% for option in search.sort_options %}                            <option li-object:value="option.value" li-object="option.name" class="select_option" value="{{ option.value }}">{{ option.name }}</option>
-                    {% endfor %}    </select></div></div><div class="w-dyn-list"><div role="list" class="filter_product-list w-dyn-items">{% for product in search.results %}    <div li-for="product in search.results" role="listitem" class="filter_product-list-item w-dyn-item">
+                    {% endfor %}    </select></div></div><div><div role="list" class="filter_product-list">{% for product in search.results %}    <div li-for="product in search.results" role="listitem" class="filter_product-list-item">
                                     {% render 'product_card', product: product %}
                         </div>
 {% endfor %}</div>{% if search.results == blank %}    <div li-if="search.results == blank" class="empty-state w-dyn-empty">
     <div class="font-weight-500">No results found</div><div class="text-gray-1 font-size-2 margin-t-4">There are no results with this criteria. Try changing your search.</div>    </div>
-{% endif %}</div>{% render 'pagination' %}</div></div>{% endpaginate %}</div><div class="hide w-embed w-script"><script>
-  //sorting
-  Shopify.queryParams = {};
-  // Preserve existing query parameters
-  if (location.search.length) {
-    var params = location.search.substr(1).split('&');
-    for (var i = 0; i < params.length; i++) {
-      var keyValue = params[i].split('=');
-      if (keyValue.length) {
-        Shopify.queryParams[decodeURIComponent(keyValue[0])] = decodeURIComponent(keyValue[1]);
-      }
-    }
-  }
-  // Update sort_by query parameter on select change
-  document.querySelector('#sort-by').addEventListener('change', function (e) {
-    var value = e.target.value;
-    Shopify.queryParams.sort_by = value;
-    location.search = new URLSearchParams(Shopify.queryParams).toString();
-  });
-</script></div> {% schema %} {
+{% endif %}</div>{% if paginate.pages > 1 %}    <div li-if="paginate.pages > 1">
+    {% render 'pagination' %}    </div>
+{% endif %}</div>{% endpaginate %}</div></div> {% schema %} {
     "tag": "section",
     "name": "Search",
     "class": "section",
