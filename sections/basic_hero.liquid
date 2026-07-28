@@ -1,0 +1,43 @@
+<div class="container-2"><div class="basic-hero_content"><h1>
+{{ section.settings.text_page_title }}
+</h1>{% if section.settings.page_description != blank %}    <div li-if="section.settings.page_description != blank">
+    <p>
+{{ section.settings.text_page_description }}
+</p>    </div>
+{% endif %}</div></div>{% if section.settings.image != blank %}    <div li-if="section.settings.image != blank" class="basic-hero_media">
+    {% if section.settings.image_image %}
+{{ section.settings.image_image | image_url: width: 1024 | image_tag: loading: 'lazy', class: 'basic-hero_image' }}
+{% else %}
+ {{ 'detailed-apparel-1' | placeholder_svg_tag: 'basic-hero_image' }} 
+{% endif %}    </div>
+{% endif %} {% schema %} {
+    "tag": "section",
+    "name": "Basic Hero",
+    "class": "basic-hero",
+    "settings": [
+        {
+            "id": "text_page_title",
+            "type": "text",
+            "label": "Page Title",
+            "default": "Page title"
+        },
+        {
+            "id": "text_page_description",
+            "type": "text",
+            "label": "Page Description",
+            "default": "At Clover and Crane, we are obsessed with delivering exceptional customer service and personalized experiences. If you have any questions or need assistance with a project, please don\u2019t hesitate to reach out to us. We\u2019re here to help you in any way we can."
+        },
+        {
+            "id": "image_image",
+            "type": "image_picker",
+            "label": "Image"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Basic Hero",
+            "category": "Liquify",
+            "blocks": []
+        }
+    ]
+} {% endschema %}
