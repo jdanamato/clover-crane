@@ -11,6 +11,18 @@
   "sections": {
     "promoted": {
       "type": "promoted",
+      "blocks": {
+        "panel_etk3qd": {
+          "type": "panel",
+          "settings": {
+            "collection": "corporate",
+            "half_width": true
+          }
+        }
+      },
+      "block_order": [
+        "panel_etk3qd"
+      ],
       "settings": {}
     },
     "stores": {
