@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "basic_hero_pLcELQ": {
+      "type": "basic_hero",
+      "name": "Basic Hero",
+      "settings": {
+        "text_page_title": "Page title",
+        "text_page_description": "jjjj"
+      }
+    },
     "contact_form": {
       "type": "contact_form",
       "settings": {}
@@ -17,6 +25,7 @@
   "layout": "theme",
   "wrapper": "main.main-wrapper",
   "order": [
+    "basic_hero_pLcELQ",
     "contact_form"
   ]
 }
