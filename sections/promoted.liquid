@@ -4,7 +4,7 @@
 {% when '@app' %}
 {% render block %}
 {% when 'panel' %}
-            <div li-block="Panel" class="promotion_list-item{% if block.settings.half_width %} is-half{% endif %}">
+            <div li-block="Panel" class="promotion_list-panel{% if block.settings.half_width %} is-half{% endif %}">
                     
                     <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" class="panel_media" href="{{ block.settings.collection.url }}">{% if block.settings.video == blank %}    <div li-if="block.settings.video == blank">
     <img class="panel_image" src="{{ block.settings.collection.image | image_url: width: 1536 }}" alt="{{ block.settings.collection.title }}" li-object:src="block.settings.collection.image | image_url: width: 1536" loading="lazy" li-object:alt="block.settings.collection.title">    </div>
