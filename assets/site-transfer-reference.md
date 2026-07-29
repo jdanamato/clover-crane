@@ -28,8 +28,8 @@ Staging storefront password (password-protected store, needed to view any page):
  
 - [ ] All sections built and audited (Home, Product, Cart, Collection)
 - [ ] Tested on staging with real product/metafield data
-- [ ] Navigation menus exist on C&C's store (`services`, `occasions`, `main-menu`, `footer`, `featured`, `promoted`)
-- [ ] Metaobjects exist on C&C's store (`gift_guide`, `store_portal`, `monogram_style`, `text_color`, `monogram_position`)
+- [ ] Navigation menus exist on C&C's store (`main-menu`, `footer`, `featured`) — `services`/`occasions`/`promoted` are **not needed**, see below
+- [ ] Metaobjects exist on C&C's store (`store_portal`, `monogram_style`, `text_color`, `monogram_position`) — `gift_guide` is **not needed** (dead, unreferenced in current theme source, deleted from staging 2026-07-29)
 - [ ] Collection metafields defined on C&C's store (`collection_axis`, `featured_image_hover`, `short_description` — `promoted` retired 2026-07-24, see collections-architecture.md)
 - [ ] Product metafields defined on C&C's store (all `custom` namespace monogramming fields)
 - [ ] `section-rendering.js` asset present in C&C's theme assets
@@ -66,11 +66,11 @@ These live in the Shopify store, not the theme files. They need to exist on C&C'
  
 | Item | Where to set it |
 |---|---|
-| Navigation menus (`services`, `occasions`, `main-menu`, `footer`, `featured`, `promoted`) | C&C Admin → Content → Navigation |
+| Navigation menus (`main-menu`, `footer`, `featured`) | C&C Admin → Content → Navigation |
 | Metaobject definitions + entries | C&C Admin → Content → Metaobjects |
 | Collection metafield definitions | C&C Admin → Settings → Custom data → Collections |
 | Product metafield definitions | C&C Admin → Settings → Custom data → Products |
-| Which collections show in the Promoted section, and in what order | `promoted` menu links, C&C Admin → Content → Navigation (not a per-collection flag anymore) |
+| Which collections show in the Promoted section, and in what order | Per-block collection picker on the Promoted section itself, C&C Admin → Customize (not menu-driven — see `collections-architecture.md`) |
 | `section-rendering.js` | Upload to C&C Admin → Online Store → Themes → Assets |
 | Shopify Forms app (powers the Contact Form section's app block — `_sections/Contact Form.html`, used on Contact + Password pages) | Installed on staging (2026-07-24), **not installed on production yet** — install via C&C Admin → Apps before launch, then add the form block through the Theme Editor on both pages |
  
@@ -120,3 +120,22 @@ Confirmed with Joe (2026-07-23): spirit-wear is the current business, gifting is
 2. **Decide what happens to Customify.** It's a live, working personalization app on real spirit-wear products right now (`customify.cstmfy_req` metafield, presumably a storefront widget). Pushing the new theme unpublished is safe, but publishing it may silently break or duplicate Customify's UI if nobody accounts for it — check whether it injects theme-app-extension blocks that need re-placing in the new theme's product template. Worth clarifying whether Customify gets retired as part of the gifting pivot or needs to coexist during a transition window.
 3. Everything else on the original checklist (metaobjects, collection/product metafield definitions, `services`/`occasions` menus, Monogramming Service product) still needs to be created from scratch on production — staging having them doesn't transfer.
 4. Push as `--unpublished` first regardless (per the existing Transfer Steps) and preview against this real data before anyone considers publishing — spirit-wear products will flow through gifting-shaped templates (no monogram fields, no service/occasion collections) until the pivot's content lands, so expect the preview to look incomplete by design, not broken.
+
+---
+
+## Production Metaobjects/Metafields Audit (2026-07-29)
+
+Re-audited via `shopify store execute` (Admin GraphQL) against `cloverandcrane.myshopify.com`, then created the missing definitions directly via CLI mutations (`metaobjectDefinitionCreate` / `metafieldDefinitionCreate`), mirroring staging's exact field schema. Also ran the same essential-vs-not audit against staging first and deleted what was unreferenced anywhere in current theme source.
+
+**Corrections to the 2026-07-23 audit above:**
+- `gift_guide` metaobject is **not needed** — its only consumer (the Inspiration section) was deleted from theme source; deleted from staging, never created on production.
+- `services`/`occasions`/`promoted` navigation menus are **not needed** — see `collections-architecture.md` → Navigation Menus table for the full reasoning (Inspiration section deleted; Promoted section rebuilt as block-based, not menu-driven).
+- `collection_axis`/`featured_image_hover`/`short_description` collection metafields: confirmed still unreferenced anywhere in current theme markup, same as 2026-07-23. Not created on either store. Revisit only if a future section actually starts reading them.
+
+**Current production status (as of 2026-07-29):**
+- [x] Metaobjects: `store_portal`, `monogram_style`, `text_color`, `monogram_position` — all created
+- [x] Product metafields: all `custom` namespace monogramming fields — all created (`monogramming_enabled`, `personalization_cost`, `delivery_time`, `monogram_styles`, `monogram_text_colors`, `monogram_placement`, `monogram_max_characters`)
+- [ ] Navigation menus: `main-menu`/`footer` exist (generic Dawn); `featured` still missing — needed for the Header sub-nav row
+- [ ] "Monogramming Service" product: exists but `DRAFT` status, $0.00 price — needs real pricing + Active status before launch (variant ID `48705471414521` for the Product Hero setting)
+- [ ] `section-rendering.js` asset — still unverified, check after draft push
+- [ ] Shopify Forms app — still not installed on production (per table above)

@@ -15,7 +15,7 @@ Inspired by markandgraham.com's two-axis browsing model, extended to three axes 
  
 ### Axis 2 — Occasion (why they're buying it)
  
-Powers `linklists['occasions']` on the home page.
+Powered `linklists['occasions']` on the home page's Inspiration section. **That section was deleted from theme source** (see Navigation Menus below) — this axis's collections are still valid for browsing/tagging purposes, just not currently wired to a menu-driven section.
  
 | Collection Title | Handle |
 | --- | --- |
@@ -29,7 +29,7 @@ Powers `linklists['occasions']` on the home page.
  
 ### Axis 3 — Service (what can be done to it)
  
-Powers `linklists['services']` on the home page.
+Powered `linklists['services']` on the home page's Inspiration section. **That section was deleted from theme source** (see Navigation Menus below) — this axis's collections are still valid for browsing/tagging purposes, just not currently wired to a menu-driven section.
  
 | Collection Title | Handle |
 | --- | --- |
@@ -56,15 +56,12 @@ Powers `linklists['services']` on the home page.
  
 | Menu Name | Handle | Used by |
 | --- | --- | --- |
-| Services | `services` | `linklists['services']` — Inspiration section |
-| Occasions | `occasions` | `linklists['occasions']` — Inspiration section |
+| ~~Services~~ | ~~`services`~~ | **Not needed (2026-07-29)** — only consumer was the Inspiration section, which has been deleted from theme source (no `_sections/Inspiration.html`, no `linklists['services']` reference anywhere in current markup). Don't create this menu; if the orphaned Inspiration section is still showing on a live store, remove it via Admin → Customize instead of feeding it a menu. |
+| ~~Occasions~~ | ~~`occasions`~~ | **Not needed (2026-07-29)** — same reasoning as Services above; only consumer was the deleted Inspiration section. |
 | Main Menu | `main-menu` | Header navigation |
 | Footer | `footer` | Footer navigation |
 | Featured | `featured` | `linklists['featured']` — Header sub-nav row, only shows if the menu has links ([Header.html](../_sections/Header.html)) |
 | ~~Promoted~~ | ~~`promoted`~~ | **Superseded same day (2026-07-24)** — Promoted.html was rebuilt again, same day, into a mixed-block section (`li-content-for-blocks` with "Promoted Panel" + "Collection Slider" block types, each with its own `li-settings:custom` collection picker). The menu-based version was a same-day stepping stone; the block-based version replaced it before ever reaching production. The `promoted` menu that was created on staging is now unused — harmless to leave, safe to delete. |
- 
-> Each collection linked in `services` and `occasions` should have its **Description** filled in — this is what renders in the Inspiration section blurbs via `link.object.description`.
->
  
 ---
  
