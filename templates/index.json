@@ -11,43 +11,6 @@
   "sections": {
     "promoted": {
       "type": "promoted",
-      "blocks": {
-        "promoted_panel_XN9qYf": {
-          "type": "promoted-panel",
-          "settings": {
-            "collection": "home",
-            "half_width": false
-          }
-        },
-        "promoted_panel_4NqGki": {
-          "type": "promoted-panel",
-          "settings": {
-            "collection": "corporate",
-            "half_width": true
-          }
-        },
-        "promoted_panel_EWe88h": {
-          "type": "promoted-panel",
-          "settings": {
-            "collection": "silicone-bento-boxes",
-            "half_width": true
-          }
-        },
-        "collection_slider_Hkr37j": {
-          "type": "collection-slider",
-          "settings": {
-            "text_heading": "{{ block.settings.collection_products.title }}",
-            "collection_products": "wedding",
-            "collection_products_limit": 6
-          }
-        }
-      },
-      "block_order": [
-        "promoted_panel_XN9qYf",
-        "promoted_panel_4NqGki",
-        "promoted_panel_EWe88h",
-        "collection_slider_Hkr37j"
-      ],
       "settings": {}
     },
     "stores": {
