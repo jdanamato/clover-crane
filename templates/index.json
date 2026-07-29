@@ -25,11 +25,20 @@
             "collection": "corporate",
             "half_width": true
           }
+        },
+        "product_slider_mCLjBb": {
+          "type": "product-slider",
+          "settings": {
+            "text_heading": "Bags",
+            "collection_products": "wedding",
+            "collection_products_limit": 6
+          }
         }
       },
       "block_order": [
         "panel_HxDWnG",
-        "panel_etk3qd"
+        "panel_etk3qd",
+        "product_slider_mCLjBb"
       ],
       "settings": {}
     },
