@@ -1,20 +1,8 @@
-<div class="container-4"><div class="home-cta_panel"><header data-wf--header--variant="column" class="section-header"><div class="section-header_content">{% for block in section.blocks %}
-    {% if block.type == "kicker" %}
-                    <div li-block="Kicker">
-                                    <div class="kicker">
-{{ block.settings.text_kicker }}
-</div>
-                            </div>
-            {% endif %}
-{% endfor %}{% for block in section.blocks %}
-    {% if block.type == "headline" %}
-                    <div li-block="Headline" class="section-header_title">
-                                    <h2 class="display-size-1">
-{{ block.settings.text_headline }}
-</h2>
-                            </div>
-            {% endif %}
-{% endfor %}</div></header><div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
+<div class="container-4"><div class="home-cta_panel"><header data-wf--header--variant="column" class="section-header"><div class="section-header_content"><div class="kicker">
+{{ section.settings.text_kicker }}
+</div><h2 class="display-size-1">
+{{ section.settings.text_headline }}
+</h2></div></header><div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
 {{ section.settings.image_left_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'home-cta_image' }}
 {% else %}
  {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
@@ -30,33 +18,19 @@
     "tag": "section",
     "name": "Team",
     "class": "section bg-accent-2",
-    "blocks": [
+    "settings": [
         {
-            "name": "Kicker",
-            "type": "kicker",
-            "settings": [
-                {
-                    "id": "text_kicker",
-                    "type": "text",
-                    "label": "Kicker",
-                    "default": "Kicker"
-                }
-            ]
+            "id": "text_kicker",
+            "type": "text",
+            "label": "Kicker",
+            "default": "About Clover and Crane"
         },
         {
-            "name": "Headline",
-            "type": "headline",
-            "settings": [
-                {
-                    "id": "text_headline",
-                    "type": "text",
-                    "label": "Headline",
-                    "default": "Section header"
-                }
-            ]
-        }
-    ],
-    "settings": [
+            "id": "text_headline",
+            "type": "text",
+            "label": "Headline",
+            "default": "Meet Kathi &amp; Joani"
+        },
         {
             "id": "image_left_image",
             "type": "image_picker",
@@ -89,14 +63,7 @@
         {
             "name": "Team",
             "category": "Liquify",
-            "blocks": [
-                {
-                    "type": "kicker"
-                },
-                {
-                    "type": "headline"
-                }
-            ]
+            "blocks": []
         }
     ]
 } {% endschema %}

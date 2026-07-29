@@ -14,10 +14,18 @@
 </h2>
                             </div>
             {% endif %}
-{% endfor %}{% if Body %}    <div li-if="section.settings.body != blank" li-block="Body">
-    <p class="text-gray-1">
-{{ section.settings.text_body }}
-</p>    </div>
-{% endif %}</div>{% if Button %}    <div li-if="section.settings.button_url != blank and section.settings.button_label != blank" li-block="Button" class="button-group">
-    <a href="{{ section.settings.url_button_url }}" class="button"> {{ section.settings.text_button_label }} </a>    </div>
-{% endif %}
+{% endfor %}{% for block in section.blocks %}
+    {% if block.type == "body" %}
+                    <div li-block="Body">
+                                    <p class="text-gray-1">
+{{ block.settings.text_body }}
+</p>
+                            </div>
+            {% endif %}
+{% endfor %}</div>{% for block in section.blocks %}
+    {% if block.type == "button" %}
+                    <div li-block="Button" class="button-group">
+                                    <a href="{{ block.settings.url_button_url }}" class="button"> {{ block.settings.text_button_label }} </a>
+                            </div>
+            {% endif %}
+{% endfor %}
