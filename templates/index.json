@@ -12,6 +12,13 @@
     "promoted": {
       "type": "promoted",
       "blocks": {
+        "panel_HxDWnG": {
+          "type": "panel",
+          "settings": {
+            "collection": "home",
+            "half_width": false
+          }
+        },
         "panel_etk3qd": {
           "type": "panel",
           "settings": {
@@ -21,6 +28,7 @@
         }
       },
       "block_order": [
+        "panel_HxDWnG",
         "panel_etk3qd"
       ],
       "settings": {}
