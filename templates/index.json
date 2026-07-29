@@ -11,34 +11,6 @@
   "sections": {
     "promoted": {
       "type": "promoted",
-      "blocks": {
-        "panel_DD8XnD": {
-          "type": "panel",
-          "settings": {
-            "collection": "",
-            "half_width": false
-          }
-        },
-        "panel_3Hd4tH": {
-          "type": "panel",
-          "settings": {
-            "collection": "",
-            "half_width": true
-          }
-        },
-        "panel_UYpUR6": {
-          "type": "panel",
-          "settings": {
-            "collection": "",
-            "half_width": true
-          }
-        }
-      },
-      "block_order": [
-        "panel_DD8XnD",
-        "panel_3Hd4tH",
-        "panel_UYpUR6"
-      ],
       "settings": {}
     },
     "stores": {
