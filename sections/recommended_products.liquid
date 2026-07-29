@@ -32,25 +32,35 @@
                     "default": "Section header"
                 }
             ]
-        }
-    ],
-    "settings": [
-        {
-            "id": "text_body",
-            "type": "text",
-            "label": "Body",
-            "default": "Add a short description for this section."
         },
         {
-            "id": "url_button_url",
-            "type": "url",
-            "label": "Button URL"
+            "name": "Body",
+            "type": "body",
+            "settings": [
+                {
+                    "id": "text_body",
+                    "type": "text",
+                    "label": "Body",
+                    "default": "Add a short description for this section."
+                }
+            ]
         },
         {
-            "id": "text_button_label",
-            "type": "text",
-            "label": "Button Label",
-            "default": "Button"
+            "name": "Button",
+            "type": "button",
+            "settings": [
+                {
+                    "id": "url_button_url",
+                    "type": "url",
+                    "label": "Button URL"
+                },
+                {
+                    "id": "text_button_label",
+                    "type": "text",
+                    "label": "Button Label",
+                    "default": "Button"
+                }
+            ]
         }
     ],
     "presets": [
@@ -63,6 +73,12 @@
                 },
                 {
                     "type": "headline"
+                },
+                {
+                    "type": "body"
+                },
+                {
+                    "type": "button"
                 }
             ]
         }
