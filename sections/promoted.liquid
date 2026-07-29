@@ -3,16 +3,16 @@
 {% case block.type %}
 {% when '@app' %}
 {% render block %}
-{% when 'promoted-panel' %}
-            <div li-block="Promoted Panel" class="promotion_list-item{% if block.settings.half_width %} is-half{% endif %}">
+{% when 'panel' %}
+            <div li-block="Panel" class="promotion_list-item{% if block.settings.half_width %} is-half{% endif %}">
                     
-                    <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="panel_media">{% if block.settings.video == blank %}    <div li-if="block.settings.video == blank">
+                    <div class="panel"><a aria-label="Shop this collection" li-object:href="block.settings.collection.url" class="panel_media" href="{{ block.settings.collection.url }}">{% if block.settings.video == blank %}    <div li-if="block.settings.video == blank">
     <img class="panel_image" src="{{ block.settings.collection.image | image_url: width: 1536 }}" alt="{{ block.settings.collection.title }}" li-object:src="block.settings.collection.image | image_url: width: 1536" loading="lazy" li-object:alt="block.settings.collection.title">    </div>
 {% endif %}{% if block.settings.video != blank %}    <div li-if="block.settings.video != blank" class="panel_video-wrapper">
     <div li-object="block.settings.video | video_tag: controls: false, autoplay: true, loop: true, muted: true, class: 'panel_image'">{{ block.settings.video | video_tag: controls: false, autoplay: true, loop: true, muted: true, class: 'panel_image' }}</div>    </div>
 {% endif %}</a><div class="panel_action-group"><a li-object:href="block.settings.collection.url" href="{{ block.settings.collection.url }}" class="button cc-color-gray cc-gray-soft cc-size-4 shadow-6"><div>Shop <span li-object="block.settings.collection.title">{{ block.settings.collection.title }}</span></div></a></div></div>
-                </div>{% when 'collection-slider' %}
-            <div li-block="Collection Slider" class="promotion_list-item">
+                </div>{% when 'product-slider' %}
+            <div li-block="Product Slider" class="promotion_list-slider">
                     <div class="flex flex-col gap-4"><div class="flex flex-row items-center gap-4"><h2 class="font-size-5 font-weight-500">
 {{ block.settings.text_heading }}
 </h2><div class="flex flex-row items-center gap-3"><a href="/collections" class="link-button"><span>Shop all</span><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" class="icon-size-1"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></a></div></div><div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for product in block.settings.collection_products.products limit: block.settings.collection_products_limit %}
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
     "class": "section s-pt-1",
     "blocks": [
         {
-            "name": "Promoted Panel",
-            "type": "promoted-panel",
+            "name": "Panel",
+            "type": "panel",
             "settings": [
                 {
                     "type": "header",
@@ -67,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         },
         {
-            "name": "Collection Slider",
-            "type": "collection-slider",
+            "name": "Product Slider",
+            "type": "product-slider",
             "settings": [
                 {
                     "id": "text_heading",
@@ -102,10 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
             "category": "Liquify",
             "blocks": [
                 {
-                    "type": "promoted-panel"
+                    "type": "panel"
                 },
                 {
-                    "type": "collection-slider"
+                    "type": "product-slider"
                 }
             ]
         }
