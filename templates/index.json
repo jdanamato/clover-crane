@@ -12,6 +12,10 @@
     "promoted": {
       "type": "promoted",
       "blocks": {
+        "panel_WFMzVq": {
+          "type": "panel",
+          "settings": {}
+        },
         "product_slider_mCLjBb": {
           "type": "product-slider",
           "settings": {
@@ -22,6 +26,7 @@
         }
       },
       "block_order": [
+        "panel_WFMzVq",
         "product_slider_mCLjBb"
       ],
       "settings": {}
