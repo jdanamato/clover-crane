@@ -62,7 +62,7 @@
         "text_kicker": "About Clover and Crane",
         "text_headline": "Meet Kathi & Joani",
         "text_text": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service.",
-        "url_button_url": "",
+        "url_button_url": "shopify://pages/contact-us",
         "text_button_label": "Let's talk"
       }
     }
