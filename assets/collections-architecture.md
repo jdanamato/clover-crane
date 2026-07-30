@@ -1,4 +1,9 @@
 ## Collections Architecture
+
+> **⛔️ Staging is deprecated as a reference (2026-07-30).** Only look at
+> `cloverandcrane.myshopify.com` (production). Notes below that cite staging (e.g.
+> `store_portal` "verified on staging") are historical — re-verify against production
+> before relying on them. See `site-transfer-reference.md` for the full rationale.
  
 Inspired by markandgraham.com's two-axis browsing model, extended to three axes for C&C's services focus. Products can belong to collections across all three axes simultaneously.
  

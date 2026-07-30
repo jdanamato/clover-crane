@@ -3,6 +3,14 @@
  
 > Last updated from conversation: June 2026
 > Webflow Site ID: `67f411d3c3263bd372264834`
+
+> **⛔️ Staging is deprecated as a reference (2026-07-30).** Only look at
+> `cloverandcrane.myshopify.com` (production) — see the banner in
+> `site-transfer-reference.md` for why. Several notes below say things like "verified live
+> on staging" or "still live on staging"; those were true when written but staging has
+> since drifted out of sync with both production and `origin/main`. **Treat every staging
+> claim in this file as historical context, not current evidence** — re-verify against
+> production or the compiled theme on `origin/main` before acting on one.
  
 ---
  
@@ -118,7 +126,16 @@ li-attribute:class  = promotion_list-item{% if block.settings.half_width %} is-h
 ```
 Superseded the `promoted`-linklist version (same day — see collections-architecture.md) after Joe asked for panels and sliders to live in one freely-arrangeable area with per-block full/half width control.
 
-**Bug found + fixed (2026-07-24): half-width setting didn't work in the Theme Editor.** Root cause: the `li-settings:custom` JSON embed (``) had no `li-liquid` attribute. Per `docs/liquid-attributes/miscellaneous`: "Webflow may alter the formatting of certain characters — especially double quotes — within Custom Code elements... apply `li-liquid` to preserve original formatting during export." Without it, Webflow's export mangled the JSON's quotes, so the custom setting silently failed to register. **Any `li-settings:custom` JSON embed needs `li-liquid` alongside it** — add this to the gotchas doc too.
+**Bug found + fixed (2026-07-30): the entire Panel block had *no settings at all* in the Theme Editor.** Symptom Joe reported: every other section's settings show up in Edit Theme, Promoted's Panel blocks show none. Verified against production's unpublished `Clover` theme (#161621770489), not staging:
+
+- Pulled `sections/promoted.liquid` — the compiled Panel block schema was `{"name":"Panel","type":"panel","settings":[{"type":"header","content":"Panel"}]}`. Header only; `collection`, `video` and `half_width` were gone, while the compiled block markup still referenced `block.settings.collection.url`, `block.settings.video` and `block.settings.half_width`. `templates/index.json` matched: `"panel_WFMzVq": {"type":"panel","settings":{}}`.
+- Root cause: the Builder's own save cycle had re-serialized `_sections/Promoted.html` and hard-wrapped the `li-settings:custom` embed **inside two JSON string values** (`"label":"Video\n                (optional, overrides image)"`, `"label":"Half\n                width"`). Raw newlines in a JSON string = invalid JSON → the converter emitted only the attribute-derived header and dropped the array. Silent: no build error, and the Builder's linter doesn't check embed JSON.
+- Proof the published theme was built from that corrupted state (not from the valid one-line version in git): the compiled `promoted.liquid` carries the reformatted source's fingerprint — `document.addEventListener` indented 14 spaces, matching the working tree, vs 0 spaces at `HEAD`.
+- Fix: JSON rewritten as one object per line, short lines, so a future re-wrap can only break between tokens. Validated with `JSON.parse`. See the gotchas doc for the defensive format.
+- **Status: fix is in source, NOT yet verified on the store — needs a Builder publish of Promoted, then re-pull `sections/promoted.liquid` and confirm the three settings appear.**
+- Correction to the note below: the embed never had `w-embed` in any committed version, and it isn't needed — the converter keys off the attribute. And `li-settings:custom="Panel"`'s value is only a Theme-Editor header label, not an id.
+
+**Bug found + "fixed" (2026-07-24), causal claim now doubted: half-width setting didn't work in the Theme Editor.** Root cause claimed at the time: the `li-settings:custom` JSON embed (documented then as `` — the `w-embed` part was never actually in the file) had no `li-liquid` attribute. Per `docs/liquid-attributes/miscellaneous`: "Webflow may alter the formatting of certain characters — especially double quotes — within Custom Code elements... apply `li-liquid` to preserve original formatting during export." Without it, Webflow's export mangled the JSON's quotes, so the custom setting silently failed to register. **Any `li-settings:custom` JSON embed needs `li-liquid` alongside it** — add this to the gotchas doc too.
 
 Used `li-settings:custom` (raw Shopify schema JSON) instead of the native `li-settings:collection`/`li-settings:checkbox` convenience modifiers for **Promoted Panel**'s fields specifically — those modifiers auto-generate a `<modifier>_<handleized-label>` setting id (confirmed via docs: `li-settings:image="Image"` → `section.settings.image_image`), which isn't dot-notation-safe for hyphenated labels and isn't confirmed to give a plain single-collection reference outside the documented "product item" loop use case. Custom JSON sidesteps both problems with explicit, predictable `id`s.
 
@@ -126,7 +143,7 @@ Used `li-settings:custom` (raw Shopify schema JSON) instead of the native `li-se
 
 CSS: `.promotion_list-layout` changed from `flex-flow: column` to `row wrap`; `.promotion_list-item` is `width: 100%` by default, `.is-half` is `calc(50% - gap/2)` above 767px and forced back to full width below it (`css/clover-crane.webflow.css`).
 
-**✅ Verified live on staging (2026-07-24).** `block.settings.collection` correctly resolves a single collection reference (not a forced product loop) — confirmed via two real Promoted Panel blocks (Gifts for Him, Gifts for Her) rendering correctly. Half-width also confirmed working after a follow-up CSS fix: `.promotion_list-layout` was `display:flex` with a `calc(50% - gap/2)` width on `.is-half` — the Builder's own save cycle had added `gap: var(--gap-6)` (a different, larger token than the `--gap-4` the calc was written against), so two half-width items summed just over the container width and wrapped instead of sitting side by side. Switched to CSS Grid (`repeat(2, 1fr)`, full-width items `grid-column: 1/-1`, half-width `span 1`) — grid divides space against whatever gap is actually set, no manual calc to get wrong. Collection Slider and Find Your Store also confirmed rendering correctly with real merchant-configured data.
+**⚠️ "Verified live on staging (2026-07-24)" — no longer evidence.** Staging is deprecated as a reference (see `site-transfer-reference.md`), and on production the Panel block's settings were in fact absent right through 2026-07-30 (above), so anything below that depended on a merchant-configured `block.settings.collection` was not actually exercised on production. Re-verify after the next publish. Original note follows: `block.settings.collection` correctly resolves a single collection reference (not a forced product loop) — confirmed via two real Promoted Panel blocks (Gifts for Him, Gifts for Her) rendering correctly. Half-width also confirmed working after a follow-up CSS fix: `.promotion_list-layout` was `display:flex` with a `calc(50% - gap/2)` width on `.is-half` — the Builder's own save cycle had added `gap: var(--gap-6)` (a different, larger token than the `--gap-4` the calc was written against), so two half-width items summed just over the container width and wrapped instead of sitting side by side. Switched to CSS Grid (`repeat(2, 1fr)`, full-width items `grid-column: 1/-1`, half-width `span 1`) — grid divides space against whatever gap is actually set, no manual calc to get wrong. Collection Slider and Find Your Store also confirmed rendering correctly with real merchant-configured data.
 
 **Section Header block — tried, rejected by Joe (2026-07-24), removed from source.** The flattened version (single block, plain `li-settings:text` for Kicker + Headline, no nested `li-block`s, not reusing Team.html's `li-snippet`) wasn't the solution Joe was looking for — removed from `_sections/Promoted.html` via the Builder. Not currently planned to come back in this form. May resurface once/if the Group-block work (see below) lands on `li-content-for-theme-blocks`, which would allow genuine nested Kicker/Headline sub-blocks instead of the flattened version — but that's speculative, not a commitment.
 
