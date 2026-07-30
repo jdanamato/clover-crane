@@ -1,8 +1,25 @@
 # Clover & Crane — Site Transfer Reference
- 
+
+> ## ⛔️ Staging is deprecated as a reference (2026-07-30)
+>
+> **Look only at `cloverandcrane.myshopify.com` (production).** Do not inspect, query,
+> browse, or cite `clover-crane-staging.myshopify.com` for anything — not to check what a
+> section renders, not to confirm a schema, not to verify a fix.
+>
+> Staging drifted badly out of sync with both production and `origin/main`: its published
+> theme got swapped to an unrelated one, its compiled sections lagged the merged source,
+> and its schemas didn't match what was actually in git. Sessions that consulted it kept
+> reaching confident, wrong conclusions from that mismatch and burned hours on phantom
+> bugs. Historical staging references below are left intact for context but are **not
+> evidence** — re-verify anything that matters against production.
+>
+> When the question is "what does the store actually have or render right now," the answer
+> comes from production via `shopify store execute` (Admin GraphQL), or from the compiled
+> theme files on `origin/main`. Nowhere else.
+
 ## Overview
  
-Because C&C already has an active Shopify store, this is **not a store transfer** — it's a **theme push**. The dev store (`clover-crane-staging.myshopify.com`) stays in your Partner account; only the finished theme gets pushed to C&C's live store. Their existing products, orders, customers, and settings are untouched.
+Because C&C already has an active Shopify store, this is **not a store transfer** — it's a **theme push**. Only the finished theme gets pushed to C&C's live store. Their existing products, orders, customers, and settings are untouched.
  
 ---
  
@@ -18,16 +35,17 @@ store = "clover-crane-staging.myshopify.com"
 store = "cloverandcrane.myshopify.com"
 ```
 
-**Correction (2026-07-23):** the production store's real `myshopifyDomain` is `cloverandcrane.myshopify.com` — no hyphens. `clover-and-crane.myshopify.com` (the hyphenated form used everywhere in this doc and `CLAUDE.md` previously) 404s on `shopify theme list`. `shopify.theme.toml` did not exist in the repo at all as of this date — see the "Production Store Audit" section below.
+The `staging` environment block still exists in the file, but **don't use it** — see the
+deprecation banner at the top. `--environment production` is the only one to reach for.
 
-Staging storefront password (password-protected store, needed to view any page): `auyahn`
+**Correction (2026-07-23):** the production store's real `myshopifyDomain` is `cloverandcrane.myshopify.com` — no hyphens. `clover-and-crane.myshopify.com` (the hyphenated form used everywhere in this doc and `CLAUDE.md` previously) 404s on `shopify theme list`. `shopify.theme.toml` did not exist in the repo at all as of this date — see the "Production Store Audit" section below.
  
 ---
  
 ## Pre-Transfer Checklist
  
 - [ ] All sections built and audited (Home, Product, Cart, Collection)
-- [ ] Tested on staging with real product/metafield data
+- [ ] Tested against production's real product/metafield data — push the theme `--unpublished` and preview it there; **do not test on staging**, its data and theme state don't match production
 - [ ] Navigation menus exist on C&C's store (`main-menu`, `footer`, `featured`) — `services`/`occasions`/`promoted` are **not needed**, see below
 - [ ] Metaobjects exist on C&C's store (`store_portal`, `monogram_style`, `text_color`, `monogram_position`) — `gift_guide` is **not needed** (dead, unreferenced in current theme source, deleted from staging 2026-07-29)
 - [ ] Collection metafields defined on C&C's store (`collection_axis`, `featured_image_hover`, `short_description` — `promoted` retired 2026-07-24, see collections-architecture.md)
@@ -78,9 +96,9 @@ These live in the Shopify store, not the theme files. They need to exist on C&C'
  
 ## Notes
  
-- `divmks.myshopify.com` appearing in your staging store's domain settings is normal — it's Shopify's auto-generated internal redirect domain. Ignore it; always use `clover-crane-staging` in CLI commands.
-- The staging store remains in your Partner account indefinitely after the theme push. Keep it as a sandbox for future changes before pushing updates to production.
-- For future theme updates: edit on staging → test → `shopify theme push --environment production`.
+- The staging store still exists in the Partner account, but is **no longer a reference or a test target** (see the banner at the top of this file). Don't verify against it.
+- For future theme updates: edit locally → Liquiflow publish → merge the resulting PR → verify on production's own unpublished/preview theme before publishing.
+- ~~`divmks.myshopify.com` in staging's domain settings is Shopify's internal redirect domain~~ — moot now that staging is out of the loop.
 
 ---
 
@@ -104,7 +122,7 @@ Product metafields present: only `customify.cstmfy_req` (a third-party personali
 ### Pre-Transfer Checklist — actual status
 
 - [x] ~~All sections built and audited~~ — out of scope for this audit, unchanged
-- [ ] Tested on staging with real product/metafield data — **staging's product/metafield data doesn't resemble production's**; testing there won't catch the gaps below
+- [ ] Tested with real product/metafield data — **staging's data never resembled production's**; testing there won't catch the gaps below (and as of 2026-07-30 staging is off-limits entirely, see the banner up top). Preview against production instead.
 - [ ] **Navigation menus** — `main-menu`/`footer` exist but are generic Dawn menus; **`services`, `occasions`, `featured`, and `promoted` linklists don't exist at all**. Every collections-browsing section that reads `linklists['services'].links` / `linklists['occasions'].links` will render empty; the Header sub-nav (`linklists['featured']`) and Home's Promoted section (`linklists['promoted']`) will just not render — both are guarded with `li-if`/an empty `li-for`, so they fail safe rather than error, but Home will show no featured collections until this menu exists.
 - [ ] **Metaobjects** — none of `gift_guide`, `store_portal`, `monogram_style`, `text_color`, `monogram_position` exist. Only Shopify's built-in `shopify--*` taxonomy metaobjects (color, size, fabric, etc., auto-created by product categorization) are present.
 - [ ] **Collection metafields** — zero. All 11 collections returned `metafields: []`. `collection_axis`, `featured_image_hover`, `short_description` are undefined store-wide, not just unset per-collection. (`promoted` no longer needed — retired 2026-07-24 in favor of the `promoted` linklist.)
@@ -139,3 +157,49 @@ Re-audited via `shopify store execute` (Admin GraphQL) against `cloverandcrane.m
 - [ ] "Monogramming Service" product: exists but `DRAFT` status, $0.00 price — needs real pricing + Active status before launch (variant ID `48705471414521` for the Product Hero setting)
 - [ ] `section-rendering.js` asset — still unverified, check after draft push
 - [ ] Shopify Forms app — still not installed on production (per table above)
+---
+
+## Production Theme Audit (2026-07-30)
+
+Read-only audit of the store's themes via `shopify theme list` + `shopify store execute`
+(Admin GraphQL `theme.files`), and a `shopify theme pull` of `sections/`, `templates/`,
+`snippets/`, `layout/`, `assets/*.css` into a scratchpad (never into the repo — this repo
+has no compiled theme directories, and nothing here is ever pushed by CLI).
+
+| Theme | Role | ID |
+|---|---|---|
+| Dawn | **live** | `131053093113` |
+| Clover | unpublished (ours) | `161621770489` |
+
+`Clover` created 2026-07-28 20:07 UTC, 102 files. **Dawn is what customers see — every
+Theme Editor question about "our" theme means the unpublished `Clover` theme**, opened at
+`/admin/themes/161621770489/editor`.
+
+Publishes from the Builder are **incremental** ("changes only"): section file timestamps
+are spread across 07-28, 07-29 and 07-30 rather than sharing one publish time. So a stale
+compiled section can sit on the theme indefinitely while its source moves on — check
+`theme.files(filenames: [...]) { updatedAt }` before concluding a section is current.
+
+Findings from comparing every `_sections/*.html` against its compiled `sections/*.liquid`
+schema (source `li-settings` → generated setting ids, plus block names):
+
+- **Promoted → Panel block: all three settings missing on the theme.** Root cause and fix
+  in `project-reference.md` + the gotchas doc. Not yet re-verified — needs a publish.
+- **Every other section's settings match source.** Two apparent mismatches were false
+  alarms: setting ids are generated from the label with any Liquid filters stripped
+  (`li-settings:image="Image | image_url: width: 1024 | placeholder: '…'"` → `image_image`),
+  and `li-settings:collection` auto-adds a companion `<id>_limit` range setting.
+- **`_sections/Team.html` source has drifted past the published theme** (edited after the
+  07-30 21:04 publish, still uncommitted): source now emits `url_button_url` +
+  `text_button_label`, the theme has `href_routescontact_url` + `text_secondary_label`, and
+  `templates/index.json` stores values under the old ids. After the next publish those
+  stored values are orphaned — the Team button's URL/label will read empty in the editor
+  and need re-entering once.
+- **Stale compiled sections on the theme with no source:** `sections/hooper.liquid` and
+  `sections/inspiration.liquid` — leftovers from the `Hooper`→`Stores` rename and the
+  deleted Inspiration section. Harmless at render time (nothing references them) but they
+  still appear in the editor's "add section" picker. Safe to delete from the theme.
+- **Password page assets never published:** no `layout/password.liquid` and no
+  `sections/password.liquid` on the theme, although `_layouts/password.html` and
+  `_sections/Password.html` exist in source. Publish them before the store is put behind a
+  password page.
