@@ -24,7 +24,7 @@
 {% endfor %}
 
     </div><div class="hide w-embed w-script"><script>
-document.addEventListener('DOMContentLoaded', function() {
+              document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.swiper.cc-promoted-slider').forEach((el) => {
     new Swiper(el, {
       slidesPerView: 'auto',
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
-</script></div></div> {% schema %} {
+            </script></div></div> {% schema %} {
     "tag": "section",
     "name": "Promoted",
     "class": "section s-pt-1",
@@ -47,22 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 {
                     "type": "header",
                     "content": "Panel"
-                },
-                {
-                    "type": "collection",
-                    "id": "collection",
-                    "label": "Collection"
-                },
-                {
-                    "type": "video",
-                    "id": "video",
-                    "label": "Video (optional, overrides image)"
-                },
-                {
-                    "type": "checkbox",
-                    "id": "half_width",
-                    "label": "Half width",
-                    "default": false
                 }
             ]
         },
