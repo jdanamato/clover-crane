@@ -14,7 +14,10 @@
       "blocks": {
         "panel_WFMzVq": {
           "type": "panel",
-          "settings": {}
+          "settings": {
+            "collection": "home",
+            "half_width": false
+          }
         },
         "product_slider_mCLjBb": {
           "type": "product-slider",
@@ -23,11 +26,27 @@
             "collection_products": "wedding",
             "collection_products_limit": 10
           }
+        },
+        "panel_MVTbnU": {
+          "type": "panel",
+          "settings": {
+            "collection": "corporate",
+            "half_width": true
+          }
+        },
+        "panel_tNXean": {
+          "type": "panel",
+          "settings": {
+            "collection": "silicone-bento-boxes",
+            "half_width": true
+          }
         }
       },
       "block_order": [
         "panel_WFMzVq",
-        "product_slider_mCLjBb"
+        "product_slider_mCLjBb",
+        "panel_MVTbnU",
+        "panel_tNXean"
       ],
       "settings": {}
     },
@@ -43,8 +62,8 @@
         "text_kicker": "About Clover and Crane",
         "text_headline": "Meet Kathi & Joani",
         "text_text": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service.",
-        "href_routescontact_url": "",
-        "text_secondary_label": "Let's talk"
+        "url_button_url": "",
+        "text_button_label": "Let's talk"
       }
     }
   },
