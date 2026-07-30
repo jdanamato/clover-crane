@@ -12,32 +12,16 @@
     "promoted": {
       "type": "promoted",
       "blocks": {
-        "panel_HxDWnG": {
-          "type": "panel",
-          "settings": {
-            "collection": "home",
-            "half_width": false
-          }
-        },
-        "panel_etk3qd": {
-          "type": "panel",
-          "settings": {
-            "collection": "corporate",
-            "half_width": true
-          }
-        },
         "product_slider_mCLjBb": {
           "type": "product-slider",
           "settings": {
-            "text_heading": "Bags",
+            "text_heading": "{{ block.settings.collection_products.title }}",
             "collection_products": "wedding",
-            "collection_products_limit": 6
+            "collection_products_limit": 10
           }
         }
       },
       "block_order": [
-        "panel_HxDWnG",
-        "panel_etk3qd",
         "product_slider_mCLjBb"
       ],
       "settings": {}
@@ -52,7 +36,7 @@
       "type": "team",
       "settings": {
         "text_kicker": "About Clover and Crane",
-        "text_headline": "Meet Kathi &amp; Joani",
+        "text_headline": "Meet Kathi & Joani",
         "text_text": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service.",
         "href_routescontact_url": "",
         "text_secondary_label": "Let's talk"
