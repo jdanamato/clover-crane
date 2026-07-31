@@ -1,9 +1,11 @@
-<div class="container-2"><div class="basic-hero_content">{% if collection.title %}    <h1 li-if="collection.title != blank" li-object="collection.title">
-    Page title    </h1>
-{% endif %}<h1 li-if="collection.title == blank and section.settings.page_title != blank">
+<div class="container-2"><div class="basic-hero_content">{% if collection.title != blank %}    <div li-if="collection.title != blank" class="contents">
+    <h1 li-object="collection.title">{{ collection.title }}</h1>    </div>
+{% endif %}{% if collection.title == blank and section.settings.page_title != blank %}    <div li-if="collection.title == blank and section.settings.page_title != blank" class="contents">
+    <h1>
 {{ section.settings.text_page_title }}
-</h1>{% if page_title %}    <h1 li-if="collection.title == blank and section.settings.page_title == blank" li-object="page_title">
-    Page title    </h1>
+</h1>    </div>
+{% endif %}{% if collection.title == blank and section.settings.page_title == blank %}    <div li-if="collection.title == blank and section.settings.page_title == blank" class="contents">
+    <h1 li-object="page_title">{{ page_title }}</h1>    </div>
 {% endif %}{% if collection.description != blank %}    <div li-if="collection.description != blank">
     <p li-object="collection.description">{{ collection.description }}</p>    </div>
 {% endif %}{% if collection.title == blank and section.settings.page_description != blank %}    <div li-if="collection.title == blank and section.settings.page_description != blank">

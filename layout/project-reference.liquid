@@ -282,6 +282,8 @@ li-for                             = product in recommendations.products
 | Text-color swatch label showed wrong/broken text | Its `<label>` had a leftover `x-init="optionValue = selected_or_first_available_variant..."` copy-pasted from the main Color variant swatch &mdash; those Alpine variables don't exist in this scope. Removed it. |
 | Style radios would have rendered blank (found 2026-07-30) | Markup read `style.label` but production's `monogram_style` definition uses the key **`style_label`** &mdash; empty label, empty image alt, empty `properties[Design]` on the order. Fixed all three reads to `style.style_label`. Metaobject field keys are immutable, so markup is what moves. `collections-architecture.md`'s field table (which said `label`) was the source of the drift and is now corrected. |
 | Monogram text limit was hardcoded to 3 characters (changed 2026-07-30) | `maxlength="3"` and the literal "Add text (2 or 3 characters)" label meant every style shared one limit, and the existing `custom.monogram_max_characters` product metafield was referenced nowhere. Now per-style: added a `max_characters` integer field to the `monogram_style` metaobject (production, 2026-07-30), each style radio carries `li-attribute:data-max="{{ style.max_characters }}"` and an `x-on:change` that sets `maxChars` (falling back to `defaultMax`) and truncates any text already typed; the input binds `x-bind:maxlength="maxChars"` + `x-model="monogramText"` and the label is `x-text`-driven. Precedence: style value &rarr; product `monogram_max_characters` &rarr; 3. The `#monogram` `x-data` moved to `li-attribute:x-data` because it now seeds those defaults from Liquid (per the gotchas doc's bare-`x-data` rule). Client-side only &mdash; nothing validates the line item property server-side. |
+| Personalization checkbox looked checked on load, panel always expanded, "Select style:/Placement:/Text color:" indicators stuck on "Not set", style images broken (all found 2026-07-31, one root cause) | `#monogram` carried `li-if` **and** `li-attribute:x-data` on the same element, so the converter kept the `{% if %}` and dropped the `x-data` entirely &mdash; verified in the live DOM: the div had only `id`, the stale `li-if` attribute and `class`, no `x-data`. Every binding then resolved against the parent `handleVariant(...)` scope, where none of those variables exist. `personalization` in particular resolved to `window.personalization` = the `<label id="personalization">` element (truthy), which is why the box styled itself checked while the real input was `checked: false` and why `x-show` never hid the panel. Separately the style `<img>` had `li-if` + `li-object:src` on one element, so `src` was emitted as the literal string `style.style_image \| image_url: width: 200`. Fixed by nesting both: `li-if` moved to `class="contents"` wrappers, modifiers left alone on the inner elements. |
+| Style card showed the style name under the image | Joe's call (2026-07-31) &mdash; image only. The `<span li-object="style.style_label">` is now `class="sr-only"` instead of `product_radio-label`, so screen readers still get the name (the `<img>` alt carries it too) but nothing renders visually. Note `.product_radio-label` sets `position: relative` and is declared *after* `.sr-only` in the stylesheet, so keeping both classes would have cancelled the hiding &mdash; the class is replaced, not appended. |
 | Duplicate `name` attribute on Placement input | Had both `name="Placement"` and `li-attribute:name="properties[Placement]"` on the same element (invalid HTML &mdash; undefined which wins). Kept only the dynamic one, matching the Style/Color inputs' plain `name="properties[...]"` convention. |
 
 ---
@@ -528,4 +530,36 @@ Checked the live Webflow Designer page via MCP (`data_element_tool` &rarr; `get_
 | Missing `li-page="password"` | Every other page (Cart, 404, Search, etc.) has `li-page="<template>"` on `<body>`; this one didn't. Added it. |
 | Same gap found on Contact page in passing | `pages/contact.html`'s `<body>` also had no `li-page`. Added &mdash; first tried `li-page="page.contact"` (matching the section's `li-section:on_templates="page.contact"`), but the linter flagged `INVALID_ENUM`: `li-page` only accepts a fixed list (`product`, `collection`, `cart`, `index`, `page`, `blog`, `article`, `password`, etc.) &mdash; the dotted `page.<suffix>` form belongs to `li-section:on_templates`, a different attribute. Corrected to `li-page="page"`, matching `pages/page.html`'s existing (already-correct) pattern. |
 
-**Open item, not resolved:** `_layouts/password.html` looks like an orphaned leftover &mdash; every real page, including the fixed password page, uses `li-layout="theme"`, not a dedicated password layout. Not deleted without confirming it's actually dead first (per the stale-file caution already logged in `/docs/liquiflow-rules-and-gotchas.md`).</script></handleized-label></modifier>
+**Open item, not resolved:** `_layouts/password.html` looks like an orphaned leftover &mdash; every real page, including the fixed password page, uses `li-layout="theme"`, not a dedicated password layout. Not deleted without confirming it's actually dead first (per the stale-file caution already logged in `/docs/liquiflow-rules-and-gotchas.md`).
+---
+
+## `li-if` + modifier conflict sweep (2026-07-31)
+
+Root cause and all five failure shapes are documented in `/docs/liquiflow-rules-and-gotchas.md`
+("`li-if` counts as one of those two tags&hellip;"). Found while debugging the monogram picker, then
+swept across every canonical source. Fix in each case: `li-if` moved to a
+`<div class="contents">` wrapper, modifiers left on the original element.
+
+| File | Element | What was broken before |
+|---|---|---|
+| `_sections/Product Hero.html` | `#monogram` | `x-data` never emitted &rarr; whole picker mis-behaved (checkbox looked checked, panel always open, indicators stuck) |
+| `_sections/Product Hero.html` | style `<img>` | `src` emitted as a literal string &rarr; broken image |
+| `_sections/Basic Hero.html` | `<h1 li-object="collection.title">` | rendered the placeholder "Page title" on every collection page |
+| `_sections/Basic Hero.html` | `<h1 li-settings:text="Page Title">` | conditional dropped &rarr; rendered unconditionally (two headings at once) |
+| `_sections/Basic Hero.html` | `<h1 li-object="page_title">` | same as the first |
+| `_sections/Stores.html` | `<p li-object="store.description">` | rendered the literal placeholder "Card description" |
+| `_snippets/Pagination.html` | prev link, next link, page link, current-page div | conditionals dropped &rarr; Previous/Next rendered on the first/last page with empty hrefs |
+
+The 16 matching elements inside `_sections/Blog Articles.html`, `Collection Products.html`,
+`Collections List.html` and `Search.html` were **deliberately not touched** &mdash; they are content
+inside `li-snippet="pagination"` instances, i.e. derived copies the Builder re-syncs from
+`_snippets/Pagination.html`. Editing them would have been a competing edit against the source.
+Confirm they picked up the fix after the next publish.
+
+**Unrelated oddity spotted in passing, not fixed:** `_sections/Blog Articles.html` and
+`_sections/Collections List.html` each wrap the real pagination nav in an extra
+`<div li-snippet="Pagination">` &mdash; capital P, while the snippet's actual name (from
+`_snippets/Pagination.html`'s root element) is lowercase `pagination`. That instance points at
+a snippet that doesn't exist. Harmless-looking, but worth deciding whether to delete the
+wrapper before it starts syncing empty content.
+</script></handleized-label></modifier>
