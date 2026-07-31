@@ -151,8 +151,11 @@ Confirmed sufficient as-is for "let customers find their org's dedicated portal 
  
 | Field Key | Type | Notes |
 | --- | --- | --- |
-| `label` | Single-line text | Display name e.g. "Classic Script" |
-| `style_image` | Image | Sample lettering image |
+| `style_label` | Single-line text (required) | Display name e.g. "Classic Script". **Key is `style_label`, not `label`** — this doc said `label` until 2026-07-30 and the Product Hero markup followed the doc, so every style radio would have rendered with an empty label and submitted an empty `properties[Design]`. Verified against production's live definition; markup corrected to `style.style_label`. Metaobject field keys are immutable in Shopify, so the markup is the side that moves. |
+| `style_image` | Image (required) | Sample lettering image |
+| `max_characters` | Integer (optional) | Per-style character limit, drives `maxlength` on the monogram text input. Added to production 2026-07-30. Leave empty to inherit the product's `custom.monogram_max_characters` metafield (which itself falls back to 3). |
+
+**0 entries exist on production** as of 2026-07-30 — the styles themselves still have to be created before the picker shows anything.
  
 ### `text_color` ✅ Already configured
  

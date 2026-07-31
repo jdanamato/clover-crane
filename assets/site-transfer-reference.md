@@ -157,6 +157,10 @@ Re-audited via `shopify store execute` (Admin GraphQL) against `cloverandcrane.m
 - [ ] "Monogramming Service" product: exists but `DRAFT` status, $0.00 price — needs real pricing + Active status before launch (variant ID `48705471414521` for the Product Hero setting)
 - [ ] `section-rendering.js` asset — still unverified, check after draft push
 - [ ] Shopify Forms app — still not installed on production (per table above)
+- [x] `monogram_style.max_characters` (integer, optional) added 2026-07-30 — per-style monogram character limit, see `collections-architecture.md`
+- [ ] **`monogram_style` has 0 entries** — the styles themselves still need creating on production, each with `style_label`, `style_image` and (optionally) `max_characters`. `text_color` has 5, `monogram_position` has 7, `store_portal` has 1.
+- [ ] Password page still unpublished as of 2026-07-30 22:06 UTC — needs an "All files" publish; incremental publishes keep skipping it
+- [ ] `sections/hooper.liquid` still present on the theme — delete via Admin → Edit code (Admin API theme-file mutations return ACCESS_DENIED without a Shopify exemption, and the CLI has no per-file delete)
 ---
 
 ## Production Theme Audit (2026-07-30)
@@ -183,8 +187,9 @@ compiled section can sit on the theme indefinitely while its source moves on —
 Findings from comparing every `_sections/*.html` against its compiled `sections/*.liquid`
 schema (source `li-settings` → generated setting ids, plus block names):
 
-- **Promoted → Panel block: all three settings missing on the theme.** Root cause and fix
-  in `project-reference.md` + the gotchas doc. Not yet re-verified — needs a publish.
+- **Promoted → Panel block: all three settings were missing on the theme.** Root cause and
+  fix in `project-reference.md` + the gotchas doc. **Resolved** — republished 22:06 UTC the
+  same day, re-pull confirms `[header, collection, video, half_width]`.
 - **Every other section's settings match source.** Two apparent mismatches were false
   alarms: setting ids are generated from the label with any Liquid filters stripped
   (`li-settings:image="Image | image_url: width: 1024 | placeholder: '…'"` → `image_image`),
