@@ -1,0 +1,5 @@
+[environments.staging]
+store = "clover-crane-staging.myshopify.com"
+
+[environments.production]
+store = "cloverandcrane.myshopify.com"

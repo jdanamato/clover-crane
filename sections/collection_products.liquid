@@ -22,7 +22,23 @@
 {% endfor %}</div>{% if collection.products == blank %}    <div li-if="collection.products == blank" class="empty-state w-dyn-empty">
     <div class="font-weight-500">No results found</div><div class="text-gray-1 font-size-2 margin-t-4">There are no results with this criteria. Try changing your search.</div>    </div>
 {% endif %}</div>{% if paginate.pages > 1 %}    <div li-if="paginate.pages > 1">
-    {% render 'pagination' %}    </div>
+    <nav aria-label="Pagination" class="filter_pagination"><ul role="list" class="filter_pagination_list w-list-unstyled"><li id="w-node-_82b45975-f6d5-157c-50e3-9c6959305b74-59305b72" class="filter_pagination_item"><div>{% if paginate.previous %}    <div li-if="paginate.previous" class="contents">
+    <a li-object:href="paginate.previous.url" aria-label="Previous page" id="" class="pagination_button cc-is-previous" rel="prev" href="{{ paginate.previous.url }}"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-2"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg><div>Previous</div></a>    </div>
+{% endif %}</div>{% unless paginate.previous %}    <div li-unless="paginate.previous" aria-disabled="true" class="pagination_button cc-is-disabled cc-is-previous">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-2"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg><div>Previous</div>    </div>
+{% endunless %}</li>{% for part in paginate.parts %}    <li li-for="part in paginate.parts" id="w-node-_82b45975-f6d5-157c-50e3-9c6959305b82-59305b72" class="filter_pagination_item">
+                                    {% if part.is_link == false %}    <div li-if="part.is_link == false" class="contents">
+    <div aria-current="{% if part.title == paginate.current_page %}page{% endif %}"><div li-object="part.title" class="pagination_link is-current">{{ part.title }}</div></div>    </div>
+{% endif %}
+                            {% if part.is_link %}    <div li-if="part.is_link" class="contents">
+    <a li-object:href="part.url" aria-label="Go to {{ part.title }}" href="{{ part.url }}"><div li-object="part.title" class="pagination_link">{{ part.title }}</div></a>    </div>
+{% endif %}
+                        </li>
+{% endfor %}<li id="w-node-_82b45975-f6d5-157c-50e3-9c6959305b8a-59305b72" class="filter_pagination_item">{% unless paginate.next %}    <div aria-disabled="true" li-unless="paginate.next" class="pagination_button cc-is-disabled cc-is-next">
+    <div>Next</div><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-2"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg>    </div>
+{% endunless %}{% if paginate.next %}    <div li-if="paginate.next" class="contents">
+    <a li-object:href="paginate.next.url" aria-label="Next page" class="pagination_button cc-is-next" rel="next" href="{{ paginate.next.url }}"><div>Next</div><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" aria-hidden="true" width="100%" fill="none" class="icon-size-2"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></a>    </div>
+{% endif %}</li></ul></nav>    </div>
 {% endif %}</div></div></div>{% endpaginate %} {% schema %} {
     "tag": "section",
     "name": "Collection Products",
