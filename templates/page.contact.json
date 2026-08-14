@@ -17,17 +17,17 @@
         "text_page_description": "jjjj"
       }
     },
-    "17867224183c5f7096": {
-      "type": "apps",
+    "contact_form_tDBPQh": {
+      "type": "contact_form",
       "blocks": {
-        "forms_inline_h64Xmx": {
+        "forms_inline_8rMTWk": {
           "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
           "settings": {
-            "form_id": "",
+            "form_id": "1112635",
             "text_color": "#202020",
-            "button_background_color": "#202020",
+            "button_background_color": "#2F4F3E",
             "button_label_color": "#FFFFFF",
-            "links_color": "#1878B9",
+            "links_color": "#42765B",
             "errors_color": "#E02229",
             "text_alignment": "center",
             "form_alignment": "center",
@@ -39,8 +39,9 @@
         }
       },
       "block_order": [
-        "forms_inline_h64Xmx"
+        "forms_inline_8rMTWk"
       ],
+      "name": "Contact Form",
       "settings": {}
     }
   },
@@ -48,6 +49,6 @@
   "wrapper": "main.main-wrapper",
   "order": [
     "basic_hero_pLcELQ",
-    "17867224183c5f7096"
+    "contact_form_tDBPQh"
   ]
 }
