@@ -20,6 +20,17 @@
     {% render 'product_card', product: product %}
 </div>
 {% endfor %}</div><div class="swiper-button-wrapper"><a aria-label="Previous Slide" class="swiper-button swiper-prev"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg></a><a aria-label="Next Slide" class="swiper-button swiper-next"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></a></div></div></div>
+                </div>{% when 'collection-slider' %}
+            <div li-block="Collection Slider" class="promotion_list-slider">
+                    
+                    <div class="flex flex-col gap-4"><div class="flex flex-row items-center gap-4"><h2 class="font-size-5 font-weight-500">
+{{ block.settings.text_heading }}
+</h2></div><div class="swiper collection-slider cc-promoted-slider"><div class="swiper-wrapper collection-slider_wrapper">{% for collection in block.settings.collections %}    <div li-for="collection in block.settings.collections" class="swiper-slide collection-slider_slide">
+                                    <a li-object:href="collection.url" href="{{ collection.url }}" class="card cc-style-link p-4"><div class="card_body-wrap"><div class="card_media"><img li-object:src="collection.featured_image | image_url: width: 800" li-object:alt="collection.featured_image.alt | default: collection.title" alt="{{ collection.featured_image.alt | default: collection.title }}" src="{{ collection.featured_image | image_url: width: 800 }}" loading="lazy" class="card_image"></div><div class="w-layout-hflex card_body"><div class="card_text-group"><h3 li-object="collection.title" class="card_title">{{ collection.title }}</h3>{% if collection.description != blank %}    <div li-if="collection.description != blank" class="contents">
+    <p li-object="collection.description | strip_html | truncatewords: 20" class="text-gray-1">{{ collection.description | strip_html | truncatewords: 20 }}</p>    </div>
+{% endif %}</div></div></div></a>
+                        </div>
+{% endfor %}</div><div class="swiper-button-wrapper"><a aria-label="Previous Slide" class="swiper-button swiper-prev"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="11.5 15.25 5.25 9 11.5 2.75"></polyline></g></svg></a><a aria-label="Next Slide" class="swiper-button swiper-next"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 18 18" width="100%" fill="none" class="icon-size-4"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" stroke="currentColor"><polyline points="6.5 2.75 12.75 9 6.5 15.25"></polyline></g></svg></a></div></div></div>
                 </div>{% endcase %}
 {% endfor %}
 
@@ -93,6 +104,28 @@
             ]
         },
         {
+            "name": "Collection Slider",
+            "type": "collection-slider",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "Collection Slider"
+                },
+                {
+                    "type": "collection_list",
+                    "id": "collections",
+                    "label": "Collections",
+                    "limit": 12
+                },
+                {
+                    "id": "text_heading",
+                    "type": "text",
+                    "label": "Heading",
+                    "default": "Heading"
+                }
+            ]
+        },
+        {
             "type": "@app"
         }
     ],
@@ -106,6 +139,9 @@
                 },
                 {
                     "type": "product-slider"
+                },
+                {
+                    "type": "collection-slider"
                 }
             ]
         }
