@@ -11,7 +11,9 @@
   "sections": {
     "product_hero": {
       "type": "product_hero",
-      "settings": {}
+      "settings": {
+        "monogramming_service_product": "monogramming-service"
+      }
     },
     "recommended_products": {
       "type": "recommended_products",
@@ -35,11 +37,7 @@
         "kicker",
         "headline"
       ],
-      "settings": {
-        "text_body": "Add a short description for this section.",
-        "url_button_url": "",
-        "text_button_label": "Button"
-      }
+      "settings": {}
     }
   },
   "layout": "theme",
