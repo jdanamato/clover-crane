@@ -1,4 +1,8 @@
-<div class="container-4"><div class="home-cta_panel">{% render 'section_header' %}<div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
+<div class="product-hero_container"><div class="home-cta_panel"><header data-wf--header--variant="column" class="section-header"><div class="section-header_content"><div class="kicker">
+{{ section.settings.text_kicker }}
+</div><h2 class="display-size-1">
+{{ section.settings.text_headline }}
+</h2></div></header><div class="home-cta_layout"><div class="home-cta_media"><div class="home-cta_image-wrap cc-joani">{% if section.settings.image_left_image %}
 {{ section.settings.image_left_image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'home-cta_image' }}
 {% else %}
  {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
@@ -8,39 +12,23 @@
  {{ 'image' | placeholder_svg_tag: 'home-cta_image' }} 
 {% endif %}</div></div><div class="home-cta_content"><p class="text-gray-1">
 {{ section.settings.text_text }}
-</p><div class="button-group"><a li-object:href="routes.contact_url" href="{{ section.settings.href_routescontact_url }}" class="button" href="#">
-{{ section.settings.text_secondary_label }}
-</a></div></div></div></div></div> {% schema %} {
+</p><div class="button-group"><a href="{{ section.settings.url_button_url }}" class="button"> {{ section.settings.text_button_label }} </a></div></div></div></div></div> {% schema %} {
     "tag": "section",
     "name": "Team",
     "class": "section bg-accent-2",
-    "blocks": [
+    "settings": [
         {
-            "name": "Kicker",
-            "type": "kicker",
-            "settings": [
-                {
-                    "id": "text_kicker",
-                    "type": "text",
-                    "label": "Kicker",
-                    "default": "About Clover and Crane"
-                }
-            ]
+            "id": "text_kicker",
+            "type": "text",
+            "label": "Kicker",
+            "default": "About Clover and Crane"
         },
         {
-            "name": "Headline",
-            "type": "headline",
-            "settings": [
-                {
-                    "id": "text_headline",
-                    "type": "text",
-                    "label": "Headline",
-                    "default": "Meet our creative team: <br\/>Kathi and Joani"
-                }
-            ]
-        }
-    ],
-    "settings": [
+            "id": "text_headline",
+            "type": "text",
+            "label": "Headline",
+            "default": "Meet Kathi &amp; Joani"
+        },
         {
             "id": "image_left_image",
             "type": "image_picker",
@@ -55,17 +43,17 @@
             "id": "text_text",
             "type": "text",
             "label": "Text",
-            "default": "At Clover and Crane, our passion is crafting unique experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products and exceptional service."
+            "default": "At Clover and Crane, our passion is crafting unique\n                  experiences. Kathi and Joani are dedicated to bringing your visions to life with personalized products\n                  and exceptional service."
         },
         {
-            "id": "href_routescontact_url",
-            "type": "text",
-            "label": "routes.contact_url"
+            "id": "url_button_url",
+            "type": "url",
+            "label": "Button URL"
         },
         {
-            "id": "text_secondary_label",
+            "id": "text_button_label",
             "type": "text",
-            "label": "Secondary Label",
+            "label": "Button Label",
             "default": "Let's talk"
         }
     ],
@@ -73,14 +61,7 @@
         {
             "name": "Team",
             "category": "Liquify",
-            "blocks": [
-                {
-                    "type": "kicker"
-                },
-                {
-                    "type": "headline"
-                }
-            ]
+            "blocks": []
         }
     ]
 } {% endschema %}

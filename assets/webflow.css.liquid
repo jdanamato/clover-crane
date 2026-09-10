@@ -101,13 +101,13 @@ input.w-button {
 html[data-w-dynpage] [data-w-cloak] {
   color: transparent !important;
 }
-.w-code-block {
+.code-block {
   margin: unset;
 }
-pre.w-code-block code {
+pre.code-block code {
   all: inherit;
 }
-pre.w-code-block code > span {
+pre.code-block code > span {
   display: block !important;
 }
 .w-optimization {
@@ -232,7 +232,6 @@ h5 {
 h6 {
   font-size: 12px;
   line-height: 18px;
-  margin-top: 10px;
 }
 p {
   margin-top: 0;
@@ -319,7 +318,6 @@ button,
 }
 label {
   display: block;
-  margin-bottom: 5px;
   font-weight: bold;
 }
 .w-input,
@@ -1474,7 +1472,6 @@ textarea.w-select {
   opacity: 0.6;
 }
 .w-richtext figure div {
-  /* fix incorrectly sized selection border in the data manager */
   font-size: 0px;
   color: transparent;
 }
@@ -1531,9 +1528,6 @@ textarea.w-select {
 }
 .w-richtext figure.w-richtext-align-fullwidth > div {
   display: inline-block;
-  /* padding-bottom is used for aspect ratios in video figures
-      we want the div to inherit that so hover/selection borders in the designer-canvas
-      fit right*/
   padding-bottom: inherit;
 }
 .w-richtext figure.w-richtext-align-fullwidth > figcaption {
