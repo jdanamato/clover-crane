@@ -3,7 +3,14 @@
 </h2><a aria-label="Continue shopping" li-object:href="routes.root_url" href="{{ routes.root_url }}">Continue shopping</a></div>{% if cart.item_count > 0 %}    <div li-if="cart.item_count > 0" class="cart_form w-form">
     {% form 'cart', cart, class: 'cart_layout' %}
 <div class="card px-6 pt-6">{%- assign fee_variant = settings.monogramming_service_product.selected_or_first_available_variant -%}{% for item in cart.items %}{%- if fee_variant != blank and item.variant_id == fee_variant.id %}{% continue %}{% endif -%}    <div class="table_body" data-cart-line="{{ item.key }}">
-                                    <div class="cart_item-list"><div class="cart_item"><div class="cart_item-layout"><div class="cart_item_preview"><a li-object:href="item.url" aria-label="View product" class="cart_item_thumbnail" href="{{ item.url }}"><img li-object:src="item.image | image_url: width: 200" src="{{ item.image | image_url: width: 200 }}" alt="" class="cart_item_thumbnail-image"></a><div class="cart_item_details"><a li-object:href="item.url" li-object="item.title" href="{{ item.url }}" class="cart_item-title">{{ item.title }}</a><div li-object="item.variant.title" class="font-size-2">{{ item.variant.title }}</div><div class="cart_property_list">
+                                    <div class="cart_item-list"><div class="cart_item"><div class="cart_item-layout"><div class="cart_item_preview"><a li-object:href="item.url" aria-label="View product" class="cart_item_thumbnail" href="{{ item.url }}"><img li-object:src="item.image | image_url: width: 200" src="{{ item.image | image_url: width: 200 }}" alt="" class="cart_item_thumbnail-image"></a><div class="cart_item_details"><a li-object:href="item.url" li-object="item.title" href="{{ item.url }}" class="cart_item-title">{{ item.title }}</a><div li-object="item.variant.title" class="font-size-2">{{ item.variant.title }}</div>{%- assign has_visible_properties = false -%}
+{%- for property in item.properties -%}
+  {%- unless property.last == blank or property.first contains '_' -%}{%- assign has_visible_properties = true -%}{%- endunless -%}
+{%- endfor -%}
+{%- assign has_addon = false -%}
+{%- if item.properties['_Add-Personalization'] != blank -%}{%- assign has_addon = true -%}{%- endif -%}
+{%- if has_visible_properties or has_addon -%}
+<div class="cart_property_list">
 {%- for property in item.properties -%}
   {%- unless property.last == blank or property.first contains '_' -%}
     <div class="cart_property_list-item"><span class="text-gray-1">{{ property.first }}</span>: <span>{{ property.last }}</span></div>
@@ -56,7 +63,9 @@
     </div>
   </div>
 {%- endif -%}
-</div></div></div><div class="cart_item_price"><div class="cart_item-price"><div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>{% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
+</div>
+{%- endif -%}
+</div></div><div class="cart_item_price"><div class="cart_item-price"><div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>{% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
     <div li-object="item.original_line_price | money" class="compare-at-price">{{ item.original_line_price | money }}</div>    </div>
 {% endif %}</div><div class="cart_item_meta">{% render 'quantity_adjust', quantity: item.quantity %}<a li-object:href="item.url_to_remove" href="{{ item.url_to_remove }}" class="cart_item-remove">Remove</a></div></div></div></div></div>
                         </div>
