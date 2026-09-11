@@ -50,12 +50,6 @@
       ],
       "settings": {}
     },
-    "stores": {
-      "type": "stores",
-      "settings": {
-        "text_store_heading": "Find your store"
-      }
-    },
     "team": {
       "type": "team",
       "settings": {
@@ -71,7 +65,6 @@
   "wrapper": "main.main-wrapper",
   "order": [
     "promoted",
-    "stores",
     "team"
   ]
 }

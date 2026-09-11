@@ -59,54 +59,52 @@
     <div class="product-hero_container"><div li-for:inside="link in linklists['featured'].links" class="sub-nav_menu">
         {% for link in linklists['featured'].links %}                            <a li-object="link.title" li-object:href="link.url" href="{{ link.url }}" class="sub-nav_link">{{ link.title }}</a>
                     {% endfor %}    </div></div>    </div>
-{% endif %} {% schema %} {
-    "tag": "header",
-    "name": "Header",
-    "class": "page-header",
-    "blocks": [
+{% endif %} {% schema %}
+{
+  "tag": "header",
+  "name": "Header",
+  "class": "page-header",
+  "blocks": [
+    {
+      "name": "Search - Suggestion",
+      "type": "search-suggestion",
+      "settings": [
         {
-            "name": "Search - Suggestion",
-            "type": "search-suggestion",
-            "settings": [
-                {
-                    "id": "url_link",
-                    "type": "url",
-                    "label": "Link"
-                },
-                {
-                    "id": "text_text",
-                    "type": "text",
-                    "label": "Text",
-                    "default": "Tag"
-                }
-            ]
-        }
-    ],
-    "settings": [
-        {
-            "id": "collection_search_bestseller",
-            "type": "collection",
-            "label": "Search - Bestseller"
+          "id": "url_link",
+          "type": "url",
+          "label": "Link"
         },
         {
-            "type": "range",
-            "id": "collection_search_bestseller_limit",
-            "min": 1,
-            "max": 99,
-            "step": 1,
-            "label": "Limit: Search - Bestseller",
-            "default": 6
+          "id": "text_text",
+          "type": "text",
+          "label": "Text",
+          "default": "Tag"
         }
-    ],
-    "presets": [
-        {
-            "name": "Header",
-            "category": "Liquify",
-            "blocks": [
-                {
-                    "type": "search-suggestion"
-                }
-            ]
-        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "collection_search_bestseller",
+      "type": "collection",
+      "label": "Search - Bestseller"
+    },
+    {
+      "type": "range",
+      "id": "collection_search_bestseller_limit",
+      "min": 1,
+      "max": 99,
+      "step": 1,
+      "label": "Limit: Search - Bestseller",
+      "default": 6
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "search-suggestion"
+      }
     ]
-} {% endschema %}
+  }
+}
+{% endschema %}
