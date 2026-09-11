@@ -1,7 +1,10 @@
-<div class="quantity-select_layout"><button type="button" aria-label="Decrease quantity" data-change="-1" class="quantity-select_button">-</button><input type="number" min="1" max="50" name="quantity" id="quantity-{{ section.id }}"{% if add_to_cart %} x-model.number="quantity"{% endif %} class="quantity-select_input" value="1"><button type="button" aria-label="Increase quantity" data-change="1" class="quantity-select_button">+</button></div><div class="hide w-embed w-script"><script>
+<div class="quantity-select_layout"><button type="button" aria-label="Decrease quantity" data-change="-1" class="quantity-select_button">-</button><input type="number" min="1" max="50" name="quantity" id="quantity-{{ section.id }}"{% if add_to_cart %} x-model.number="quantity"{% endif %} class="quantity-select_input" value="{{ quantity | default: 1 }}"><button type="button" aria-label="Increase quantity" data-change="1" class="quantity-select_button">+</button></div><div class="hide w-embed w-script"><script>
                               document.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-change]');
   if (!btn) return;
+  // On the cart page each line owns its own handler, which talks to the cart API.
+  // Stepping the input here as well would double-count the change.
+  if (btn.closest('[data-cart-line]')) return;
   const form = btn.closest('form');
   const input = form?.querySelector('input[name="quantity"]');
   if (!input) return;
