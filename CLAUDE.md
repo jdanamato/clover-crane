@@ -25,7 +25,6 @@ One repository, one checkout, on `main`.
 |---|---|
 | `main` | The theme. Work here. Also carries the "Update from Shopify" pull commits |
 | `source` | Archived Webflow/Liquiflow tree — history, never edited |
-| `liquid-migration` | Merged into `main` on 2026-09-11; kept only as a migration record |
 
 ## Layout
 
@@ -73,10 +72,23 @@ Metaobjects: `monogram_style` (`style_label`, `style_image`, optional `max_chara
 (`placement_option`, a nine-value choice list driving a 3×3 grid).
 
 The upcharge is a separate cart line, because changing a price at add-to-cart needs Plus.
-`product_hero.liquid` has a `monogramming_service_product` product-picker setting; the
-customer's quantity is mirrored onto the fee line, and the fee is only added once the
-native add-to-cart dispatches `cartupdated`, so a failed add can't leave an orphan fee. When the setting is empty the whole personalization panel is hidden,
-which is deliberate: no configured fee means no way to order personalization free.
+The fee product is a **theme** setting, `settings.monogramming_service_product`, declared in
+`config/settings_schema.json` and stored in `config/settings_data.json` — the cart template
+needs it as well as the product page. It must be Active and published to the Online Store,
+since a product setting resolves against the online store and an unpublished one reads as
+blank. While it is blank the personalization panel is hidden on every product, deliberately:
+no configured fee means no way to order personalization free.
+
+`snippets/personalization_fee.liquid` holds `window.ccSyncPersonalizationFee()`, loaded
+site-wide. It sets the fee line to the number of personalized units in the cart, adding it
+when missing and collapsing older multi-line fee carts. Product Hero calls it after the
+native add-to-cart dispatches `cartupdated`, so a failed or inventory-capped add cannot leave
+an orphan or over-counted fee. The cart page calls it on every view, which covers quantity
+edits, removals and the back button.
+
+The fee line carries no properties of its own — one shared line whose quantity is the count.
+On the cart page it is hidden from the item list and rendered inline under the item it belongs
+to with Edit and Delete; on the order it is a normal separate line item.
 
 Order line item properties are `Design`, `Color`, `Placement`, `Text`,
 `Add Personalization`, plus a hidden `_Add-Personalization`.
@@ -112,8 +124,6 @@ These are Shopify's, not the old converter's:
 
 Clean these up when convenient; none of it is urgent.
 
-- `layout/project-reference.liquid` and `assets/project-reference.json` — documentation
-  that got published to the theme. Delete.
 - `assets/shopify.theme.toml` — CLI config inside `assets/`, publicly served. Move or delete.
 - `sections/inspiration.liquid` — dead section, still shows in the Add Section picker.
 - Leftover `li-*` attributes throughout the markup.
@@ -123,14 +133,12 @@ Clean these up when convenient; none of it is urgent.
 
 ## Open items
 
-- `sections/stores.liquid` reads `store.portal_collection.url`, but the `store_portal`
-  metaobject has no such field on production, so those cards link nowhere. The likely
-  resolution is retiring the section in favour of a Collection Slider block.
-- A metaobject reference field probably needs `.value` before a property access
-  (`store.portal_collection.value.url`). Unverified — test on the dev theme before relying
-  on either form.
-- Portal collections are public and listed on the All Collections page. Decide whether to
-  filter them out of `collections_list.liquid`.
+- `assets/shopify.theme.toml` and `sections/inspiration.liquid` are still on the theme; see
+  Known cruft above.
+- Clearing personalization from a cart line leaves its property keys behind with empty
+  values. That is the only way the cart API will drop them; every customer-facing surface
+  filters blanks, so it is cosmetic in the order admin only.
+- Portal collections, if they come back, are public and listed on the All Collections page.
 
 ## Documentation
 
