@@ -122,30 +122,33 @@
     });
   });
 });
-          </script></div> {% schema %} {
-    "tag": "section",
-    "name": "Product Hero",
-    "settings": [
-        {
-            "type": "header",
-            "content": "Personalization"
-        },
-        {
-            "type": "product",
-            "id": "monogramming_service_product",
-            "label": "Monogramming Service product"
-        }
-    ],
-    "presets": [
-        {
-            "name": "Product Hero",
-            "category": "Liquify",
-            "blocks": []
-        }
-    ],
-    "enabled_on": {
-        "templates": [
-            "product"
-        ]
+          </script></div> {% schema %}
+{
+  "tag": "section",
+  "name": "Product Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Personalization"
+    },
+    {
+      "type": "product",
+      "id": "monogramming_service_product",
+      "label": "Monogramming Service product",
+      "info": "Must be Active and published to the Online Store sales channel. If it isn't, the personalization panel is hidden on every product."
     }
-} {% endschema %}
+  ],
+  "presets": [
+    {
+      "name": "Product Hero",
+      "category": "Liquify",
+      "blocks": []
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}
