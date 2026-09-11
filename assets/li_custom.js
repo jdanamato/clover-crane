@@ -537,11 +537,6 @@ document.addEventListener('alpine:init', () => {
                 }]
             };
 
-            // formData carries the form's quantity field as a string and overwrites the
-            // numeric one above. Shopify's cart API silently treats a string quantity as 1,
-            // so every multi-quantity add landed as a single unit. Coerce it back.
-            payload.items[0].quantity = parseInt(payload.items[0].quantity, 10) || 1;
-
             let body = JSON.stringify(payload);
 
             await fetch(window.Shopify.routes.root + 'cart/add.js', {
