@@ -5,8 +5,16 @@ pushed to the store with the Shopify CLI.
 
 ## Pipeline
 
-Liquid written here → `shopify theme push` → Shopify. Design reference comes from Figma or
-whatever mockup is at hand; there is no design tool in the build path.
+Liquid written here → commit → push to GitHub → **Shopify deploys it**. The Clover theme is
+connected to this repository through Shopify's GitHub integration, so `main` is the deploy
+branch: merging into it ships. Design reference comes from Figma or whatever mockup is at
+hand; there is no design tool in the build path.
+
+The integration also runs backwards. Any change made to the theme outside git — the Theme
+Editor, or a CLI push — is committed back to `main` by `shopify[bot]` as "Update from Shopify
+for theme Clover". That back-sync is not perfectly faithful (on 2026-09-11 a
+`layout/theme.liquid` edit reached the theme but not the repo), so treat it as a safety net,
+never as the way to get work into the repo.
 
 **Webflow and Liquiflow are out of the pipeline** (migrated September 2026). Nothing is
 exported, converted, or generated. If you find `li-object`, `li-if`, `li-for`,
@@ -23,7 +31,7 @@ One repository, one checkout, on `main`.
 
 | Branch | What it is |
 |---|---|
-| `main` | The theme. Work here. Also carries the "Update from Shopify" pull commits |
+| `main` | The theme, and the deploy branch. Work here. Also carries `shopify[bot]` sync commits |
 | `source` | Archived Webflow/Liquiflow tree — history, never edited |
 
 ## Layout
@@ -48,17 +56,25 @@ not code, and expect the Theme Editor to rewrite them.
 
 ## Workflow
 
+**To ship:** commit, `git pull --rebase` (the bot commits often), then `git push origin main`.
+Shopify picks the branch up and updates the Clover theme. Verify on the theme preview.
+
+**To iterate quickly**, don't push to Clover. Use a development theme, which touches neither
+the connected theme nor the repo:
+
 ```bash
-shopify theme dev --store cloverandcrane.myshopify.com     # local preview
-shopify theme push --store cloverandcrane.myshopify.com --theme 161621770489
-shopify theme pull --store cloverandcrane.myshopify.com --theme 161621770489
+shopify theme dev --store cloverandcrane.myshopify.com     # local preview, hot reload
+shopify theme push --store cloverandcrane.myshopify.com --theme <development-theme-id>
 ```
+
+`shopify theme push` at the Clover theme (`161621770489`) works but is the wrong direction:
+it makes the repo downstream of the theme and produces a bot commit per push. Reserve it for
+a deliberate one-off, and expect to merge afterwards.
 
 Read live store state with `shopify store execute` (Admin GraphQL) rather than guessing.
 
-Merchant edits in the Theme Editor land on the Clover theme and reach this repo only
-through a pull, so pull before editing templates. Editing theme code in the Shopify admin
-works but competes with pushes from here — prefer editing locally.
+Merchant edits in the Theme Editor land on the Clover theme and come back through the
+bot commits, so `git pull` before editing templates or `config/settings_data.json`.
 
 ## Personalization data model
 
