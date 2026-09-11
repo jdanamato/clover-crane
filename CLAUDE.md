@@ -19,11 +19,13 @@ history only. Never edit it, and never treat `_sections/*.html` as the source of
 
 ## Branches and checkouts
 
+One repository, one checkout, on `main`.
+
 | Branch | What it is |
 |---|---|
-| `liquid-migration` | Current working branch, checked out at `../clover-crane-liquid` |
-| `main` | The theme, plus "Update from Shopify" pulls |
-| `source` | Archived Webflow/Liquiflow tree, checked out at `../clover-crane` — historical |
+| `main` | The theme. Work here. Also carries the "Update from Shopify" pull commits |
+| `source` | Archived Webflow/Liquiflow tree — history, never edited |
+| `liquid-migration` | Merged into `main` on 2026-09-11; kept only as a migration record |
 
 ## Layout
 
@@ -132,6 +134,12 @@ Clean these up when convenient; none of it is urgent.
 
 ## Documentation
 
-Merchant and handoff docs live in the sibling repo `../clover-crane-docs`: merchant guide,
-launch checklist, collections and personalization architecture, and dated audits under
-`archive/`. Update them when behaviour changes; the merchant guide is client-facing.
+Docs live in the sibling repo `../clover-crane-docs`, in three groups:
+
+- `handoff/` — merchant guide and launch checklist. Client-facing; keep it in plain language.
+- `active/` — how the current theme works, principally the content model.
+- `liquiflow/` — history from the retired pipeline, including the dated archive. Explains the
+  leftover `li-*` attributes. Never follow its workflow instructions.
+
+`scripts/check-docs.mjs` in that repo validates the docs against this theme; run it after
+changing either side.
