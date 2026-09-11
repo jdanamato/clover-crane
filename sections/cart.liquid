@@ -100,7 +100,17 @@
     var del = e.target.closest('[data-addon-delete]');
     if (del) {
       e.preventDefault();
-      post('/cart/change.js', { id: lineKey(del), properties: {} })
+      var key = lineKey(del);
+      // An empty properties object is ignored by the cart API. Every existing key has to be
+      // sent back as an empty string for it to be dropped from the line.
+      fetch('/cart.js', { headers: { Accept: 'application/json' } })
+        .then(function (res) { return res.json(); })
+        .then(function (cart) {
+          var line = cart.items.filter(function (i) { return i.key === key; })[0];
+          var cleared = {};
+          Object.keys((line && line.properties) || {}).forEach(function (k) { cleared[k] = ''; });
+          return post('/cart/change.js', { id: key, properties: cleared });
+        })
         .then(sync).then(refresh).catch(function (err) { console.error(err); });
       return;
     }
