@@ -2,6 +2,9 @@
                               document.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-change]');
   if (!btn) return;
+  // On the cart page each line owns its own handler, which talks to the cart API.
+  // Stepping the input here as well would double-count the change.
+  if (btn.closest('[data-cart-line]')) return;
   const form = btn.closest('form');
   const input = form?.querySelector('input[name="quantity"]');
   if (!input) return;
