@@ -34,5 +34,24 @@
                 "info": "The product that carries the personalization fee. Must be Active and published to the Online Store. While this is empty the personalization panel is hidden on every product."
             }
         ]
+    },
+    {
+        "name": "Delivery",
+        "settings": [
+            {
+                "type": "text",
+                "id": "shipping_estimate",
+                "label": "Shipping estimate",
+                "default": "Usually ships in 1\u20133 business days",
+                "info": "Shown on every product page. A product's own Delivery Time field overrides it. Keep the wording about how long you take to ship, not when it arrives \u2014 the arrival date is calculated at checkout from Settings \u2192 Shipping and delivery."
+            },
+            {
+                "type": "text",
+                "id": "shipping_estimate_personalized",
+                "label": "Shipping estimate, personalized items",
+                "default": "Personalized items usually ship in 5\u20137 business days",
+                "info": "Replaces the line above once a customer ticks Add Personalization. Leave empty to always show the standard estimate."
+            }
+        ]
     }
 ]
