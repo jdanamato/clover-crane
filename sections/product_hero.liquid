@@ -92,8 +92,9 @@
 document.addEventListener('change', function (e) {
   var checkbox = e.target.closest('input[name="properties[_Add-Personalization]"]');
   if (!checkbox) return;
-  var form = checkbox.closest('form');
-  var estimate = form && form.querySelector('[data-shipping-estimate]');
+  // The estimate sits in the spec rows, outside the product form, so scope to the section.
+  var scope = checkbox.closest('[id^="shopify-section-"]') || document;
+  var estimate = scope.querySelector('[data-shipping-estimate]');
   if (!estimate) return;
   var personalized = estimate.getAttribute('data-personalized');
   estimate.textContent = checkbox.checked && personalized
