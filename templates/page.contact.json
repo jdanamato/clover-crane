@@ -11,11 +11,10 @@
   "sections": {
     "basic_hero_pLcELQ": {
       "type": "basic_hero",
-      "custom_css": [],
       "name": "Basic Hero",
       "settings": {
         "text_page_title": "Page title",
-        "text_page_description": ""
+        "text_page_description": "jjjj"
       }
     },
     "contact_form_tDBPQh": {
@@ -26,14 +25,14 @@
           "settings": {
             "form_id": "1112635",
             "text_color": "#202020",
-            "button_background_color": "#2f4f3e",
-            "button_label_color": "#ffffff",
-            "links_color": "#42765b",
-            "errors_color": "#e02229",
+            "button_background_color": "#2F4F3E",
+            "button_label_color": "#FFFFFF",
+            "links_color": "#42765B",
+            "errors_color": "#E02229",
             "text_alignment": "center",
             "form_alignment": "center",
             "padding_top": 0,
-            "padding_bottom": 0,
+            "padding_bottom": 24,
             "padding_right": 0,
             "padding_left": 0
           }
@@ -42,7 +41,6 @@
       "block_order": [
         "forms_inline_8rMTWk"
       ],
-      "custom_css": [],
       "name": "Contact Form",
       "settings": {}
     }

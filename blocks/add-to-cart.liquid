@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
 {% endif %}
                     <div class="product_add-to-cart">
-                      {% render 'quantity_adjust' %}
+                      {% render 'quantity_adjust', add_to_cart: true %}
                       <div class="product_buy-button"><button type="submit" id="product-submit-{{ section.id }}" name="add" li-element="add-to-cart" class="button width-full" @click="addToCart($event, true)" :disabled="!addToCartButton">Add to cart</button></div>
                     </div>
                   {% endform %}

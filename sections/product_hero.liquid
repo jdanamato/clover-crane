@@ -46,7 +46,7 @@
         {% for color in product.metafields.custom.monogram_text_colors.value %}                            <label class="product_radio-item cc-swatch"><input type="radio" x-model="selectedColor" x-bind:class="{ 'w--redirected-checked': selectedColor === $el.value }" li-object:value="color.name" x-bind:required="personalization" name="properties[Color]" class="product_radio-input" value="{{ color.name }}"><div li-object:style="color.color_code | prepend: 'background-color: '" class="product_radio-swatch" style="{{ color.color_code | prepend: 'background-color: ' }}"></div><span li-object="color.name" class="product_radio-label">{{ color.name }}</span></label>
                     {% endfor %}    </div>    </div>
 {% endif %}</div></div>    </div>
-{% endif %}<div class="product_add-to-cart">{% render 'quantity_adjust' %}<div class="hide w-embed w-script"><script>
+{% endif %}<div class="product_add-to-cart">{% render 'quantity_adjust', add_to_cart: true %}<div class="hide w-embed w-script"><script>
                             document.addEventListener('click', function (e) {
   var btn = e.target.closest('[li-element="add-to-cart"]');
   if (!btn) return;
