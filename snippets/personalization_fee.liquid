@@ -1,0 +1,57 @@
+{%- assign fee_variant = settings.monogramming_service_product.selected_or_first_available_variant -%}
+{%- if fee_variant != blank -%}
+  <script>
+    window.ccFeeVariantId = {{ fee_variant.id | json }};
+
+    // Keeps the Monogramming Service line equal to the number of personalized units in the
+    // cart. One shared line, no properties of its own - the monogram details live on the
+    // merchandise line. Safe to call at any time; it does nothing when already correct.
+    window.ccSyncPersonalizationFee = function (variantId) {
+      var feeId = variantId || window.ccFeeVariantId;
+      if (!feeId) return Promise.resolve();
+
+      return fetch('/cart.js', { headers: { Accept: 'application/json' } })
+        .then(function (res) { return res.json(); })
+        .then(function (cart) {
+          var wanted = 0;
+          var feeLines = [];
+          cart.items.forEach(function (item) {
+            if (item.id === feeId) {
+              feeLines.push(item);
+            } else if ((item.properties || {})['_Add-Personalization']) {
+              wanted += item.quantity;
+            }
+          });
+
+          var changes = [];
+          var changed = false;
+          // Older carts can hold several fee lines, one per set of monogram properties.
+          // Collapse them: the first line carries the total, the rest go to zero.
+          feeLines.forEach(function (line, index) {
+            var target = index === 0 ? wanted : 0;
+            if (line.quantity !== target) {
+              changes.push({ id: line.key, quantity: target });
+              changed = true;
+            }
+          });
+          if (!feeLines.length && wanted > 0) {
+            return fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ items: [{ id: feeId, quantity: wanted }] }),
+            }).then(function () { return true; });
+          }
+
+          return changes.reduce(function (chain, change) {
+            return chain.then(function () {
+              return fetch('/cart/change.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(change),
+              });
+            });
+          }, Promise.resolve()).then(function () { return changed; });
+        });
+    };
+  </script>
+{%- endif -%}

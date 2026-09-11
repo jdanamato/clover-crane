@@ -4,7 +4,7 @@
         "theme_name": "theme_name",
         "theme_author": "Your Name",
         "theme_version": "1.0.0",
-        "theme_documentation_url": "https:\/\/www.yoursite.com",
+        "theme_documentation_url": "https://www.yoursite.com",
         "theme_support_email": "your@email.com"
     },
     {
@@ -21,6 +21,17 @@
                 "id": "apple_touch_icon",
                 "label": "Apple touch icon image",
                 "info": "Will be scaled down to 120x120px"
+            }
+        ]
+    },
+    {
+        "name": "Personalization",
+        "settings": [
+            {
+                "type": "product",
+                "id": "monogramming_service_product",
+                "label": "Monogramming Service product",
+                "info": "The product that carries the personalization fee. Must be Active and published to the Online Store. While this is empty the personalization panel is hidden on every product."
             }
         ]
     }

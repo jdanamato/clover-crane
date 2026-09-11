@@ -2,17 +2,128 @@
 {{ section.settings.text_heading }}
 </h2><a aria-label="Continue shopping" li-object:href="routes.root_url" href="{{ routes.root_url }}">Continue shopping</a></div>{% if cart.item_count > 0 %}    <div li-if="cart.item_count > 0" class="cart_form w-form">
     {% form 'cart', cart, class: 'cart_layout' %}
-<div class="card px-6 pt-6">{% for item in cart.items %}    <div li-for="item in cart.items" class="table_body">
-                                    <div class="cart_item-list"><div class="cart_item"><div class="cart_item-layout"><div class="cart_item_preview"><a li-object:href="item.url" aria-label="View product" class="cart_item_thumbnail" href="{{ item.url }}"><img li-object:src="item.image | image_url: width: 200" src="{{ item.image | image_url: width: 200 }}" alt="" class="cart_item_thumbnail-image"></a><div class="cart_item_details"><a li-object:href="item.url" li-object="item.title" href="{{ item.url }}" class="cart_item-title">{{ item.title }}</a><div li-object="item.variant.title" class="font-size-2">{{ item.variant.title }}</div><div class="cart_property_list">{% for property in item.properties %}    <div li-for="property in item.properties" class="cart_property_list-item">
-                                    {% unless property.last == blank or property.first contains '_' %}    <div li-unless="property.last == blank or property.first contains '_'">
-    <span li-object="property.first" class="text-gray-1">{{ property.first }}</span>: <span li-object="property.last">{{ property.last }}</span>    </div>
-{% endunless %}
-                        </div>
-{% endfor %}</div></div></div><div class="cart_item_price"><div class="cart_item-price"><div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>{% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
+<div class="card px-6 pt-6">{%- assign fee_variant = settings.monogramming_service_product.selected_or_first_available_variant -%}{% for item in cart.items %}{%- if fee_variant != blank and item.variant_id == fee_variant.id %}{% continue %}{% endif -%}    <div class="table_body" data-cart-line="{{ item.key }}">
+                                    <div class="cart_item-list"><div class="cart_item"><div class="cart_item-layout"><div class="cart_item_preview"><a li-object:href="item.url" aria-label="View product" class="cart_item_thumbnail" href="{{ item.url }}"><img li-object:src="item.image | image_url: width: 200" src="{{ item.image | image_url: width: 200 }}" alt="" class="cart_item_thumbnail-image"></a><div class="cart_item_details"><a li-object:href="item.url" li-object="item.title" href="{{ item.url }}" class="cart_item-title">{{ item.title }}</a><div li-object="item.variant.title" class="font-size-2">{{ item.variant.title }}</div><div class="cart_property_list">
+{%- for property in item.properties -%}
+  {%- unless property.last == blank or property.first contains '_' -%}
+    <div class="cart_property_list-item"><span class="text-gray-1">{{ property.first }}</span>: <span>{{ property.last }}</span></div>
+  {%- endunless -%}
+{%- endfor -%}
+{%- if item.properties['_Add-Personalization'] -%}
+  <div class="cart_addon-actions">
+    <span class="text-gray-1">Personalization</span>
+    <span>{{ fee_variant.price | times: item.quantity | money }}</span>
+    <button type="button" class="cart_addon-action" data-addon-edit>Edit</button>
+    <button type="button" class="cart_addon-action" data-addon-delete>Delete</button>
+  </div>
+  <div class="cart_addon-editor" hidden>
+    {%- assign styles = item.product.metafields.custom.monogram_styles.value -%}
+    {%- assign colors = item.product.metafields.custom.monogram_text_colors.value -%}
+    {%- assign placements = item.product.metafields.custom.monogram_placement.value -%}
+    {%- if styles != blank -%}
+      <label class="cart_addon-field"><span>Style</span>
+        <select data-addon-field="Design">
+          {%- for style in styles -%}
+            <option value="{{ style.style_label }}"{% if item.properties['Design'] == style.style_label %} selected{% endif %}>{{ style.style_label }}</option>
+          {%- endfor -%}
+        </select>
+      </label>
+    {%- endif -%}
+    {%- if colors != blank -%}
+      <label class="cart_addon-field"><span>Color</span>
+        <select data-addon-field="Color">
+          {%- for color in colors -%}
+            <option value="{{ color.name }}"{% if item.properties['Color'] == color.name %} selected{% endif %}>{{ color.name }}</option>
+          {%- endfor -%}
+        </select>
+      </label>
+    {%- endif -%}
+    {%- if placements != blank -%}
+      <label class="cart_addon-field"><span>Placement</span>
+        <select data-addon-field="Placement">
+          {%- for placement in placements -%}
+            <option value="{{ placement.placement_option }}"{% if item.properties['Placement'] == placement.placement_option %} selected{% endif %}>{{ placement.placement_option }}</option>
+          {%- endfor -%}
+        </select>
+      </label>
+    {%- endif -%}
+    <label class="cart_addon-field"><span>Text</span>
+      <input type="text" data-addon-field="Text" value="{{ item.properties['Text'] }}" maxlength="{{ item.product.metafields.custom.monogram_max_characters.value | default: 3 }}">
+    </label>
+    <div class="cart_addon-editor-actions">
+      <button type="button" class="button cc-size-1" data-addon-save>Save</button>
+      <button type="button" class="cart_addon-action" data-addon-cancel>Cancel</button>
+    </div>
+  </div>
+{%- endif -%}
+</div></div></div><div class="cart_item_price"><div class="cart_item-price"><div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>{% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
     <div li-object="item.original_line_price | money" class="compare-at-price">{{ item.original_line_price | money }}</div>    </div>
 {% endif %}</div><div class="cart_item_meta">{% render 'quantity_adjust' %}<a li-object:href="item.url_to_remove" href="{{ item.url_to_remove }}" class="cart_item-remove">Remove</a></div></div></div></div></div>
                         </div>
-{% endfor %}</div><div class="cart_column"><div class="card"><div class="card_header"><div>Summary</div></div><div class="flex flex-col gap-4 p-4"><div class="flex flex-col gap-2"><div class="table_detail-item"><div class="table_detail-item_label"><div>Cart Total</div></div><div class="table_detail-item_value"><div li-object="cart.original_total_price | money">{{ cart.original_total_price | money }}</div></div></div>{% if cart.total_discounts > 0 %}    <div li-if="cart.total_discounts > 0" class="table_detail-item">
+{% endfor %}<div class="hide w-embed w-script"><script>
+(function () {
+  var post = function (url, body) {
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }).then(function (res) {
+      if (!res.ok) throw new Error(url + ' responded ' + res.status);
+      return res.json();
+    });
+  };
+  var sync = function () {
+    return window.ccSyncPersonalizationFee ? window.ccSyncPersonalizationFee() : Promise.resolve(false);
+  };
+  var refresh = function () { window.location.reload(); };
+  var row = function (el) { return el.closest('[data-cart-line]'); };
+  var lineKey = function (el) { var r = row(el); return r && r.getAttribute('data-cart-line'); };
+  var editor = function (el) { var r = row(el); return r && r.querySelector('.cart_addon-editor'); };
+
+  // Anything that changed the cart elsewhere - a removed line, a quantity edit, a browser
+  // back - can leave the fee out of step, so reconcile on every cart view.
+  document.addEventListener('DOMContentLoaded', function () {
+    sync().then(function (changed) { if (changed) refresh(); });
+  });
+
+  document.addEventListener('click', function (e) {
+    var qtyBtn = e.target.closest('[data-cart-line] [data-change]');
+    if (qtyBtn) {
+      e.preventDefault();
+      var input = row(qtyBtn).querySelector('input[name="quantity"]');
+      var next = Math.max(0, (parseInt(input.value, 10) || 1) + (parseInt(qtyBtn.dataset.change, 10) || 0));
+      post('/cart/change.js', { id: lineKey(qtyBtn), quantity: next })
+        .then(sync).then(refresh).catch(function (err) { console.error(err); });
+      return;
+    }
+
+    var del = e.target.closest('[data-addon-delete]');
+    if (del) {
+      e.preventDefault();
+      post('/cart/change.js', { id: lineKey(del), properties: {} })
+        .then(sync).then(refresh).catch(function (err) { console.error(err); });
+      return;
+    }
+
+    var edit = e.target.closest('[data-addon-edit]');
+    if (edit) { e.preventDefault(); editor(edit).hidden = false; return; }
+
+    var cancel = e.target.closest('[data-addon-cancel]');
+    if (cancel) { e.preventDefault(); editor(cancel).hidden = true; return; }
+
+    var save = e.target.closest('[data-addon-save]');
+    if (save) {
+      e.preventDefault();
+      var properties = { '_Add-Personalization': 'on' };
+      editor(save).querySelectorAll('[data-addon-field]').forEach(function (field) {
+        if (field.value) properties[field.getAttribute('data-addon-field')] = field.value;
+      });
+      post('/cart/change.js', { id: lineKey(save), properties: properties })
+        .then(sync).then(refresh).catch(function (err) { console.error(err); });
+    }
+  });
+})();
+</script></div></div><div class="cart_column"><div class="card"><div class="card_header"><div>Summary</div></div><div class="flex flex-col gap-4 p-4"><div class="flex flex-col gap-2"><div class="table_detail-item"><div class="table_detail-item_label"><div>Cart Total</div></div><div class="table_detail-item_value"><div li-object="cart.original_total_price | money">{{ cart.original_total_price | money }}</div></div></div>{% if cart.total_discounts > 0 %}    <div li-if="cart.total_discounts > 0" class="table_detail-item">
     <div class="table_detail-item_label"><div>Savings</div></div><div class="table_detail-item_value"><div li-object="cart.total_discounts | money">{{ cart.total_discounts | money }}</div></div>    </div>
 {% endif %}<div role="separator" data-wf--divider--variant="gray-horizontal" class="divider my-2"></div>{% if cart.total_discounts > 0 %}    <div li-if="cart.total_discounts > 0" class="table_detail-item">
     <div class="table_detail-item_label"><div>Subtotal</div></div><div class="table_detail-item_value"><div li-object="cart.total_price | money">{{ cart.total_price | money }}</div></div>    </div>

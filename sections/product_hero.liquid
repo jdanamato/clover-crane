@@ -30,8 +30,8 @@
                             <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600 text-gray-2">Default</span></div><div class="product_radio-list" x-data="{ ccSwatches: { {% for opt in product.options_with_values %}{% if opt.name == 'Color' or opt.name == 'Colour' %}{% for v in opt.values %}{% assign cc_swatch_handle = v.name | handleize %}{% assign cc_swatch_entry = metaobjects['shopify--color-pattern'][cc_swatch_handle] %}'{{ v.name }}': { image: '{% if cc_swatch_entry.image.value %}{{ cc_swatch_entry.image.value | image_url: width: 120 }}{% elsif v.variant.featured_image %}{{ v.variant.featured_image | image_url: width: 120 }}{% endif %}', color: '{% if cc_swatch_entry.color.value %}{{ cc_swatch_entry.color.value }}{% endif %}' }{% unless forloop.last %},{% endunless %}{% endfor %}{% endif %}{% endfor %} } }"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
     <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item cc-swatch"><div class="product_radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'"><div :style="ccSwatches && ccSwatches[variantName] ? (ccSwatches[variantName].image ? 'background-image:url('+ccSwatches[variantName].image+');background-size:cover;background-position:center' : (ccSwatches[variantName].color ? 'background-color:'+ccSwatches[variantName].color : '')) : ''" x-bind:id="variantName.toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" class="product_radio-swatch"></div><span li-element="product-option-name" class="product_radio-label" for="variant-color" x-text="variantName" :for="variantName">Color</span></label></template></div></div><div x-show="option == 'Size'" class="product_variant"><div class="product_variant-label"><span li-element="product-options-name" class="text-gray-1" x-text="option">Size</span>:
                             <span x-text="selected_or_first_available_variant.options[optionKey]" class="font-weight-600 text-gray-2">Default</span></div><div class="product_radio-list"><template x-for="(variantName, variantKey) in options_by_name[option].option.values" :key="variantName">
-    <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item"><div class="product_radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'"><span li-element="product-option-name" class="product_radio-label" for="variant-size" x-text="variantName" :for="variantName">Size</span></label></template></div></div></div></template>{% if product.metafields.custom.monogramming_enabled and section.settings.monogramming_service_product != blank %}    <div li-if="product.metafields.custom.monogramming_enabled and section.settings.monogramming_service_product != blank" class="contents">
-    <div id="monogram" class="product_variant" x-data="{ personalization: false, selectedStyle: '', selectedPlacement: '', selectedColor: '', monogramText: '', defaultMax: {{ product.metafields.custom.monogram_max_characters.value | default: 3 }}, maxChars: {{ product.metafields.custom.monogram_max_characters.value | default: 3 }} }"><div class="hide" data-monogram-service-variant="" li-object="section.settings.monogramming_service_product.selected_or_first_available_variant.id">{{ section.settings.monogramming_service_product.selected_or_first_available_variant.id }}</div><label id="personalization" class="checkbox-field"><div x-bind:class="{ 'w--redirected-checked': personalization }" class="checkbox-input"></div><input type="checkbox" name="properties[_Add-Personalization]" id="properties[_Add-Personalization]" data-name="properties[Add Personalization]" x-model="personalization" style="opacity:0;position:absolute;z-index:-1"><span for="properties[_Add-Personalization]" class="checkbox-label w-form-label">Add personalization for <span li-object="section.settings.monogramming_service_product.selected_or_first_available_variant.price | default: 1500 | money">{{ section.settings.monogramming_service_product.selected_or_first_available_variant.price | default: 1500 | money }}</span></span></label><div x-show="personalization" class="product-personalization">{% if product.metafields.custom.monogram_styles != blank %}    <div li-if="product.metafields.custom.monogram_styles != blank" class="product_variant">
+    <label x-init="optionValue = selected_or_first_available_variant.options.includes(variantName) ? variantName : optionValue" li-element="product-option-loop" class="product_radio-item"><div class="product_radio-input"></div><input li-render-custom-trigger="click" li-element="product-option-input" x-model="optionValue" type="radio" li-render-custom-value="variant.id" style="opacity:0;position:absolute;z-index:-1" x-on:click="setVariant" :name="option" :data-name="option" :value="variantName" :id="variantName.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-')" :checked="selected_or_first_available_variant?.options.includes(variantName)" data-selectorType="radio" :class="firstOptionHasAvailableChildren[variantName] ? '' : 'data-disabled'"><span li-element="product-option-name" class="product_radio-label" for="variant-size" x-text="variantName" :for="variantName">Size</span></label></template></div></div></div></template>{% if product.metafields.custom.monogramming_enabled and settings.monogramming_service_product != blank %}    <div li-if="product.metafields.custom.monogramming_enabled and settings.monogramming_service_product != blank" class="contents">
+    <div id="monogram" class="product_variant" x-data="{ personalization: false, selectedStyle: '', selectedPlacement: '', selectedColor: '', monogramText: '', defaultMax: {{ product.metafields.custom.monogram_max_characters.value | default: 3 }}, maxChars: {{ product.metafields.custom.monogram_max_characters.value | default: 3 }} }"><div class="hide" data-monogram-service-variant="" li-object="settings.monogramming_service_product.selected_or_first_available_variant.id">{{ settings.monogramming_service_product.selected_or_first_available_variant.id }}</div><label id="personalization" class="checkbox-field"><div x-bind:class="{ 'w--redirected-checked': personalization }" class="checkbox-input"></div><input type="checkbox" name="properties[_Add-Personalization]" id="properties[_Add-Personalization]" data-name="properties[Add Personalization]" x-model="personalization" style="opacity:0;position:absolute;z-index:-1"><span for="properties[_Add-Personalization]" class="checkbox-label w-form-label">Add personalization for <span li-object="settings.monogramming_service_product.selected_or_first_available_variant.price | default: 1500 | money">{{ settings.monogramming_service_product.selected_or_first_available_variant.price | default: 1500 | money }}</span></span></label><div x-show="personalization" class="product-personalization">{% if product.metafields.custom.monogram_styles != blank %}    <div li-if="product.metafields.custom.monogram_styles != blank" class="product_variant">
     <div class="product_variant-label"><span>Select style: </span><span x-text="selectedStyle || 'Not set'" class="font-weight-600">Not set</span></div><div li-for:inside="style in product.metafields.custom.monogram_styles.value" class="product_radio-list">
         {% for style in product.metafields.custom.monogram_styles.value %}                            <label class="product_radio-item"><input type="radio" x-model="selectedStyle" x-bind:class="{ 'w--redirected-checked': selectedStyle === $el.value }" li-object:value="style.style_label" x-on:change="maxChars = Number($el.dataset.max) || defaultMax; monogramText = monogramText.slice(0, maxChars)" x-bind:required="personalization" name="properties[Design]" class="product_radio-input" data-max="{{ style.max_characters }}" value="{{ style.style_label }}">{% if style.style_image %}    <span li-if="style.style_image" class="contents">
     <img li-object:src="style.style_image | image_url: width: 200" li-object:alt="style.style_label" class="product_radio-media" src="{{ style.style_image | image_url: width: 200 }}" alt="{{ style.style_label }}">    </span>
@@ -70,52 +70,16 @@
       properties[name] = el.value;
     }
   });
-  // The fee has to mirror what the cart actually accepted, not what was requested:
-  // an inventory-capped add can land fewer units than the customer asked for.
-  var matches = function (props) {
-    return ['Design', 'Color', 'Placement', 'Text'].every(function (k) {
-      return (props[k] || '') === (properties[k] || '');
-    });
-  };
+  // The fee is one shared line with no properties of its own: its quantity is simply how
+  // many personalized units are in the cart. The monogram details live on the merchandise
+  // line, which is what fulfillment reads.
   var timer;
   var syncFee = function () {
     document.removeEventListener('cartupdated', syncFee);
     clearTimeout(timer);
-    fetch('/cart.js', { headers: { 'Accept': 'application/json' } })
-      .then(function (res) { return res.json(); })
-      .then(function (cart) {
-        var wanted = 0;
-        var feeLine = null;
-        cart.items.forEach(function (item) {
-          var props = item.properties || {};
-          if (item.id === variantId && matches(props)) {
-            feeLine = item;
-          } else if (props['_Add-Personalization'] && matches(props)) {
-            wanted += item.quantity;
-          }
-        });
-        if (!wanted) return;
-        if (feeLine && feeLine.quantity === wanted) return;
-        if (feeLine) {
-          return fetch('/cart/change.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: feeLine.key, quantity: wanted }),
-          });
-        }
-        return fetch('/cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: [{ id: variantId, quantity: wanted, properties: properties }] }),
-        });
-      })
-      .then(function (res) {
-        if (res && !res.ok) throw new Error('cart update responded ' + res.status);
-        document.dispatchEvent(new CustomEvent('cartupdated'));
-      })
-      .catch(function (err) {
-        console.error('Failed to sync the monogramming service line', err);
-      });
+    window.ccSyncPersonalizationFee(variantId)
+      .then(function () { document.dispatchEvent(new CustomEvent('cartupdated')); })
+      .catch(function (err) { console.error('Failed to sync the monogramming service line', err); });
   };
   timer = setTimeout(function () {
     document.removeEventListener('cartupdated', syncFee);
@@ -158,12 +122,6 @@
     {
       "type": "header",
       "content": "Personalization"
-    },
-    {
-      "type": "product",
-      "id": "monogramming_service_product",
-      "label": "Monogramming Service product",
-      "info": "Must be Active and published to the Online Store sales channel. If it isn't, the personalization panel is hidden on every product."
     }
   ],
   "presets": [
