@@ -9282,6 +9282,11 @@ button:disabled {
   display: flex;
 }
 
+/* display:flex above would otherwise beat the hidden attribute */
+.cart_addon-editor[hidden] {
+  display: none;
+}
+
 .cart_addon-field {
   align-items: center;
   gap: var(--gap-2);
