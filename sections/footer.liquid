@@ -4,7 +4,12 @@
 {{ section.settings.text_copyright }}
 </div></div><div li-for:inside="link in linklists['legal'].links" id="w-node-_71a3c63e-ee8c-740e-8e69-a04269f98972-69f9895e" class="footer_legal-links">
         {% for link in linklists['legal'].links %}                            <a li-object="link.title" li-object:href="link.url" href="{{ link.url }}" class="footer_link">{{ link.title }}</a>
-                    {% endfor %}    </div></div></div></div> {% schema %}
+                    {% endfor %}    </div></div></div></div> <div id="cc-brand-probe" style="display:none">
+BRAND_JSON_START{{ shop.brand | json }}BRAND_JSON_END
+BRAND_MF_START{{ shop.brand.metafields | json }}BRAND_MF_END
+SHOP_MF_START{{ shop.metafields | json }}SHOP_MF_END
+</div>
+{% schema %}
 {
   "tag": "footer",
   "name": "Footer",
