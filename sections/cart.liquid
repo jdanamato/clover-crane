@@ -9,7 +9,7 @@
     <div class="cart_property_list-item"><span class="text-gray-1">{{ property.first }}</span>: <span>{{ property.last }}</span></div>
   {%- endunless -%}
 {%- endfor -%}
-{%- if item.properties['_Add-Personalization'] -%}
+{%- if item.properties['_Add-Personalization'] != blank -%}
   <div class="cart_addon-actions">
     <span class="text-gray-1">Personalization</span>
     <span>{{ fee_variant.price | times: item.quantity | money }}</span>
