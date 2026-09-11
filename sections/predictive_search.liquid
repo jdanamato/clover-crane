@@ -36,54 +36,45 @@
     <a li-object:href="product.url" href="{{ product.url }}" class="predictive-search_line-item w-inline-block"><div class="predictive-search_image-wrapper"><img li-object:src="product.featured_image | image_url: width: 150" li-object:alt="product.featured_image.alt" alt="{{ product.featured_image.alt }}" src="{{ product.featured_image | image_url: width: 150 }}" loading="lazy" class="predictive-search_image"></div><div class="predictive-search_product-info"><div class="font-size-4"><span li-object="product.title">{{ product.title }}</span></div><div class="font-size-2"><span li-object="product.price | money">{{ product.price | money }}</span></div></div></a>
 </li>
 {% endfor %}</ul></div></div>    </div>
-{% endunless %} {% schema %} {
-    "tag": "div",
-    "name": "predictive_search",
-    "class": "predictive-search_section",
-    "blocks": [
+{% endunless %} {% schema %}
+{
+  "tag": "div",
+  "name": "predictive_search",
+  "class": "predictive-search_section",
+  "blocks": [
+    {
+      "name": "Search - Suggestion",
+      "type": "search-suggestion",
+      "settings": [
         {
-            "name": "Search - Suggestion",
-            "type": "search-suggestion",
-            "settings": [
-                {
-                    "id": "url_link",
-                    "type": "url",
-                    "label": "Link"
-                },
-                {
-                    "id": "text_text",
-                    "type": "text",
-                    "label": "Text",
-                    "default": "Tag"
-                }
-            ]
-        }
-    ],
-    "settings": [
-        {
-            "id": "collection_search_bestseller",
-            "type": "collection",
-            "label": "Search - Bestseller"
+          "id": "url_link",
+          "type": "url",
+          "label": "Link"
         },
         {
-            "type": "range",
-            "id": "collection_search_bestseller_limit",
-            "min": 1,
-            "max": 99,
-            "step": 1,
-            "label": "Limit: Search - Bestseller",
-            "default": 6
+          "id": "text_text",
+          "type": "text",
+          "label": "Text",
+          "default": "Tag"
         }
-    ],
-    "presets": [
-        {
-            "name": "predictive_search",
-            "category": "Liquify",
-            "blocks": [
-                {
-                    "type": "search-suggestion"
-                }
-            ]
-        }
-    ]
-} {% endschema %}
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "id": "collection_search_bestseller",
+      "type": "collection",
+      "label": "Search - Bestseller"
+    },
+    {
+      "type": "range",
+      "id": "collection_search_bestseller_limit",
+      "min": 1,
+      "max": 99,
+      "step": 1,
+      "label": "Limit: Search - Bestseller",
+      "default": 6
+    }
+  ]
+}
+{% endschema %}

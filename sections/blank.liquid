@@ -1,0 +1,40 @@
+<div class="{{ section.settings.container }}">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when '@app' -%}
+        {% render block %}
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "tag": "section",
+  "name": "Blank section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container width",
+      "default": "container-5",
+      "options": [
+        { "value": "container-1", "label": "Extra narrow (24rem)" },
+        { "value": "container-2", "label": "Narrow (48rem)" },
+        { "value": "container-3", "label": "Medium (64rem)" },
+        { "value": "container-5", "label": "Wide (96rem)" },
+        { "value": "container-full", "label": "Full width" }
+      ]
+    }
+  ],
+  "blocks": [
+    { "type": "@app" }
+  ],
+  "presets": [
+    {
+      "name": "Blank section",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
