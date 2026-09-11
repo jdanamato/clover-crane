@@ -58,7 +58,7 @@
 {%- endif -%}
 </div></div></div><div class="cart_item_price"><div class="cart_item-price"><div li-object="item.final_line_price | money">{{ item.final_line_price | money }}</div>{% if item.original_line_price > item.final_line_price %}    <div li-if="item.original_line_price > item.final_line_price">
     <div li-object="item.original_line_price | money" class="compare-at-price">{{ item.original_line_price | money }}</div>    </div>
-{% endif %}</div><div class="cart_item_meta">{% render 'quantity_adjust' %}<a li-object:href="item.url_to_remove" href="{{ item.url_to_remove }}" class="cart_item-remove">Remove</a></div></div></div></div></div>
+{% endif %}</div><div class="cart_item_meta">{% render 'quantity_adjust', quantity: item.quantity %}<a li-object:href="item.url_to_remove" href="{{ item.url_to_remove }}" class="cart_item-remove">Remove</a></div></div></div></div></div>
                         </div>
 {% endfor %}<div class="hide w-embed w-script"><script>
 (function () {
