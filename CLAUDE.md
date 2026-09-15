@@ -155,6 +155,16 @@ Clean these up when convenient; none of it is urgent.
   values. That is the only way the cart API will drop them; every customer-facing surface
   filters blanks, so it is cosmetic in the order admin only.
 - Portal collections, if they come back, are public and listed on the All Collections page.
+- **Planned: retire `custom.delivery_time` in favour of Shopify's own shipping and delivery
+  settings.** The product page currently reads that metafield as a per-product override of
+  `settings.shipping_estimate`. The intent is for lead time and arrival dates to come from
+  Settings → Shipping and delivery (processing time plus carrier transit) rather than free
+  text a merchant types per product. Doing it means configuring processing time on the store,
+  deciding how a longer personalized turnaround is expressed when processing time is
+  store-wide, then dropping the override from `product_hero.liquid` and deleting the
+  definition.
+- The `store_portal` (B2B Store) metaobject was deleted from production on 2026-09-15 along
+  with its single entry. Nothing referenced it.
 
 ## Documentation
 
