@@ -15,7 +15,8 @@
         "panel_WFMzVq": {
           "type": "panel",
           "settings": {
-            "collection": "home",
+            "collection": "cake-topper",
+            "video": "shopify://files/videos/IMG_4839.MOV",
             "half_width": false
           }
         },
